@@ -1,0 +1,38 @@
+﻿<section class="mainbar" ng-controller="sageEdit as vm">
+    <section class="matter">
+        <div class="container-fluid">
+            <form name="form" novalidate role="form">
+                <div>
+                    <button class="btn btn-info"
+                            ng-click="vm.save()"
+                            ng-disabled="!vm.canSave">
+                        <i class="glyphicon glyphicon-save"></i>Save
+                    </button>
+                    <span ng-show="vm.hasChanges"
+                          class="dissolve-animation ng-hide">
+                        <i class="glyphicon glyphicon-asterisk orange"></i>
+                    </span>
+                </div>
+                <div class="widget wblue">
+                    <div data-cc-widget-header title="{{vm.title}}"></div>
+                    <div class="widget-content form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-2">Name</label>
+                            <input class="col-xs-12 col-sm-9" ng-model="vm.sage.name" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-2">Username</label>
+                            <input class="col-xs-12 col-sm-9" ng-model="vm.sage.userName" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-2">Email</label>
+                            <input class="col-xs-12 col-sm-9"
+                                   type="email"
+                                   ng-model="vm.sage.email" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</section>
