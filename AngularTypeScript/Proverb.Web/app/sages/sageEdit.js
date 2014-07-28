@@ -10,6 +10,7 @@
             this.common = common;
             this.datacontext = datacontext;
             this.log = common.logger.getLogFn(controllerId);
+            this.logError = common.logger.getLogFn(controllerId, "error");
             this.logSuccess = common.logger.getLogFn(controllerId, "success");
             this.sage = undefined;
             this.title = "Sage Edit";
@@ -39,12 +40,16 @@
 
         SageEdit.prototype.save = function () {
             var _this = this;
-            this.datacontext.sage.save(this.sage).then(function (sage) {
-                _this.sage = sage;
-                _this.logSuccess("Saved " + sage.name + " [" + sage.id + "]");
+            this.datacontext.sage.save(this.sage).then(function (response) {
+                if (response.success) {
+                    _this.sage = response.entity;
+                    _this.logSuccess("Saved " + _this.sage.name + " [" + _this.sage.id + "]");
 
-                //this.$scope.form.$setPristine();
-                _this.$location.path("/sages/detail/" + _this.sage.id);
+                    //this.$scope.form.$setPristine();
+                    _this.$location.path("/sages/detail/" + _this.sage.id);
+                } else {
+                    _this.logError("Failed to save", response.errors);
+                }
             });
         };
 

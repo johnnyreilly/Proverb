@@ -5,6 +5,12 @@ interface repositories {
     getRepo: (repoName: string) => any;
 }
 
+interface saveResponse<TEntity> {
+    success: boolean;
+    entity?: TEntity;
+    errors?: { [ key: string]: string[] };
+}
+
 (function () {
     "use strict";
 

@@ -13,6 +13,7 @@
     class SageEdit {
 
         log: loggerFunction;
+        logError: loggerFunction;
         logSuccess: loggerFunction;
         sage: sage;
         title: string;
@@ -29,6 +30,7 @@
             ) {
 
             this.log = common.logger.getLogFn(controllerId);
+            this.logError = common.logger.getLogFn(controllerId, "error");
             this.logSuccess = common.logger.getLogFn(controllerId, "success");
             this.sage = undefined;
             this.title = "Sage Edit";
@@ -58,11 +60,17 @@
         }
 
         save() {
-            this.datacontext.sage.save(this.sage).then(sage => {
-                this.sage = sage;
-                this.logSuccess("Saved " + sage.name + " [" + sage.id + "]");
-                //this.$scope.form.$setPristine();
-                this.$location.path("/sages/detail/" + this.sage.id);
+            this.datacontext.sage.save(this.sage).then(response => {
+
+                if (response.success) {
+                    this.sage = response.entity;
+                    this.logSuccess("Saved " + this.sage.name + " [" + this.sage.id + "]");
+                    //this.$scope.form.$setPristine();
+                    this.$location.path("/sages/detail/" + this.sage.id);
+                }
+                else {
+                    this.logError("Failed to save", response.errors);
+                }
             });
         }
 

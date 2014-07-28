@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
+using Proverb.Web.Common.SaveHelpers;
 using Proverb.Web.Interfaces;
 
 namespace Proverb.Web.Controllers
@@ -37,11 +38,24 @@ namespace Proverb.Web.Controllers
             return _userService.GetAll();
         }
 
-        public User Post(User sage)
+        public IHttpActionResult Post(User sage)
         {
+            if (!ModelState.IsValid) {
+
+                return Ok(new SaveResponse<User>
+                {
+                    Success = false,
+                    Errors = ModelState.ToErrorDictionary()
+                });
+            }
+
             sage = _userService.Save(sage);
 
-            return sage;
+            return Ok(new SaveResponse<User>
+            {
+                Success = true,
+                Entity = sage
+            });
         }
 
         /*

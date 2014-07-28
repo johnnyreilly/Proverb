@@ -8,7 +8,7 @@ interface sage {
 interface repositorySage {
     getAll: () => ng.IPromise<sage[]>;
     getById: (id: number, forceRemote?: boolean) => ng.IPromise<sage>;
-    save: (sage: sage) => ng.IPromise<sage>;
+    save: (sage: sage) => ng.IPromise<saveResponse<sage>>;
 }
 
 (function () {
@@ -59,10 +59,12 @@ interface repositorySage {
         }
 
         function save(sage: sage) {
-            return $http.post<sage>(rootUrl, sage).then(response => {
-                sage = response.data;
-                log("Sage " + sage.name + " [" + sage.id + "] saved");
-                return sage;
+            return $http.post<saveResponse<sage>>(rootUrl, sage).then(response => {
+                var saveResponse = response.data;
+                if (saveResponse.success) {
+                    log("Sage " + saveResponse.entity.name + " [" + saveResponse.entity.id + "] saved");
+                }
+                return saveResponse;
             });
         }
     }
