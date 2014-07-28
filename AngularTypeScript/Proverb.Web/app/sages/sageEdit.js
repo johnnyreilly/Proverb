@@ -49,6 +49,45 @@
                     _this.$location.path("/sages/detail/" + _this.sage.id);
                 } else {
                     _this.logError("Failed to save", response.errors);
+
+                    var form = _this.$scope.form;
+
+                    /**
+                    form
+                    {...}
+                    [Methods]: {...}
+                    __proto__: {...}
+                    $dirty: true
+                    $error: {...}
+                    $invalid: false
+                    $name: "form"
+                    $pristine: false
+                    $valid: true
+                    sage.email: {...}
+                    sage.name: {...}
+                    sage.userName: {...}
+                    form.name
+                    undefined
+                    form["sage.name"]
+                    {...}
+                    [Methods]: {...}
+                    __proto__: {...}
+                    $$validityState: {...}
+                    $dirty: true
+                    $error: {...}
+                    $formatters: []
+                    $invalid: false
+                    $modelValue: ""
+                    $name: "sage.name"
+                    $parsers: []
+                    $pristine: false
+                    $valid: true
+                    $viewChangeListeners: []
+                    $viewValue: ""
+                    */
+                    angular.forEach(response.errors, function (errors, field) {
+                        _this.logError("field: " + field + ", errors: " + errors);
+                    });
                 }
             });
         };
