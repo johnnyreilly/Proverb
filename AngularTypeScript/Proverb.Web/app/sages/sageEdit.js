@@ -9,6 +9,7 @@
             this.$scope = $scope;
             this.common = common;
             this.datacontext = datacontext;
+            this.errors = {};
             this.log = common.logger.getLogFn(controllerId);
             this.logError = common.logger.getLogFn(controllerId, "error");
             this.logSuccess = common.logger.getLogFn(controllerId, "success");
@@ -40,6 +41,7 @@
 
         SageEdit.prototype.save = function () {
             var _this = this;
+            this.errors = {}; //Wipe server errors
             this.datacontext.sage.save(this.sage).then(function (response) {
                 if (response.success) {
                     _this.sage = response.entity;
@@ -50,44 +52,9 @@
                 } else {
                     _this.logError("Failed to save", response.errors);
 
-                    var form = _this.$scope.form;
-
-                    /**
-                    form
-                    {...}
-                    [Methods]: {...}
-                    __proto__: {...}
-                    $dirty: true
-                    $error: {...}
-                    $invalid: false
-                    $name: "form"
-                    $pristine: false
-                    $valid: true
-                    sage.email: {...}
-                    sage.name: {...}
-                    sage.userName: {...}
-                    form.name
-                    undefined
-                    form["sage.name"]
-                    {...}
-                    [Methods]: {...}
-                    __proto__: {...}
-                    $$validityState: {...}
-                    $dirty: true
-                    $error: {...}
-                    $formatters: []
-                    $invalid: false
-                    $modelValue: ""
-                    $name: "sage.name"
-                    $parsers: []
-                    $pristine: false
-                    $valid: true
-                    $viewChangeListeners: []
-                    $viewValue: ""
-                    */
                     angular.forEach(response.errors, function (errors, field) {
-                        _this.logError("field: " + field + ", errors: " + errors);
-                        form[field].$setValidity("server", false);
+                        _this.$scope.form[field].$setValidity("server", false);
+                        _this.errors[field] = errors.join(",");
                     });
                 }
             });

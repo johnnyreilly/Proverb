@@ -211,4 +211,26 @@ interface ccSpinnerAttributes extends ng.IAttributes {
             attrs.$set("class", "widget-head");
         }
     });
+
+    // Wipe server errors from a model whenever they are changed
+    // Adapted from http://codetunes.com/2013/server-form-validation-with-angular/
+    app.directive("serverError", [function () {
+
+        var directive = {
+            link: link,
+            restrict: "A",
+            require: "?ngModel"
+        };
+        return directive;
+
+        function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, controller: ng.INgModelController) {
+            element.on("keyup change", function (event) {
+                scope.$apply(function () {
+                    controller.$setValidity('server', true)
+                });
+            });
+        }
+
+    }]);
+
 })();

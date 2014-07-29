@@ -12,6 +12,7 @@
 
     class SageEdit {
 
+        errors: { [field: string]: string };
         log: loggerFunction;
         logError: loggerFunction;
         logSuccess: loggerFunction;
@@ -29,6 +30,7 @@
             private datacontext: datacontext
             ) {
 
+            this.errors = {};
             this.log = common.logger.getLogFn(controllerId);
             this.logError = common.logger.getLogFn(controllerId, "error");
             this.logSuccess = common.logger.getLogFn(controllerId, "success");
@@ -60,6 +62,8 @@
         }
 
         save() {
+
+            this.errors = {}; //Wipe server errors
             this.datacontext.sage.save(this.sage).then(response => {
 
                 if (response.success) {
@@ -71,45 +75,9 @@
                 else {
                     this.logError("Failed to save", response.errors);
 
-                    var form = this.$scope.form;
-
-                    /**
-form
-{...}
-    [Methods]: {...}
-    __proto__: {...}
-    $dirty: true
-    $error: {...}
-    $invalid: false
-    $name: "form"
-    $pristine: false
-    $valid: true
-    sage.email: {...}
-    sage.name: {...}
-    sage.userName: {...}
-form.name
-undefined
-form["sage.name"]
-{...}
-    [Methods]: {...}
-    __proto__: {...}
-    $$validityState: {...}
-    $dirty: true
-    $error: {...}
-    $formatters: []
-    $invalid: false
-    $modelValue: ""
-    $name: "sage.name"
-    $parsers: []
-    $pristine: false
-    $valid: true
-    $viewChangeListeners: []
-    $viewValue: ""
-                     */
-
                     angular.forEach(response.errors, (errors, field) => {
-                        this.logError("field: " + field + ", errors: " + errors);
-                        form[field].$setValidity("server", false)
+                        (<ng.INgModelController>this.$scope.form[field]).$setValidity("server", false);
+                        this.errors[field] = errors.join(",");
                     });
                 }
             });
