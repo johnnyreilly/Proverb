@@ -68,7 +68,6 @@ namespace Proverb.Web
                 "~/content/bootstrap.min.css",
                 "~/content/font-awesome.min.css",
                 "~/content/toastr.css",
-                "~/content/customtheme.css",
                 "~/content/styles.css"
             ));
         }

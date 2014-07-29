@@ -119,7 +119,7 @@ hr {
   margin: 8px 0 8px 0 !important;
   padding: 0 !important;
   border-top: 0;
-  border-bottom: 1px solid #dddddd !important;
+  border-bottom: 1px solid #eeeeee !important;
   height: 0;
 }
 :focus {
@@ -285,7 +285,7 @@ a.btn {
 .bred a:hover,
 .borange a:hover,
 .bviolet a:hover {
-  color: #dddddd !important;
+  color: #eeeeee !important;
 }
 .lightblue {
   color: #52b9e9 !important;
@@ -415,8 +415,8 @@ form label {
 .dropdown-menu {
   background: #ffffff;
   border-radius: 0;
-  border: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
+  border: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
 }
 .dropdown-menu li {
   color: #777777;
@@ -599,7 +599,7 @@ form label {
   text-decoration: none;
 }
 .sidebar .sidebar-dropdown a {
-  color: #dddddd;
+  color: #eeeeee;
   background-color: #333333;
   padding: 6px;
   text-transform: uppercase;
@@ -675,7 +675,7 @@ form label {
   display: block;
 }
 .mainbar .matter {
-  border-top: 0 solid #dddddd;
+  border-top: 0 solid #eeeeee;
   margin: 2em;
 }
 .pagination {
@@ -702,7 +702,7 @@ form label {
   margin: 4px 0;
   padding: 4px 0;
   border-top: 0;
-  border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #eeeeee;
 }
 .widget .table {
   margin: 0;
@@ -727,7 +727,7 @@ form label {
 }
 .widget .widget-head {
   background-color: #f5f5f5;
-  border: 1px solid #dddddd;
+  border: 1px solid #eeeeee;
   color: #777777;
   font-size: 18px;
   padding: 12px 15px;
@@ -743,13 +743,13 @@ form label {
   color: #888888;
 }
 .widget .widget-content {
-  border-left: 1px solid #dddddd;
-  border-right: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
+  border-left: 1px solid #eeeeee;
+  border-right: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
 }
 .widget .widget-foot {
   background-color: #f5f5f5;
-  border: 1px solid #dddddd;
+  border: 1px solid #eeeeee;
   border-top: 0;
   padding: 8px 15px;
   font-size: 13px;
