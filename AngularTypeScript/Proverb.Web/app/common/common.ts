@@ -35,6 +35,8 @@ interface common {
                 config: this.config
             };
         };
+
+        return this;
     });
 
     commonModule.factory("common",

@@ -18,6 +18,8 @@
                 config: this.config
             };
         };
+
+        return this;
     });
 
     commonModule.factory("common", ["$q", "$rootScope", "$timeout", "commonConfig", "logger", common]);

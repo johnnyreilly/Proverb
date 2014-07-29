@@ -18,6 +18,15 @@ interface Function {
 ///////////////////////////////////////////////////////////////////////////////
 declare module ng {
 
+    // not directly implemented, but ensures that constructed class implements $get
+    interface IServiceProviderClass {
+        new(...args: any[]): IServiceProvider;
+    }
+    
+    interface IServiceProviderFactory {
+        (...args: any[]): IServiceProvider;
+    }
+
     // All service providers extend this interface
     interface IServiceProvider {
         $get: any;
@@ -37,7 +46,38 @@ declare module ng {
         element: IAugmentedJQueryStatic;
         equals(value1: any, value2: any): boolean;
         extend(destination: any, ...sources: any[]): any;
+
+        /**
+         * Invokes the iterator function once for each item in obj collection, which can be either an object or an array. The iterator function is invoked with iterator(value, key), where value is the value of an object property or an array element and key is the object property key or array element index. Specifying a context for the function is optional.
+         * 
+         * It is worth noting that .forEach does not iterate over inherited properties because it filters using the hasOwnProperty method.
+         * 
+         * @param obj Object to iterate over.
+         * @param iterator Iterator function.
+         * @param context Object to become context (this) for the iterator function.
+         */
+        forEach<T>(obj: T[], iterator: (value: T, key: number) => any, context?: any): any;
+        /**
+         * Invokes the iterator function once for each item in obj collection, which can be either an object or an array. The iterator function is invoked with iterator(value, key), where value is the value of an object property or an array element and key is the object property key or array element index. Specifying a context for the function is optional.
+         * 
+         * It is worth noting that .forEach does not iterate over inherited properties because it filters using the hasOwnProperty method.
+         * 
+         * @param obj Object to iterate over.
+         * @param iterator Iterator function.
+         * @param context Object to become context (this) for the iterator function.
+         */
+        forEach<T>(obj: { [index: string]: T; }, iterator: (value: T, key: string) => any, context?: any): any;
+        /**
+         * Invokes the iterator function once for each item in obj collection, which can be either an object or an array. The iterator function is invoked with iterator(value, key), where value is the value of an object property or an array element and key is the object property key or array element index. Specifying a context for the function is optional.
+         * 
+         * It is worth noting that .forEach does not iterate over inherited properties because it filters using the hasOwnProperty method.
+         * 
+         * @param obj Object to iterate over.
+         * @param iterator Iterator function.
+         * @param context Object to become context (this) for the iterator function.
+         */
         forEach(obj: any, iterator: (value: any, key: any) => any, context?: any): any;
+
         fromJson(json: string): any;
         identity(arg?: any): any;
         injector(modules?: any[]): auto.IInjectorService;
@@ -125,7 +165,7 @@ declare module ng {
          */
         controller(name: string, inlineAnnotatedConstructor: any[]): IModule;
         controller(object : Object): IModule;
-        directive(name: string, directiveFactory: Function): IModule;
+        directive(name: string, directiveFactory: IDirectiveFactory): IModule;
         directive(name: string, inlineAnnotatedFunction: any[]): IModule;
         directive(object: Object): IModule;
         /**
@@ -146,9 +186,10 @@ declare module ng {
         filter(name: string, filterFactoryFunction: Function): IModule;
         filter(name: string, inlineAnnotatedFunction: any[]): IModule;
         filter(object: Object): IModule;
-        provider(name: string, serviceProviderConstructor: Function): IModule;
+        provider(name: string, serviceProviderFactory: IServiceProviderFactory): IModule;
+        provider(name: string, serviceProviderConstructor: IServiceProviderClass): IModule;
         provider(name: string, inlineAnnotatedConstructor: any[]): IModule;
-        provider(name: string, providerObject: auto.IProvider): IModule;
+        provider(name: string, providerObject: IServiceProvider): IModule;
         provider(object: Object): IModule;
         /**
          * Run blocks are the closest thing in Angular to the main method. A run block is the code which needs to run to kickstart the application. It is executed after all of the service have been configured and the injector has been created. Run blocks typically contain code which is hard to unit-test, and for this reason should be declared in isolated modules, so that they can be ignored in the unit-tests.
@@ -211,11 +252,17 @@ declare module ng {
         $attr: Object;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // FormController
-    // see http://docs.angularjs.org/api/ng.directive:form.FormController
-    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * FormController
+     * see https://docs.angularjs.org/api/ng/type/form.FormController
+     */
     interface IFormController {
+
+        /**
+         * Indexer which should return ng.INgModelController for most properties but cannot because of "All named properties must be assignable to string indexer type" constraint - see https://github.com/Microsoft/TypeScript/issues/272
+         */
+        [name: string]: any;
+
         $pristine: boolean;
         $dirty: boolean;
         $valid: boolean;
@@ -519,17 +566,58 @@ declare module ng {
     ///////////////////////////////////////////////////////////////////////////
     interface IRootElementService extends JQuery {}
 
-    ///////////////////////////////////////////////////////////////////////////
-    // QService
-    // see http://docs.angularjs.org/api/ng.$q
-    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * $q - service in module ng
+     * A promise/deferred implementation inspired by Kris Kowal's Q.
+     * See http://docs.angularjs.org/api/ng/service/$q
+     */
     interface IQService {
+        /**
+         * Combines multiple promises into a single promise that is resolved when all of the input promises are resolved.
+         * 
+         * Returns a single promise that will be resolved with an array/hash of values, each value corresponding to the promise at the same index/key in the promises array/hash. If any of the promises is resolved with a rejection, this resulting promise will be rejected with the same rejection value.
+         * 
+         * @param promises An array or hash of promises.
+         */
         all(promises: IPromise<any>[]): IPromise<any[]>;
-        all(promises: {[id: string]: IPromise<any>;}): IPromise<{[id: string]: any}>;
+        /**
+         * Combines multiple promises into a single promise that is resolved when all of the input promises are resolved.
+         * 
+         * Returns a single promise that will be resolved with an array/hash of values, each value corresponding to the promise at the same index/key in the promises array/hash. If any of the promises is resolved with a rejection, this resulting promise will be rejected with the same rejection value.
+         * 
+         * @param promises An array or hash of promises.
+         */
+        all(promises: { [id: string]: IPromise<any>; }): IPromise<{ [id: string]: any }>;
+        /**
+         * Creates a Deferred object which represents a task which will finish in the future.
+         */
         defer<T>(): IDeferred<T>;
+        /**
+         * Creates a promise that is resolved as rejected with the specified reason. This api should be used to forward rejection in a chain of promises. If you are dealing with the last promise in a promise chain, you don't need to worry about it.
+         * 
+         * When comparing deferreds/promises to the familiar behavior of try/catch/throw, think of reject as the throw keyword in JavaScript. This also means that if you "catch" an error via a promise error callback and you want to forward the error to the promise derived from the current promise, you have to "rethrow" the error by returning a rejection constructed via reject.
+         * 
+         * @param reason Constant, message, exception or an object representing the rejection reason.
+         */
         reject(reason?: any): IPromise<void>;
+        /**
+         * Wraps an object that might be a value or a (3rd party) then-able promise into a $q promise. This is useful when you are dealing with an object that might or might not be a promise, or if the promise comes from a source that can't be trusted.
+         * 
+         * @param value Value or a promise
+         */
         when<T>(value: IPromise<T>): IPromise<T>;
+        /**
+         * Wraps an object that might be a value or a (3rd party) then-able promise into a $q promise. This is useful when you are dealing with an object that might or might not be a promise, or if the promise comes from a source that can't be trusted.
+         * 
+         * @param value Value or a promise
+         */
         when<T>(value: T): IPromise<T>;
+        /**
+         * Wraps an object that might be a value or a (3rd party) then-able promise into a $q promise. This is useful when you are dealing with an object that might or might not be a promise, or if the promise comes from a source that can't be trusted.
+         * 
+         * @param value Value or a promise
+         */
+        when(): IPromise<void>;
     }
 
     interface IPromise<T> {
@@ -934,6 +1022,11 @@ declare module ng {
     // and http://docs.angularjs.org/guide/directive
     ///////////////////////////////////////////////////////////////////////////
 
+    interface IDirectiveFactory {
+        (...args: any[]): IDirective;
+    }
+
+
     interface IDirective{
         compile?:
             (templateElement: IAugmentedJQuery,
@@ -1012,9 +1105,6 @@ declare module ng {
     // AUTO module (angular.js)
     ///////////////////////////////////////////////////////////////////////////
     export module auto {
-        interface IProvider {
-            $get: any;
-        }
 
         ///////////////////////////////////////////////////////////////////////
         // InjectorService

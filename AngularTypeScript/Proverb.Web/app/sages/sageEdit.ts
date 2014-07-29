@@ -109,7 +109,7 @@ form["sage.name"]
 
                     angular.forEach(response.errors, (errors, field) => {
                         this.logError("field: " + field + ", errors: " + errors);
-                        
+                        form[field].$setValidity("server", false)
                     });
                 }
             });

@@ -87,6 +87,7 @@
                     */
                     angular.forEach(response.errors, function (errors, field) {
                         _this.logError("field: " + field + ", errors: " + errors);
+                        form[field].$setValidity("server", false);
                     });
                 }
             });
