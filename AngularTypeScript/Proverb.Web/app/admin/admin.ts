@@ -16,7 +16,7 @@
         activate();
 
         function activate() {
-            common.activateController([], controllerId)
+            common.activateController([], controllerId, vm.title)
                 .then(function () { log("Activated Admin View"); });
         }
     }

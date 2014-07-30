@@ -47,7 +47,7 @@
         // Prototype methods
 
         activate() {
-            this.common.activateController([], controllerId)
+            this.common.activateController([], controllerId, "Loading....")
                 .then(() => {
                     this.logSuccess("Proverb v" + this.config.version + " loaded!", null, true);
                 });
@@ -56,14 +56,17 @@
         wireUpEventListeners() {
 
             this.$rootScope.$on("$routeChangeStart",
-                (event, next, current) => { this.toggleSpinner(true); });
+                (event, next, current) => {
+                    this.toggleSpinner(true);
+                });
 
             this.$rootScope.$on(this.config.events.controllerActivateSuccess,
-                (event, data: { controllerId: string }) => {
+                (event, data: controllerActivationData) => {
                     // Deactivate spinner as long as the controller that has been activated is not the shell
                     if (data.controllerId !== controllerId) {
                         this.toggleSpinner(false);
                     }
+                    this.$rootScope.title = "Proverb - " + data.title;
                 });
 
             this.$rootScope.$on(this.config.events.controllerActivateFailure,

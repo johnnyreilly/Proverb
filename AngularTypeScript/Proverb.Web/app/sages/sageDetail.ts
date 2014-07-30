@@ -34,7 +34,7 @@
             var id = this.$routeParams.id;
             var dataPromises: ng.IPromise<any>[] = [this.getSage(id)];
 
-            this.common.activateController(dataPromises, controllerId)
+            this.common.activateController(dataPromises, controllerId, this.title)
                 .then(() => {
                     this.log("Activated Sage Details View");
                     this.title = "Sage Details: " + this.sage.name;

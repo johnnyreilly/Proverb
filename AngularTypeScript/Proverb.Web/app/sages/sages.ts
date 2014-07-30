@@ -25,7 +25,7 @@
         // Prototype methods
 
         activate() {
-            this.common.activateController([this.getSages()], controllerId)
+            this.common.activateController([this.getSages()], controllerId, this.title)
                 .then(() => this.log("Activated Sages View"));
         }
 

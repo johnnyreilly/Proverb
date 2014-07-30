@@ -21,7 +21,7 @@
             var id = this.$routeParams.id;
             var dataPromises = [this.getSage(id)];
 
-            this.common.activateController(dataPromises, controllerId).then(function () {
+            this.common.activateController(dataPromises, controllerId, this.title).then(function () {
                 _this.log("Activated Sage Details View");
                 _this.title = "Sage Details: " + _this.sage.name;
             });

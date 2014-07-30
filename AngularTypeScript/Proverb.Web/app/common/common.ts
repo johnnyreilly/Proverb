@@ -3,12 +3,17 @@ interface common {
     $q: ng.IQService;
     $timeout: ng.ITimeoutService;
 
-    activateController: (promises: ng.IPromise<any>[], controllerId: string) => ng.IPromise<void>;
+    activateController: (promises: ng.IPromise<any>[], controllerId: string, title: string) => ng.IPromise<void>;
     createSearchThrottle: (viewmodel: { [list: string]: any }, list: string, filteredList: string, filter: string, delay: number) => void;
     debouncedThrottle: (key: string, callback: Function, delay: number, immediate: boolean) => void;
     isNumber: (val: string) => boolean;
     logger: logger;
     textContains: (text: string, searchText: string) => boolean;
+}
+
+interface controllerActivationData {
+    controllerId: string;
+    title: string;
 }
 
 (function () {
@@ -66,15 +71,17 @@ interface common {
 
         return service;
 
-        function activateController(promises: ng.IPromise<any>[], controllerId: string) {
+        function activateController(promises: ng.IPromise<any>[], controllerId: string, title: string) {
 
             var allPromise = $q.all(promises).then(
                 (eventArgs) => {
-                    $broadcast(commonConfig.config.controllerActivateSuccessEvent, { controllerId: controllerId });
+                    $broadcast(commonConfig.config.controllerActivateSuccessEvent, {
+                        controllerId: controllerId,
+                        title: title
+                    });
                 },
                 (reason) => {
                     // reason.data.message
-                    console.log("reason", JSON.stringify(reason));
                     var data = {
                         controllerId: controllerId,
                         failureReason: reason

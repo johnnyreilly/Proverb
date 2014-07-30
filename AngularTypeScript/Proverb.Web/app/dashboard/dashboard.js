@@ -12,7 +12,6 @@
             };
             this.messageCount = 0;
             this.sages = [];
-            this.title = "Dashboard";
 
             this.log = common.logger.getLogFn(controllerId);
 
@@ -22,7 +21,7 @@
         Dashboard.prototype.activate = function () {
             var _this = this;
             var promises = [this.getSages()];
-            this.common.activateController(promises, controllerId).then(function () {
+            this.common.activateController(promises, controllerId, "Dashboard").then(function () {
                 return _this.log("Activated Dashboard View");
             });
         };

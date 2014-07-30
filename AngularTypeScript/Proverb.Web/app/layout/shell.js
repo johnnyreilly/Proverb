@@ -30,7 +30,7 @@
         // Prototype methods
         Shell.prototype.activate = function () {
             var _this = this;
-            this.common.activateController([], controllerId).then(function () {
+            this.common.activateController([], controllerId, "Loading....").then(function () {
                 _this.logSuccess("Proverb v" + _this.config.version + " loaded!", null, true);
             });
         };
@@ -46,6 +46,7 @@
                 if (data.controllerId !== controllerId) {
                     _this.toggleSpinner(false);
                 }
+                _this.$rootScope.title = "Proverb - " + data.title;
             });
 
             this.$rootScope.$on(this.config.events.controllerActivateFailure, function (event, data) {

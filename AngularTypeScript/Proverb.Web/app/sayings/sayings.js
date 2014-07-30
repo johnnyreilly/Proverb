@@ -32,7 +32,7 @@
                 return _this.combineData();
             });
 
-            this.common.activateController([combinerPromise], controllerId).then(function () {
+            this.common.activateController([combinerPromise], controllerId, this.title).then(function () {
                 return _this.log("Activated Sayings View");
             });
         };

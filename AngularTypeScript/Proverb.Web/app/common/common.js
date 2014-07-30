@@ -43,12 +43,14 @@
 
         return service;
 
-        function activateController(promises, controllerId) {
+        function activateController(promises, controllerId, title) {
             var allPromise = $q.all(promises).then(function (eventArgs) {
-                $broadcast(commonConfig.config.controllerActivateSuccessEvent, { controllerId: controllerId });
+                $broadcast(commonConfig.config.controllerActivateSuccessEvent, {
+                    controllerId: controllerId,
+                    title: title
+                });
             }, function (reason) {
                 // reason.data.message
-                console.log("reason", JSON.stringify(reason));
                 var data = {
                     controllerId: controllerId,
                     failureReason: reason

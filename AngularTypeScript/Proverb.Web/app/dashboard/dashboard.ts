@@ -11,7 +11,6 @@
             description: string;
         }
         sages: sage[];
-        title: string;
 
         static $inject = ["common", "datacontext"];
         constructor(
@@ -25,7 +24,6 @@
             };
             this.messageCount = 0;
             this.sages = [];
-            this.title = "Dashboard";
 
             this.log = common.logger.getLogFn(controllerId);
 
@@ -36,7 +34,7 @@
 
         activate() {
             var promises: ng.IPromise<any>[] = [/*getMessageCount(), */this.getSages()];
-            this.common.activateController(promises, controllerId)
+            this.common.activateController(promises, controllerId, "Dashboard")
                 .then(() => this.log("Activated Dashboard View"));
         }
 

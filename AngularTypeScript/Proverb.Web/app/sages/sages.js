@@ -16,7 +16,7 @@
         // Prototype methods
         Sages.prototype.activate = function () {
             var _this = this;
-            this.common.activateController([this.getSages()], controllerId).then(function () {
+            this.common.activateController([this.getSages()], controllerId, this.title).then(function () {
                 return _this.log("Activated Sages View");
             });
         };

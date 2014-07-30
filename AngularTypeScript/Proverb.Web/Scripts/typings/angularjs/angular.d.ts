@@ -253,7 +253,7 @@ declare module ng {
     }
 
     /**
-     * FormController
+     * form.FormController - type in module ng
      * see https://docs.angularjs.org/api/ng/type/form.FormController
      */
     interface IFormController {
@@ -961,7 +961,9 @@ declare module ng {
     // RootScopeService
     // see http://docs.angularjs.org/api/ng.$rootScope
     ///////////////////////////////////////////////////////////////////////////
-    interface IRootScopeService extends IScope {}
+    interface IRootScopeService extends IScope {
+        title: string;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // SCEService

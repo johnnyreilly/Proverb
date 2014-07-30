@@ -33,7 +33,7 @@
             var dataPromises: ng.IPromise<any>[] = [this.getProverbs(), this.getSages()];
             var combinerPromise = this.$q.all(dataPromises).then(() => this.combineData());
 
-            this.common.activateController([combinerPromise], controllerId)
+            this.common.activateController([combinerPromise], controllerId, this.title)
                 .then(() => this.log("Activated Sayings View"));
         }
 
