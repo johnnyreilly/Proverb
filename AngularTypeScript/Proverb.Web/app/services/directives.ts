@@ -10,10 +10,27 @@ interface ccSpinnerAttributes extends ng.IAttributes {
     ccSpinner: string;
 }
 
+interface serverErrorScope extends ng.IScope {
+    form: ng.IFormController;
+    errors: { [field: string]: string };
+}
+
 (function () {
     "use strict";
 
     var app = angular.module("app");
+
+    // Thanks @Basarat! http://stackoverflow.com/a/24863256/761388
+    function safeWatch<T extends Function>(expression: T) {
+        return () => {
+            try {
+                return expression();
+            }
+            catch (e) {
+                return null;
+            }
+        };
+    }
 
     app.directive("ccImgPerson", ["config", function (config: config) {
         //Usage:
@@ -134,40 +151,6 @@ interface ccSpinnerAttributes extends ng.IAttributes {
         }
     });
 
-    app.directive("ccScrollToTop", ["$window",
-        // Usage:
-        // <span data-cc-scroll-to-top></span>
-        // Creates:
-        // <span data-cc-scroll-to-top="" class="totop">
-        //      <a href="#"><i class="fa fa-chevron-up"></i></a>
-        // </span>
-        function ($window: ng.IWindowService) {
-            var directive = {
-                link: link,
-                template: '<a href="#"><i class="fa fa-chevron-up"></i></a>',
-                restrict: "A"
-            };
-            return directive;
-
-            function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
-                var $win = $($window);
-                element.addClass("totop");
-                $win.scroll(toggleIcon);
-
-                element.find("a").click(function (e) {
-                    e.preventDefault();
-                    // Learning Point: $anchorScroll works, but no animation
-                    //$anchorScroll();
-                    $("body").animate({ scrollTop: 0 }, 500);
-                });
-
-                function toggleIcon() {
-                    $win.scrollTop() > 300 ? element.slideDown(): element.slideUp();
-                }
-            }
-        }
-    ]);
-
     app.directive("ccSpinner", ["$window", function ($window: ccSpinnerWindowService) {
         // Description:
         //  Creates a new Spinner and sets its options
@@ -212,10 +195,10 @@ interface ccSpinnerAttributes extends ng.IAttributes {
         }
     });
 
-    // Wipe server errors from a model whenever they are changed
-    // Adapted from http://codetunes.com/2013/server-form-validation-with-angular/
+    // Plant a validation message to the right when one is available
     app.directive("serverError", [function () {
-
+        // Usage:
+        //<input class="col-xs-12 col-sm-9" name="sage.name" ng-model="vm.sage.name" server-error />
         var directive = {
             link: link,
             restrict: "A",
@@ -223,14 +206,37 @@ interface ccSpinnerAttributes extends ng.IAttributes {
         };
         return directive;
 
-        function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, controller: ng.INgModelController) {
-            element.on("keyup change", function (event) {
-                scope.$apply(function () {
-                    controller.$setValidity('server', true)
-                });
+        function link(scope: serverErrorScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, controller: ng.INgModelController) {
+
+            // Get name of element which will be used to extract data from the form on the scope (ng.IFormController)
+            // and the errors collection on the scope ({ [field: string]: string })
+            var name: string = attrs["name"];
+
+            // Bootstrap alert template for error
+            var template = '<div class="alert alert-danger col-xs-9 col-xs-offset-2" role="alert">%error%</div>';
+
+            // Create an element to hold the validation message
+            var decorator = angular.element('<div></div>');
+            element.after(decorator);
+
+            // Watch the scope.form['sage.name'].$error.server value (for example) and show or hide validation message accordingly
+            scope.$watch(safeWatch(() => scope.form[name].$error.server), showHideValidation);
+
+            function showHideValidation(newValue) {
+
+                // Display an error if both the form.$error.server flag is set and there is an error to display
+                // Otherwise clear the element
+                var display = scope.form[name].$error.server && scope.errors[name];
+                var errorHtml = display ? template.replace(/%error%/, scope.errors[name]) : "";
+                decorator.html(errorHtml);
+            }
+
+            // wipe the server error message upon keyup or change events so can revalidate with server 
+            // http://codetunes.com/2013/server-form-validation-with-angular/
+            element.on("keyup change", (event) => {
+                scope.$apply(() => { controller.$setValidity("server", true); });
             });
         }
-
     }]);
 
 })();

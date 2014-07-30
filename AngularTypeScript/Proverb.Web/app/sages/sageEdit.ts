@@ -8,11 +8,11 @@
 
     interface sageEditScope extends ng.IScope {
         form: ng.IFormController;
+        errors: { [field: string]: string };
     }
 
     class SageEdit {
 
-        errors: { [field: string]: string };
         log: loggerFunction;
         logError: loggerFunction;
         logSuccess: loggerFunction;
@@ -30,7 +30,7 @@
             private datacontext: datacontext
             ) {
 
-            this.errors = {};
+            $scope.errors = {};
             this.log = common.logger.getLogFn(controllerId);
             this.logError = common.logger.getLogFn(controllerId, "error");
             this.logSuccess = common.logger.getLogFn(controllerId, "success");
@@ -63,7 +63,7 @@
 
         save() {
 
-            this.errors = {}; //Wipe server errors
+            this.$scope.errors = {}; //Wipe server errors
             this.datacontext.sage.save(this.sage).then(response => {
 
                 if (response.success) {
@@ -77,7 +77,7 @@
 
                     angular.forEach(response.errors, (errors, field) => {
                         (<ng.INgModelController>this.$scope.form[field]).$setValidity("server", false);
-                        this.errors[field] = errors.join(",");
+                        this.$scope.errors[field] = errors.join(",");
                     });
                 }
             });

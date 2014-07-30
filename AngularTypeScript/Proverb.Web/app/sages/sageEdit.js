@@ -9,7 +9,7 @@
             this.$scope = $scope;
             this.common = common;
             this.datacontext = datacontext;
-            this.errors = {};
+            $scope.errors = {};
             this.log = common.logger.getLogFn(controllerId);
             this.logError = common.logger.getLogFn(controllerId, "error");
             this.logSuccess = common.logger.getLogFn(controllerId, "success");
@@ -41,7 +41,7 @@
 
         SageEdit.prototype.save = function () {
             var _this = this;
-            this.errors = {}; //Wipe server errors
+            this.$scope.errors = {}; //Wipe server errors
             this.datacontext.sage.save(this.sage).then(function (response) {
                 if (response.success) {
                     _this.sage = response.entity;
@@ -54,7 +54,7 @@
 
                     angular.forEach(response.errors, function (errors, field) {
                         _this.$scope.form[field].$setValidity("server", false);
-                        _this.errors[field] = errors.join(",");
+                        _this.$scope.errors[field] = errors.join(",");
                     });
                 }
             });
