@@ -11,8 +11,8 @@ interface ccSpinnerAttributes extends ng.IAttributes {
 }
 
 interface serverErrorScope extends ng.IScope {
-    form: ng.IFormController;
-    errors: { [field: string]: string };
+    name: string;
+    serverError: { [field: string]: string };
 }
 
 (function () {
@@ -195,22 +195,24 @@ interface serverErrorScope extends ng.IScope {
         }
     });
 
-    // Plant a validation message to the right when one is available
+    // Plant a validation message to the right of the element when it is declared invalid by the server
     app.directive("serverError", [function () {
+
         // Usage:
-        //<input class="col-xs-12 col-sm-9" name="sage.name" ng-model="vm.sage.name" server-error />
+        // <input class="col-xs-12 col-sm-9" name="sage.name" ng-model="vm.sage.name" server-error="vm.errors" />
+
         var directive = {
             link: link,
             restrict: "A",
-            require: "ngModel" // Make Angular supply the ngModel controller as the 4th parameter in the link function
+            require: "ngModel", // Make Angular supply the ngModel controller as the 4th parameter in the link function
+            scope: { // Pass in name and serverError to the scope
+                name: "@",
+                serverError: "="
+            }
         };
         return directive;
 
         function link(scope: serverErrorScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ngModelController: ng.INgModelController) {
-
-            // Get name of element which will be used to extract data from the form on the scope (ng.IFormController)
-            // and the errors collection on the scope ({ [field: string]: string })
-            var name: string = attrs["name"];
 
             // Bootstrap alert template for error
             var template = '<div class="alert alert-danger col-xs-9 col-xs-offset-2" role="alert"><i class="glyphicon glyphicon-warning-sign larger"></i> %error%</div>';
@@ -225,12 +227,17 @@ interface serverErrorScope extends ng.IScope {
             function showHideValidation(serverError: boolean) {
 
                 // Display an error if serverError is true otherwise clear the element
-                var errorHtml = serverError ? template.replace(/%error%/, scope.errors[name] || "Unknown error occurred...") : "";
+                var errorHtml = "";
+                if (serverError) {
+                    // Aliasing serverError and name to make it more obvious what their purpose is
+                    var errorDictionary = scope.serverError;
+                    var errorKey = scope.name;
+                    errorHtml = template.replace(/%error%/, errorDictionary[errorKey] || "Unknown error occurred...");
+                }
                 decorator.html(errorHtml);
             }
 
             // wipe the server error message upon keyup or change events so can revalidate with server 
-            // http://codetunes.com/2013/server-form-validation-with-angular/
             element.on("keyup change", (event) => {
                 scope.$apply(() => { ngModelController.$setValidity("server", true); });
             });

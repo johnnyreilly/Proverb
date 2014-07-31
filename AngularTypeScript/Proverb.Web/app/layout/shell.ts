@@ -2,6 +2,10 @@
 
     "use strict";
 
+    interface sageEditRootScope extends ng.IRootScopeService {
+        title: string;
+    }
+
     interface spinnerToggleEvent extends ng.IAngularEvent {
         show: boolean;
     }
@@ -18,7 +22,7 @@
 
         static $inject = ["$rootScope", "common", "config"];
         constructor(
-            private $rootScope: ng.IRootScopeService,
+            private $rootScope: sageEditRootScope,
             private common: common,
             private config: config
             ) {
