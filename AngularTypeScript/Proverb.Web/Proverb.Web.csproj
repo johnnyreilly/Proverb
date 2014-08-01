@@ -346,13 +346,6 @@
     <Content Include="app\config.route.js.map">
       <DependentUpon>config.route.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="app\config.ts" />
-    <Content Include="app\config.js">
-      <DependentUpon>config.ts</DependentUpon>
-    </Content>
-    <Content Include="app\config.js.map">
-      <DependentUpon>config.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="app\dashboard\dashboard.ts" />
     <Content Include="app\dashboard\dashboard.js">
       <DependentUpon>dashboard.ts</DependentUpon>

@@ -29,7 +29,9 @@
         { "Path": "../Proverb.Web/app/sayings", "Include": "*.js"},
         { "Path": "../Proverb.Web/app/sages", "Include": "*.js"},
 
-        { "Path": "../Proverb.Web/app/services", "Include": "*.js"}
+        { "Path": "../Proverb.Web/app/services", "Include": "*.js"},
+
+        { "Path": "bootstrapper.js" }
     ],
     "Tests": [
         { "Path": "app", "Include": "*.js" }
