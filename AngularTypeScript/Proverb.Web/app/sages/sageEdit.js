@@ -42,12 +42,11 @@
         SageEdit.prototype.save = function () {
             var _this = this;
             this.errors = {}; //Wipe server errors
+            this._isSaving = true;
             this.datacontext.sage.save(this.sage).then(function (response) {
                 if (response.success) {
                     _this.sage = response.entity;
                     _this.logSuccess("Saved " + _this.sage.name + " [" + _this.sage.id + "]");
-
-                    //this.$scope.form.$setPristine();
                     _this.$location.path("/sages/detail/" + _this.sage.id);
                 } else {
                     _this.logError("Failed to save", response.errors);
@@ -57,6 +56,8 @@
                         _this.errors[field] = errors.join(",");
                     });
                 }
+
+                _this._isSaving = false;
             });
         };
 

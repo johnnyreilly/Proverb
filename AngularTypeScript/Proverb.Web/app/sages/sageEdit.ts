@@ -64,12 +64,12 @@
         save() {
 
             this.errors = {}; //Wipe server errors
+            this._isSaving = true;
             this.datacontext.sage.save(this.sage).then(response => {
 
                 if (response.success) {
                     this.sage = response.entity;
                     this.logSuccess("Saved " + this.sage.name + " [" + this.sage.id + "]");
-                    //this.$scope.form.$setPristine();
                     this.$location.path("/sages/detail/" + this.sage.id);
                 }
                 else {
@@ -80,6 +80,8 @@
                         this.errors[field] = errors.join(",");
                     });
                 }
+
+                this._isSaving = false;
             });
         }
 

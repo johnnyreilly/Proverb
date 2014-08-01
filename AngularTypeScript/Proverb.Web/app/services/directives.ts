@@ -221,7 +221,7 @@ interface serverErrorScope extends ng.IScope {
             var decorator = angular.element('<div></div>');
             element.after(decorator);
 
-            // Watch the scope.form['sage.name'].$error.server value (for example) and show or hide validation message accordingly
+            // Watch ngModelController.$error.server & show/hide validation accordingly
             scope.$watch(safeWatch(() => ngModelController.$error.server), showHideValidation);
 
             function showHideValidation(serverError: boolean) {
