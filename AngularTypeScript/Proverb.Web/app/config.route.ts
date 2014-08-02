@@ -18,24 +18,6 @@ interface configRouteConfig extends ng.route.IRoute {
 
     // Collect the routes
     app.constant("routes", getRoutes());
-    
-    // Configure the routes and route resolvers
-    app.config(["$routeProvider", "routes", "commonConfigProvider", routeConfigurator]);
-
-    var routesConfigured = false;
-    function routeConfigurator($routeProvider: ng.route.IRouteProvider, routes: configRoute[], commonConfig: commonConfig) {
-
-        // Ensure routes are only configured once (unit tests attempt to configure twice)
-        if (routesConfigured) { return; }
-
-        routes.forEach(function (r) {
-            r.config.templateUrl += "?v=" + commonConfig.config.version;
-            $routeProvider.when(r.url, r.config);
-        });
-        $routeProvider.otherwise({ redirectTo: "/" });
-
-        routesConfigured = true;
-    }
 
     // Define the routes 
     function getRoutes(): configRoute[] {

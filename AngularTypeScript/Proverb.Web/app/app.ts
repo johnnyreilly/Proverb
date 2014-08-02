@@ -106,6 +106,23 @@ var angularApp = (function () {
             cfg.config.version = config.version;
         }]);
 
+
+        // Configure the routes and route resolvers
+        var routesConfigured = false;
+        app.config(["$routeProvider", "routes", "commonConfigProvider", function ($routeProvider: ng.route.IRouteProvider, routes: configRoute[], commonConfig: commonConfig) {
+
+            // Ensure routes are only configured once (unit tests attempt to configure twice)
+            if (routesConfigured) { return; }
+
+            routes.forEach(function (r) {
+                r.config.templateUrl += "?v=" + commonConfig.config.version;
+                $routeProvider.when(r.url, r.config);
+            });
+            $routeProvider.otherwise({ redirectTo: "/" });
+
+            routesConfigured = true;
+        }]);
+
         // Handle routing errors and success events
         app.run(["$route", function ($route: ng.route.IRouteService) {
             // Include $route to kick start the router.

@@ -19,7 +19,6 @@
         { "Path": "../Proverb.Web/app/common/bootstrap/bootstrap.dialog.js" },
 
         { "Path": "../Proverb.Web/app/app.js"},
-        { "Path": "../Proverb.Web/app/config.js"},
         { "Path": "../Proverb.Web/app/config.exceptionHandler.js"},
         { "Path": "../Proverb.Web/app/config.route.js"},
 
