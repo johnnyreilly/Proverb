@@ -244,4 +244,28 @@ interface serverErrorScope extends ng.IScope {
         }
     }]);
 
+    // upon keyup / change events set validity to true - to be used alongside tooltip
+    app.directive("serverErrorTooltip", ["$compile", function ($compile: ng.ICompileService) {
+
+        // Usage:
+        // <input class="col-xs-12 col-sm-9" name="sage.name" ng-model="vm.sage.name"
+        //        server-error-tooltip tooltip="{{vm.errors['sage.name']}}" />
+
+        var directive = {
+            link: link,
+            restrict: "A",
+            require: "ngModel", // Make Angular supply the ngModel controller as the 4th parameter in the link function
+        };
+        return directive;
+
+        function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ngModelController: ng.INgModelController) {
+
+            // wipe the server error message upon keyup or change events so can revalidate with server 
+            element.on("keyup change", (event) => {
+                scope.$apply(() => { ngModelController.$setValidity("server", true); });
+            });
+        }
+
+    }]);
+
 })();

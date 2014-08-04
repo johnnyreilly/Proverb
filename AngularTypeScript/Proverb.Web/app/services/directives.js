@@ -225,5 +225,28 @@
                 });
             }
         }]);
+
+    // upon keyup / change events set validity to true - to be used alongside tooltip
+    app.directive("serverErrorTooltip", [
+        "$compile", function ($compile) {
+            // Usage:
+            // <input class="col-xs-12 col-sm-9" name="sage.name" ng-model="vm.sage.name"
+            //        server-error-tooltip tooltip="{{vm.errors['sage.name']}}" />
+            var directive = {
+                link: link,
+                restrict: "A",
+                require: "ngModel"
+            };
+            return directive;
+
+            function link(scope, element, attrs, ngModelController) {
+                // wipe the server error message upon keyup or change events so can revalidate with server
+                element.on("keyup change", function (event) {
+                    scope.$apply(function () {
+                        ngModelController.$setValidity("server", true);
+                    });
+                });
+            }
+        }]);
 })();
 //# sourceMappingURL=directives.js.map
