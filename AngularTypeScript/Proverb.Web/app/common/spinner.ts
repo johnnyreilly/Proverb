@@ -25,7 +25,7 @@ interface spinner {
         function spinnerShow() { spinnerToggle(true); }
 
         function spinnerToggle(show: boolean) {
-            common.$broadcast(commonConfig.config.spinnerToggleEvent, { show: show });
+            common.$broadcast(commonConfig.config.events.spinnerToggle, { show: show });
         }
     }
 })();

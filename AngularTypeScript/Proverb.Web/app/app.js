@@ -33,9 +33,11 @@
         toastr.options.positionClass = "toast-bottom-right";
 
         var events = {
-            controllerActivateFailure: "controller.activateFailure",
             controllerActivateSuccess: "controller.activateSuccess",
-            spinnerToggle: "spinner.toggle"
+            failure: "failure",
+            spinnerToggle: "spinner.toggle",
+            waiterStart: "waiter.start",
+            waiterSuccess: "waiter.success"
         };
 
         var config = {
@@ -57,14 +59,19 @@
                 }
             }]);
 
-        // Configure the common services via commonConfig
+        // Copy across config settings to commonConfig to configure the common services
         app.config([
-            "commonConfigProvider", function (cfg) {
-                cfg.config.controllerActivateFailureEvent = config.events.controllerActivateFailure;
-                cfg.config.controllerActivateSuccessEvent = config.events.controllerActivateSuccess;
-                cfg.config.spinnerToggleEvent = config.events.spinnerToggle;
-                cfg.config.remoteServiceRoot = config.remoteServiceRoot;
-                cfg.config.version = config.version;
+            "commonConfigProvider", function (commonConfig) {
+                commonConfig.config.events = {
+                    controllerActivateSuccess: config.events.controllerActivateSuccess,
+                    failure: config.events.failure,
+                    spinnerToggle: config.events.spinnerToggle,
+                    waiterStart: config.events.waiterStart,
+                    waiterSuccess: config.events.waiterSuccess
+                };
+
+                commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
+                commonConfig.config.version = config.version;
             }]);
 
         // Configure the routes and route resolvers

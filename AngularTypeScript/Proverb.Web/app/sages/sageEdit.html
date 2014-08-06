@@ -8,6 +8,11 @@
                             ng-disabled="!vm.canSave">
                         <i class="glyphicon glyphicon-save"></i>Save
                     </button>
+                    <button class="btn btn-danger"
+                            ng-click="vm.remove()"
+                            ng-disabled="vm.isSavingOrRemoving">
+                        <i class="glyphicon glyphicon-trash"></i>Remove
+                    </button>
                     <span ng-show="vm.hasChanges"
                           class="dissolve-animation ng-hide">
                         <i class="glyphicon glyphicon-asterisk orange"></i>

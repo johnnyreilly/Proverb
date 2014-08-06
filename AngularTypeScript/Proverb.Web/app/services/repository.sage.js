@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     "use strict";
 
     var serviceId = "repository.sage";
@@ -12,6 +12,7 @@
         var service = {
             getAll: getAll,
             getById: getById,
+            remove: remove,
             save: save
         };
 
@@ -43,12 +44,23 @@
             });
         }
 
+        function remove(id) {
+            return $http.delete(rootUrl + "/" + id).then(function (response) {
+                var saveResponse = response.data;
+                if (saveResponse.success) {
+                    log("Sage [" + id + "] removed");
+                }
+                return saveResponse;
+            });
+        }
+
         function save(sage) {
             return $http.post(rootUrl, sage).then(function (response) {
                 var saveResponse = response.data;
                 if (saveResponse.success) {
                     log("Sage " + saveResponse.entity.name + " [" + saveResponse.entity.id + "] saved");
                 }
+
                 return saveResponse;
             });
         }

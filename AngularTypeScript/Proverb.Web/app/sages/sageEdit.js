@@ -16,7 +16,7 @@
             this.sage = undefined;
             this.title = "Sage Edit";
 
-            this._isSaving = false;
+            this._isSavingOrRemoving = false;
 
             this.activate();
         }
@@ -39,25 +39,48 @@
             });
         };
 
+        SageEdit.prototype.remove = function () {
+            var _this = this;
+            this._isSavingOrRemoving = true;
+
+            var sageToRemove = this.sage.name;
+
+            this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove).then(function (response) {
+                if (response.success) {
+                    _this.logSuccess("Deleted " + sageToRemove);
+                    _this.$location.path("/sages");
+                } else {
+                    _this.logError("Failed to remove " + sageToRemove, response.errors);
+                }
+
+                _this._isSavingOrRemoving = false;
+            }).finally(function () {
+                return _this._isSavingOrRemoving = false;
+            });
+        };
+
         SageEdit.prototype.save = function () {
             var _this = this;
             this.errors = {}; //Wipe server errors
-            this._isSaving = true;
-            this.datacontext.sage.save(this.sage).then(function (response) {
+            this._isSavingOrRemoving = true;
+
+            var sageToSave = this.sage.name;
+
+            this.common.waiter(this.datacontext.sage.save(this.sage), controllerId, "Saving " + sageToSave).then(function (response) {
                 if (response.success) {
                     _this.sage = response.entity;
-                    _this.logSuccess("Saved " + _this.sage.name + " [" + _this.sage.id + "]");
+                    _this.logSuccess("Saved " + sageToSave);
                     _this.$location.path("/sages/detail/" + _this.sage.id);
                 } else {
-                    _this.logError("Failed to save", response.errors);
+                    _this.logError("Failed to save " + sageToSave, response.errors);
 
                     angular.forEach(response.errors, function (errors, field) {
                         _this.$scope.form[field].$setValidity("server", false);
                         _this.errors[field] = errors.join(",");
                     });
                 }
-
-                _this._isSaving = false;
+            }).finally(function () {
+                return _this._isSavingOrRemoving = false;
             });
         };
 
@@ -72,7 +95,15 @@
 
         Object.defineProperty(SageEdit.prototype, "canSave", {
             get: function () {
-                return this.hasChanges && !this._isSaving && this.$scope.form.$valid;
+                return this.hasChanges && !this.isSavingOrRemoving && this.$scope.form.$valid;
+            },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(SageEdit.prototype, "isSavingOrRemoving", {
+            get: function () {
+                return this._isSavingOrRemoving;
             },
             enumerable: true,
             configurable: true

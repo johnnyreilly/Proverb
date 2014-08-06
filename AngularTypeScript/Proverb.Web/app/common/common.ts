@@ -9,12 +9,36 @@ interface common {
     isNumber: (val: string) => boolean;
     logger: logger;
     textContains: (text: string, searchText: string) => boolean;
+    waiter: <T>(promise: ng.IPromise<T>, controllerId: string, message?: string) => ng.IPromise<T>;
 }
 
-interface controllerActivationData {
+interface commonConfig {
+    config: {
+        events: configEvents;
+        remoteServiceRoot: string;
+        version: string;
+    };
+}
+
+interface controllerActivateSuccessData {
     controllerId: string;
     title: string;
 }
+
+interface failureData {
+    controllerId: string;
+    failureReason: any;
+}
+
+interface waiterStartData {
+    controllerId: string;
+    message: string;
+}
+
+interface waiterSuccessData {
+    controllerId: string;
+}
+
 
 (function () {
     "use strict";
@@ -30,9 +54,7 @@ interface controllerActivationData {
     // events via the commonConfigProvider
     commonModule.provider("commonConfig", function () {
         this.config = {
-            // These are the properties we need to set
-            //controllerActivateSuccessEvent: "",
-            //spinnerToggleEvent: ""
+            // This will be populated in app.ts via the app.config(["commonConfigProvider", function ...
         };
 
         this.$get = function (): commonConfig {
@@ -66,27 +88,30 @@ interface controllerActivationData {
             debouncedThrottle: debouncedThrottle,
             isNumber: isNumber,
             logger: logger, // for accessibility
-            textContains: textContains
+            textContains: textContains,
+            waiter: waiter
         };
 
         return service;
 
         function activateController(promises: ng.IPromise<any>[], controllerId: string, title: string) {
 
+            var events = commonConfig.config.events;
+
             var allPromise = $q.all(promises).then(
                 (eventArgs) => {
-                    $broadcast(commonConfig.config.controllerActivateSuccessEvent, {
+                    var data: controllerActivateSuccessData = {
                         controllerId: controllerId,
                         title: title
-                    });
+                    };
+                    $broadcast(events.controllerActivateSuccess, data);
                 },
                 (reason) => {
-                    // reason.data.message
-                    var data = {
+                    var data: failureData = {
                         controllerId: controllerId,
                         failureReason: reason
                     };
-                    $broadcast(commonConfig.config.controllerActivateFailureEvent, data);
+                    $broadcast(events.failure, data);
                 });
 
             return allPromise;
@@ -165,6 +190,35 @@ interface controllerActivationData {
 
         function textContains(text: string, searchText: string) {
             return text && -1 !== text.toLowerCase().indexOf(searchText.toLowerCase());
+        }
+
+        function waiter<T>(promise: ng.IPromise<T>, controllerId: string, message?: string): ng.IPromise<T> {
+
+            var events = commonConfig.config.events;
+
+            var data: waiterStartData = {
+                controllerId: controllerId,
+                message: message
+            };
+            $broadcast(events.waiterStart, data);
+
+            return promise.then(
+                (promiseData) => {
+                    var data: waiterSuccessData = { controllerId: controllerId };
+                    $broadcast(events.waiterSuccess, data);
+
+                    return promiseData;
+                },
+                (reason) => {
+                    var data: failureData = {
+                        controllerId: controllerId,
+                        failureReason: reason
+                    };
+                    $broadcast(events.failure, data);
+
+                    // if you "catch" an error via a promise error callback and you want to forward the error to the promise derived from the current promise, you have to "rethrow" the error by returning a rejection constructed via reject. - https://docs.angularjs.org/api/ng/service/$q#reject
+                    return $q.reject(reason);
+                });
         }
     }
 })();

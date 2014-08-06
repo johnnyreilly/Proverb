@@ -59,13 +59,16 @@
 
         wireUpEventListeners() {
 
+            var events = this.config.events;
+
             this.$rootScope.$on("$routeChangeStart",
                 (event, next, current) => {
+                    this.busyMessage = "Please wait ...";
                     this.toggleSpinner(true);
                 });
 
-            this.$rootScope.$on(this.config.events.controllerActivateSuccess,
-                (event, data: controllerActivationData) => {
+            this.$rootScope.$on(events.controllerActivateSuccess,
+                (event, data: controllerActivateSuccessData) => {
                     // Deactivate spinner as long as the controller that has been activated is not the shell
                     if (data.controllerId !== controllerId) {
                         this.toggleSpinner(false);
@@ -73,8 +76,8 @@
                     this.$rootScope.title = "Proverb - " + data.title;
                 });
 
-            this.$rootScope.$on(this.config.events.controllerActivateFailure,
-                (event, data: { controllerId: string; failureReason: any; }) => {
+            this.$rootScope.$on(events.failure,
+                (event, data: failureData) => {
                     this.toggleSpinner(false);
 
                     var message = this.config.inDebug
@@ -83,8 +86,21 @@
                     this.logError(message, data.failureReason, true);
                 });
 
-            this.$rootScope.$on(this.config.events.spinnerToggle,
-                (data: spinnerToggleEvent) => { this.toggleSpinner(data.show); });
+            this.$rootScope.$on(events.spinnerToggle,
+                (event, data: spinnerToggleEvent) => {
+                    this.toggleSpinner(data.show);
+                });
+
+            this.$rootScope.$on(events.waiterStart,
+                (event, data: waiterStartData) => {
+                    this.busyMessage = data.message;
+                    this.toggleSpinner(true);
+                });
+
+            this.$rootScope.$on(events.waiterSuccess,
+                (event, data: controllerActivateSuccessData) => {
+                    this.toggleSpinner(false);
+                });
         }
 
         toggleSpinner(onOrOff: boolean) {

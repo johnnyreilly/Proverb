@@ -19,7 +19,7 @@
         sage: sage;
         title: string;
 
-        private _isSaving: boolean;
+        private _isSavingOrRemoving: boolean;
 
         static $inject = ["$location", "$routeParams", "$scope", "common", "datacontext"];
         constructor(
@@ -37,7 +37,7 @@
             this.sage = undefined;
             this.title = "Sage Edit";
 
-            this._isSaving = false;
+            this._isSavingOrRemoving = false;
 
             this.activate();
         }
@@ -61,28 +61,53 @@
             });
         }
 
+        remove() {
+
+            this._isSavingOrRemoving = true;
+
+            var sageToRemove = this.sage.name;
+
+            this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove)
+                .then(response => {
+
+                    if (response.success) {
+                        this.logSuccess("Deleted " + sageToRemove);
+                        this.$location.path("/sages");
+                    }
+                    else {
+                        this.logError("Failed to remove " + sageToRemove, response.errors);
+                    }
+
+                    this._isSavingOrRemoving = false;
+                })
+                .finally(() => this._isSavingOrRemoving = false);
+        }
+
         save() {
 
             this.errors = {}; //Wipe server errors
-            this._isSaving = true;
-            this.datacontext.sage.save(this.sage).then(response => {
+            this._isSavingOrRemoving = true;
 
-                if (response.success) {
-                    this.sage = response.entity;
-                    this.logSuccess("Saved " + this.sage.name + " [" + this.sage.id + "]");
-                    this.$location.path("/sages/detail/" + this.sage.id);
-                }
-                else {
-                    this.logError("Failed to save", response.errors);
+            var sageToSave = this.sage.name;
 
-                    angular.forEach(response.errors, (errors, field) => {
-                        (<ng.INgModelController>this.$scope.form[field]).$setValidity("server", false);
-                        this.errors[field] = errors.join(",");
-                    });
-                }
+            this.common.waiter(this.datacontext.sage.save(this.sage), controllerId, "Saving " + sageToSave)
+                .then(response => {
 
-                this._isSaving = false;
-            });
+                    if (response.success) {
+                        this.sage = response.entity;
+                        this.logSuccess("Saved " + sageToSave);
+                        this.$location.path("/sages/detail/" + this.sage.id);
+                    }
+                    else {
+                        this.logError("Failed to save " + sageToSave, response.errors);
+
+                        angular.forEach(response.errors, (errors, field) => {
+                            (<ng.INgModelController>this.$scope.form[field]).$setValidity("server", false);
+                            this.errors[field] = errors.join(",");
+                        });
+                    }
+                })
+                .finally(() => this._isSavingOrRemoving = false);
         }
 
         // Properties
@@ -92,7 +117,11 @@
         }
 
         get canSave(): boolean {
-            return this.hasChanges && !this._isSaving && this.$scope.form.$valid;
+            return this.hasChanges && !this.isSavingOrRemoving && this.$scope.form.$valid;
+        }
+
+        get isSavingOrRemoving(): boolean {
+            return this._isSavingOrRemoving;
         }
     }
 

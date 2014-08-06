@@ -4,14 +4,18 @@
     version: string;
 }
 
+interface configEvents {
+    controllerActivateSuccess: string;
+    failure: string;
+    spinnerToggle: string;
+    waiterStart: string;
+    waiterSuccess: string;
+}
+
 interface config {
     appErrorPrefix: string;
     docTitle: string;
-    events: {
-        controllerActivateFailure: string;
-        controllerActivateSuccess: string;
-        spinnerToggle: string;
-    };
+    events: configEvents;
     imageSettings?: {
         imageBasePath: string;
         unknownPersonImageSource: string;
@@ -19,16 +23,6 @@ interface config {
     inDebug: boolean;
     remoteServiceRoot: string;
     version: string;
-}
-
-interface commonConfig {
-    config: {
-        controllerActivateFailureEvent: string;
-        controllerActivateSuccessEvent: string;
-        spinnerToggleEvent: string;
-        remoteServiceRoot: string;
-        version: string;
-    };
 }
 
 var angularApp = (function () {
@@ -74,9 +68,11 @@ var angularApp = (function () {
         toastr.options.positionClass = "toast-bottom-right";
 
         var events = {
-            controllerActivateFailure: "controller.activateFailure",
             controllerActivateSuccess: "controller.activateSuccess",
-            spinnerToggle: "spinner.toggle"
+            failure: "failure",
+            spinnerToggle: "spinner.toggle",
+            waiterStart: "waiter.start",
+            waiterSuccess: "waiter.success"
         };
 
         var config: config = {
@@ -97,13 +93,18 @@ var angularApp = (function () {
             }
         }]);
 
-        // Configure the common services via commonConfig
-        app.config(["commonConfigProvider", function (cfg: commonConfig) {
-            cfg.config.controllerActivateFailureEvent = config.events.controllerActivateFailure;
-            cfg.config.controllerActivateSuccessEvent = config.events.controllerActivateSuccess;
-            cfg.config.spinnerToggleEvent = config.events.spinnerToggle;
-            cfg.config.remoteServiceRoot = config.remoteServiceRoot;
-            cfg.config.version = config.version;
+        // Copy across config settings to commonConfig to configure the common services
+        app.config(["commonConfigProvider", function (commonConfig: commonConfig) {
+            commonConfig.config.events = {
+                controllerActivateSuccess: config.events.controllerActivateSuccess,
+                failure: config.events.failure,
+                spinnerToggle: config.events.spinnerToggle,
+                waiterStart: config.events.waiterStart,
+                waiterSuccess: config.events.waiterSuccess
+            };
+
+            commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
+            commonConfig.config.version = config.version;
         }]);
 
 

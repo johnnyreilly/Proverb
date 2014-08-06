@@ -37,11 +37,14 @@
 
         Shell.prototype.wireUpEventListeners = function () {
             var _this = this;
+            var events = this.config.events;
+
             this.$rootScope.$on("$routeChangeStart", function (event, next, current) {
+                _this.busyMessage = "Please wait ...";
                 _this.toggleSpinner(true);
             });
 
-            this.$rootScope.$on(this.config.events.controllerActivateSuccess, function (event, data) {
+            this.$rootScope.$on(events.controllerActivateSuccess, function (event, data) {
                 // Deactivate spinner as long as the controller that has been activated is not the shell
                 if (data.controllerId !== controllerId) {
                     _this.toggleSpinner(false);
@@ -49,15 +52,24 @@
                 _this.$rootScope.title = "Proverb - " + data.title;
             });
 
-            this.$rootScope.$on(this.config.events.controllerActivateFailure, function (event, data) {
+            this.$rootScope.$on(events.failure, function (event, data) {
                 _this.toggleSpinner(false);
 
                 var message = _this.config.inDebug ? JSON.stringify(data.failureReason) : "There is a problem. Please contact support.";
                 _this.logError(message, data.failureReason, true);
             });
 
-            this.$rootScope.$on(this.config.events.spinnerToggle, function (data) {
+            this.$rootScope.$on(events.spinnerToggle, function (event, data) {
                 _this.toggleSpinner(data.show);
+            });
+
+            this.$rootScope.$on(events.waiterStart, function (event, data) {
+                _this.busyMessage = data.message;
+                _this.toggleSpinner(true);
+            });
+
+            this.$rootScope.$on(events.waiterSuccess, function (event, data) {
+                _this.toggleSpinner(false);
             });
         };
 

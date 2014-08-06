@@ -8,6 +8,7 @@ interface sage {
 interface repositorySage {
     getAll: () => ng.IPromise<sage[]>;
     getById: (id: number, forceRemote?: boolean) => ng.IPromise<sage>;
+    remove: (id: number) => ng.IPromise<saveResponse<sage>>;
     save: (sage: sage) => ng.IPromise<saveResponse<sage>>;
 }
 
@@ -26,6 +27,7 @@ interface repositorySage {
         var service: repositorySage = {
             getAll: getAll,
             getById: getById,
+            remove: remove,
             save: save
         };
 
@@ -58,12 +60,24 @@ interface repositorySage {
             });
         }
 
+        function remove(id: number) {
+
+            return $http.delete<saveResponse<sage>>(rootUrl + "/" + id).then(response => {
+                var saveResponse = response.data;
+                if (saveResponse.success) {
+                    log("Sage [" + id + "] removed");
+                }
+                return saveResponse;
+            });
+        }
+
         function save(sage: sage) {
             return $http.post<saveResponse<sage>>(rootUrl, sage).then(response => {
                 var saveResponse = response.data;
                 if (saveResponse.success) {
                     log("Sage " + saveResponse.entity.name + " [" + saveResponse.entity.id + "] saved");
                 }
+
                 return saveResponse;
             });
         }

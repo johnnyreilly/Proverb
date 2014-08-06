@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     "use strict";
 
     // Define the common module
@@ -38,24 +38,27 @@
             debouncedThrottle: debouncedThrottle,
             isNumber: isNumber,
             logger: logger,
-            textContains: textContains
+            textContains: textContains,
+            waiter: waiter
         };
 
         return service;
 
         function activateController(promises, controllerId, title) {
+            var events = commonConfig.config.events;
+
             var allPromise = $q.all(promises).then(function (eventArgs) {
-                $broadcast(commonConfig.config.controllerActivateSuccessEvent, {
+                var data = {
                     controllerId: controllerId,
                     title: title
-                });
+                };
+                $broadcast(events.controllerActivateSuccess, data);
             }, function (reason) {
-                // reason.data.message
                 var data = {
                     controllerId: controllerId,
                     failureReason: reason
                 };
-                $broadcast(commonConfig.config.controllerActivateFailureEvent, data);
+                $broadcast(events.failure, data);
             });
 
             return allPromise;
@@ -138,6 +141,32 @@
 
         function textContains(text, searchText) {
             return text && -1 !== text.toLowerCase().indexOf(searchText.toLowerCase());
+        }
+
+        function waiter(promise, controllerId, message) {
+            var events = commonConfig.config.events;
+
+            var data = {
+                controllerId: controllerId,
+                message: message
+            };
+            $broadcast(events.waiterStart, data);
+
+            return promise.then(function (promiseData) {
+                var data = { controllerId: controllerId };
+                $broadcast(events.waiterSuccess, data);
+
+                return promiseData;
+            }, function (reason) {
+                var data = {
+                    controllerId: controllerId,
+                    failureReason: reason
+                };
+                $broadcast(events.failure, data);
+
+                // if you "catch" an error via a promise error callback and you want to forward the error to the promise derived from the current promise, you have to "rethrow" the error by returning a rejection constructed via reject. - https://docs.angularjs.org/api/ng/service/$q#reject
+                return $q.reject(reason);
+            });
         }
     }
 })();
