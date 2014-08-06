@@ -22,13 +22,14 @@
         { "Path": "../Proverb.Web/app/config.exceptionHandler.js"},
         { "Path": "../Proverb.Web/app/config.route.js"},
 
+        { "Path": "../Proverb.Web/app/directives", "Include": "*.js"},
+        { "Path": "../Proverb.Web/app/services", "Include": "*.js"},
+
         { "Path": "../Proverb.Web/app/admin", "Include": "*.js"},
         { "Path": "../Proverb.Web/app/dashboard", "Include": "*.js"},
         { "Path": "../Proverb.Web/app/layout", "Include": "*.js"},
         { "Path": "../Proverb.Web/app/sayings", "Include": "*.js"},
         { "Path": "../Proverb.Web/app/sages", "Include": "*.js"},
-
-        { "Path": "../Proverb.Web/app/services", "Include": "*.js"},
 
         { "Path": "bootstrapper.js" }
     ],

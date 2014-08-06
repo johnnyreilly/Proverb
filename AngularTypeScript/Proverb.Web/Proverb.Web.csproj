@@ -163,7 +163,7 @@
     <Content Include="app\layout\shell.html" />
     <Content Include="app\layout\sidebar.html" />
     <Content Include="app\layout\topnav.html" />
-    <Content Include="app\layout\widgetheader.html" />
+    <Content Include="app\directives\widgetHeader.html" />
     <Content Include="app\sayings\sayings.html" />
     <Content Include="app\sayings\sayings.js">
       <DependentUpon>sayings.ts</DependentUpon>
@@ -353,6 +353,55 @@
     <Content Include="app\dashboard\dashboard.js.map">
       <DependentUpon>dashboard.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="app\directives\imgPerson.ts" />
+    <Content Include="app\directives\imgPerson.js">
+      <DependentUpon>imgPerson.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\imgPerson.js.map">
+      <DependentUpon>imgPerson.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="app\directives\serverError.ts" />
+    <Content Include="app\directives\serverError.js">
+      <DependentUpon>serverError.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\serverError.js.map">
+      <DependentUpon>serverError.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="app\directives\sidebar.ts" />
+    <Content Include="app\directives\sidebar.js">
+      <DependentUpon>sidebar.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\sidebar.js.map">
+      <DependentUpon>sidebar.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="app\directives\spinner.ts" />
+    <Content Include="app\directives\spinner.js">
+      <DependentUpon>spinner.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\spinner.js.map">
+      <DependentUpon>spinner.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="app\directives\widgetClose.ts" />
+    <Content Include="app\directives\widgetClose.js">
+      <DependentUpon>widgetClose.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\widgetClose.js.map">
+      <DependentUpon>widgetClose.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="app\directives\widgetHeader.ts" />
+    <Content Include="app\directives\widgetHeader.js">
+      <DependentUpon>widgetHeader.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\widgetHeader.js.map">
+      <DependentUpon>widgetHeader.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="app\directives\widgetMinimize.ts" />
+    <Content Include="app\directives\widgetMinimize.js">
+      <DependentUpon>widgetMinimize.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\widgetMinimize.js.map">
+      <DependentUpon>widgetMinimize.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="app\layout\shell.ts" />
     <Content Include="app\layout\shell.js">
       <DependentUpon>shell.ts</DependentUpon>
@@ -404,13 +453,6 @@
     </Content>
     <Content Include="app\services\datacontext.js.map">
       <DependentUpon>datacontext.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="app\services\directives.ts" />
-    <Content Include="app\services\directives.js">
-      <DependentUpon>directives.ts</DependentUpon>
-    </Content>
-    <Content Include="app\services\directives.js.map">
-      <DependentUpon>directives.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="app\services\repository.saying.ts" />
     <Content Include="app\services\repository.saying.js">

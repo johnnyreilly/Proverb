@@ -34,31 +34,20 @@ namespace Proverb.Web
 
                 // common.bootstrap Modules
                 "~/app/common/bootstrap/bootstrap.dialog.js"
-
-                // app
-                //"~/app/admin/admin.js",
-                //"~/app/dashboard/dashboard.js",
-                //"~/app/layout/shell.js",
-                //"~/app/layout/sidebar.js",
-                //"~/app/layout/topnav.js",
-                //"~/app/sayings/sayings.js",
-                //"~/app/sages/sages.js",
-                //"~/app/sages/sageDetail.js",
-
-                // app Services 
-                //"~/app/services/datacontext.js",
-                //"~/app/services/directives.js"
                 );
 
-            // app
+            // directives
+            angularApp.IncludeDirectory("~/app/directives", "*.js", true);
+
+            // services
+            angularApp.IncludeDirectory("~/app/services", "*.js", true);
+
+            // controllers
             angularApp.IncludeDirectory("~/app/admin", "*.js", true);
             angularApp.IncludeDirectory("~/app/dashboard", "*.js", true);
             angularApp.IncludeDirectory("~/app/layout", "*.js", true);
             angularApp.IncludeDirectory("~/app/sayings", "*.js", true);
             angularApp.IncludeDirectory("~/app/sages", "*.js", true);
-
-            // app services
-            angularApp.IncludeDirectory("~/app/services", "*.js", true);
 
             bundles.Add(angularApp);
 
