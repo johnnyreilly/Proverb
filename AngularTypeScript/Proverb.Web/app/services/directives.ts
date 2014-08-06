@@ -1,13 +1,13 @@
-﻿interface ccSpinnerWindowService extends ng.IWindowService {
+﻿interface spinnerWindowService extends ng.IWindowService {
     Spinner: typeof Spinner;
 }
 
-interface ccSpinnerScope extends ng.IScope {
+interface spinnerScope extends ng.IScope {
     spinner: Spinner;
 }
 
-interface ccSpinnerAttributes extends ng.IAttributes {
-    ccSpinner: string;
+interface spinnerAttributes extends ng.IAttributes {
+    spinner: any;
 }
 
 interface serverErrorScope extends ng.IScope {
@@ -151,20 +151,20 @@ interface serverErrorScope extends ng.IScope {
         }
     });
 
-    app.directive("ccSpinner", ["$window", function ($window: ccSpinnerWindowService) {
+    app.directive("spinner", ["$window", function ($window: spinnerWindowService) {
         // Description:
         //  Creates a new Spinner and sets its options
         // Usage:
-        //  <div data-cc-spinner="vm.spinnerOptions"></div>
+        //  <div spinner="vm.spinnerOptions"></div>
         var directive = {
             link: link,
             restrict: "A"
         };
         return directive;
 
-        function link(scope: ccSpinnerScope, element: ng.IAugmentedJQuery, attrs: ccSpinnerAttributes) {
+        function link(scope: spinnerScope, element: ng.IAugmentedJQuery, attrs: spinnerAttributes) {
             scope.spinner = null;
-            scope.$watch(attrs.ccSpinner, function (options) {
+            scope.$watch(attrs.spinner, function (options) {
                 if (scope.spinner) {
                     scope.spinner.stop();
                 }

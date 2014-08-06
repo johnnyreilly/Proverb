@@ -132,12 +132,12 @@
         }
     });
 
-    app.directive("ccSpinner", [
+    app.directive("spinner", [
         "$window", function ($window) {
             // Description:
             //  Creates a new Spinner and sets its options
             // Usage:
-            //  <div data-cc-spinner="vm.spinnerOptions"></div>
+            //  <div spinner="vm.spinnerOptions"></div>
             var directive = {
                 link: link,
                 restrict: "A"
@@ -146,7 +146,7 @@
 
             function link(scope, element, attrs) {
                 scope.spinner = null;
-                scope.$watch(attrs.ccSpinner, function (options) {
+                scope.$watch(attrs.spinner, function (options) {
                     if (scope.spinner) {
                         scope.spinner.stop();
                     }
