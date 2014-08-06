@@ -3,11 +3,11 @@
 
     var app = angular.module("app");
 
-    app.directive("ccWidgetMinimize", function () {
+    app.directive("widgetMinimize", function () {
         // Usage:
-        // <a data-cc-widget-minimize></a>
+        // <a widget-minimize></a>
         // Creates:
-        // <a data-cc-widget-minimize="" href="#"><i class="fa fa-chevron-up"></i></a>
+        // <a widget-minimize="" href="#"><i class="fa fa-chevron-up"></i></a>
         var directive = {
             link: link,
             template: '<i class="fa fa-chevron-up"></i>',

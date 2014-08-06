@@ -3,9 +3,9 @@
 
     var app = angular.module("app");
 
-    app.directive("ccWidgetHeader", function () {
+    app.directive("widgetHeader", function () {
         //Usage:
-        //<div data-cc-widget-header title="vm.map.title"></div>
+        //<div widget-header title="vm.map.title"></div>
         var directive = {
             link: link,
             scope: {

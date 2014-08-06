@@ -3,12 +3,12 @@
 
     var app = angular.module("app");
 
-    app.directive("ccSidebar", function () {
+    app.directive("sidebar", function () {
         // Opens and clsoes the sidebar menu.
         // Usage:
-        //  <div data-cc-sidebar>
+        //  <div sidebar>
         // Creates:
-        //  <div data-cc-sidebar class="sidebar">
+        //  <div sidebar class="sidebar">
         var directive = {
             link: link,
             restrict: "A"

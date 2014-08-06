@@ -3,9 +3,9 @@
 
     var app = angular.module("app");
 
-    app.directive("ccImgPerson", ["config", function (config: config) {
+    app.directive("imgPerson", ["config", function (config: config) {
         //Usage:
-        //<img data-cc-img-person="{{s.speaker.imageSource}}"/>
+        //<img img-person="{{s.speaker.imageSource}}"/>
         var basePath = config.imageSettings.imageBasePath;
         var unknownImage = config.imageSettings.unknownPersonImageSource;
         var directive = {

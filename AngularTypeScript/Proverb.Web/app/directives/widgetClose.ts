@@ -3,11 +3,11 @@
 
     var app = angular.module("app");
 
-    app.directive("ccWidgetClose", function () {
+    app.directive("widgetClose", function () {
         // Usage:
-        // <a data-cc-widget-close></a>
+        // <a widget-close></a>
         // Creates:
-        // <a data-cc-widget-close="" href="#" class="wclose">
+        // <a widget-close="" href="#" class="wclose">
         //     <i class="fa fa-remove"></i>
         // </a>
         var directive = {
