@@ -41,8 +41,8 @@
                 trail: 100,
                 color: "#F58A00"
             };
-            this.urlSidebar = "/app/layout/sidebar.html?v=" + config.version;
-            this.urlTopNav = "/app/layout/topnav.html?v=" + config.version;
+            this.urlSidebar = "/app/layout/sidebar.html" + config.urlCacheBusterSuffix;
+            this.urlTopNav = "/app/layout/topnav.html" + config.urlCacheBusterSuffix;
 
             this.wireUpEventListeners();
             this.activate();

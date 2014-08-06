@@ -16,6 +16,7 @@ interface commonConfig {
     config: {
         events: configEvents;
         remoteServiceRoot: string;
+        urlCacheBusterSuffix: string;
         version: string;
     };
 }

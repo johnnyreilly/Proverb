@@ -46,6 +46,7 @@
             events: events,
             inDebug: appConfig.inDebug,
             remoteServiceRoot: appConfig.remoteServiceRoot,
+            urlCacheBusterSuffix: "?v=" + appConfig.version,
             version: appConfig.version
         };
 
@@ -71,6 +72,7 @@
                 };
 
                 commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
+                commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
                 commonConfig.config.version = config.version;
             }]);
 
@@ -84,7 +86,7 @@
                 }
 
                 routes.forEach(function (r) {
-                    r.config.templateUrl += "?v=" + commonConfig.config.version;
+                    r.config.templateUrl += commonConfig.config.urlCacheBusterSuffix;
                     $routeProvider.when(r.url, r.config);
                 });
                 $routeProvider.otherwise({ redirectTo: "/" });

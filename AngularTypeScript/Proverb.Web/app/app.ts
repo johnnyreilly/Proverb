@@ -22,6 +22,7 @@ interface config {
     }
     inDebug: boolean;
     remoteServiceRoot: string;
+    urlCacheBusterSuffix: string;
     version: string;
 }
 
@@ -80,7 +81,8 @@ var angularApp = (function () {
             docTitle: "Proverb: ",
             events: events,
             inDebug: appConfig.inDebug,
-            remoteServiceRoot: appConfig.remoteServiceRoot,
+            remoteServiceRoot: appConfig.remoteServiceRoot, 
+            urlCacheBusterSuffix: "?v=" + appConfig.version,
             version: appConfig.version
         };
 
@@ -104,6 +106,7 @@ var angularApp = (function () {
             };
 
             commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
+            commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
             commonConfig.config.version = config.version;
         }]);
 
@@ -116,7 +119,7 @@ var angularApp = (function () {
             if (routesConfigured) { return; }
 
             routes.forEach(function (r) {
-                r.config.templateUrl += "?v=" + commonConfig.config.version;
+                r.config.templateUrl += commonConfig.config.urlCacheBusterSuffix;
                 $routeProvider.when(r.url, r.config);
             });
             $routeProvider.otherwise({ redirectTo: "/" });

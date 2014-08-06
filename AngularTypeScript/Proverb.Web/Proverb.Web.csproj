@@ -160,6 +160,7 @@
   <ItemGroup>
     <Content Include="app\admin\admin.html" />
     <Content Include="app\dashboard\dashboard.html" />
+    <Content Include="app\directives\waiter.html" />
     <Content Include="app\layout\shell.html" />
     <Content Include="app\layout\sidebar.html" />
     <Content Include="app\layout\topnav.html" />
@@ -380,6 +381,13 @@
     </Content>
     <Content Include="app\directives\spinner.js.map">
       <DependentUpon>spinner.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="app\directives\waiter.ts" />
+    <Content Include="app\directives\waiter.js">
+      <DependentUpon>waiter.ts</DependentUpon>
+    </Content>
+    <Content Include="app\directives\waiter.js.map">
+      <DependentUpon>waiter.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="app\directives\widgetClose.ts" />
     <Content Include="app\directives\widgetClose.js">
