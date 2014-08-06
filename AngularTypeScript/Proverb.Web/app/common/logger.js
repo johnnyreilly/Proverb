@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     "use strict";
 
     angular.module("common").factory("logger", ["$log", "config", logger]);
@@ -33,7 +33,7 @@
 
             var logFn = service[fnName] || service.log;
             return function (msg, data, showToast) {
-                var displayToast = (showToast === undefined) ? (fnName !== "log") ? true : config.inDebug : showToast;
+                var displayToast = (showToast === undefined) ? (fnName !== "log") ? true : false : showToast;
 
                 logFn(msg, data, moduleId, displayToast);
             };

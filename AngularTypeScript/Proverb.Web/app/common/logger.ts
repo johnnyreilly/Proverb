@@ -48,7 +48,7 @@ interface logger {
             return function (msg: string, data: Object, showToast: boolean) {
 
                 var displayToast = (showToast === undefined)
-                    ? (fnName !== "log") ? true : config.inDebug // only in debug mode show toasts for "log" messages
+                    ? (fnName !== "log") ? true : false // config.inDebug - use this to show toasts for "log" messages in debug mode 
                     : showToast;
 
                 logFn(msg, data, moduleId, displayToast);
