@@ -1,5 +1,5 @@
 interface bootstrapDialog {
-    deleteDialog: (itemName: string) => ng.IPromise<any>;
+    deleteDialog: (message?: string) => ng.IPromise<any>;
     confirmationDialog: (title: string, msg: string, okText?: string, cancelText?: string) => ng.IPromise<any>;
 }
 
@@ -24,14 +24,14 @@ interface bootstrapDialogScope extends ng.IScope {
 
     var bootstrapModule = angular.module("common.bootstrap", ["ui.bootstrap"]);
 
-    bootstrapModule.factory("bootstrap.dialog", ["$modal", "$templateCache", modalDialog]);
+    bootstrapModule.factory("bootstrap.dialog", ["$modal", "$templateCache", "config", modalDialog]);
 
-    function modalDialog($modal: ng.ui.bootstrap.IModalService, $templateCache: ng.ITemplateCacheService) {
+    function modalDialog($modal: ng.ui.bootstrap.IModalService, $templateCache: ng.ITemplateCacheService, config: config) {
         var service: bootstrapDialog = {
             deleteDialog: deleteDialog,
             confirmationDialog: confirmationDialog
         };
-
+        /*
         $templateCache.put("modalDialog.tpl.html", 
             '<div>' +
             '    <div class="modal-header">' +
@@ -46,21 +46,19 @@ interface bootstrapDialogScope extends ng.IScope {
             '        <button class="btn btn-info" data-ng-click="cancel()">{{cancelText}}</button>' +
             '    </div>' +
             '</div>');
+        */
 
         return service;
 
-        function deleteDialog(itemName: string) {
-            var title = "Confirm Delete";
-            itemName = itemName || "item";
-            var msg = "Delete " + itemName + "?";
+        function deleteDialog(message: string = "Delete item?") {
 
-            return confirmationDialog(title, msg);
+            var title = "Confirm";
+            return confirmationDialog(title, message);
         }
         
         function confirmationDialog(title: string, msg: string, okText?: string, cancelText?: string) {
 
             var modalOptions = {
-                templateUrl: "modalDialog.tpl.html",
                 controller: ModalInstance,
                 keyboard: true,
                 resolve: {
@@ -72,7 +70,8 @@ interface bootstrapDialogScope extends ng.IScope {
                             cancelText: cancelText
                         };
                     }
-                }
+                },
+                templateUrl: "/app/common/bootstrap/bootstrap.dialog.html" + config.urlCacheBusterSuffix  //"modalDialog.tpl.html",
             };
 
             return $modal.open(modalOptions).result; 

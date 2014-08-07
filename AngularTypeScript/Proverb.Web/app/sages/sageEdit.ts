@@ -21,11 +21,12 @@
 
         private _isSavingOrRemoving: boolean;
 
-        static $inject = ["$location", "$routeParams", "$scope", "common", "datacontext"];
+        static $inject = ["$location", "$routeParams", "$scope", "bootstrap.dialog", "common", "datacontext"];
         constructor(
             private $location: ng.ILocationService,
             private $routeParams: sageEditRouteParams,
             private $scope: sageEditScope,
+            private bsDialog: bootstrapDialog,
             private common: common,
             private datacontext: datacontext
             ) {
@@ -63,22 +64,27 @@
 
         remove() {
 
-            this._isSavingOrRemoving = true;
-
             var sageToRemove = this.sage.name;
 
-            this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove)
-                .then(response => {
+            this.bsDialog.deleteDialog("Do you want to remove " + sageToRemove + "?")
+                .then(() => {
 
-                    //if (response.success) {
-                        this.logSuccess("Removed " + sageToRemove);
-                        this.$location.path("/sages");
-                    //}
-                    //else {
-                    //    this.logError("Failed to remove " + sageToRemove, response.errors);
-                    //}
-                })
-                .finally(() => this._isSavingOrRemoving = false);
+                    this._isSavingOrRemoving = true;
+
+
+                    this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove)
+                        .then(response => {
+
+                            //if (response.success) {
+                            this.logSuccess("Removed " + sageToRemove);
+                            this.$location.path("/sages");
+                            //}
+                            //else {
+                            //    this.logError("Failed to remove " + sageToRemove, response.errors);
+                            //}
+                        })
+                        .finally(() => this._isSavingOrRemoving = false);
+                });
         }
 
         save() {

@@ -3,10 +3,11 @@
     "use strict";
 
     var SageEdit = (function () {
-        function SageEdit($location, $routeParams, $scope, common, datacontext) {
+        function SageEdit($location, $routeParams, $scope, bsDialog, common, datacontext) {
             this.$location = $location;
             this.$routeParams = $routeParams;
             this.$scope = $scope;
+            this.bsDialog = bsDialog;
             this.common = common;
             this.datacontext = datacontext;
             this.errors = {};
@@ -41,20 +42,22 @@
 
         SageEdit.prototype.remove = function () {
             var _this = this;
-            this._isSavingOrRemoving = true;
-
             var sageToRemove = this.sage.name;
 
-            this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove).then(function (response) {
-                //if (response.success) {
-                _this.logSuccess("Removed " + sageToRemove);
-                _this.$location.path("/sages");
-                //}
-                //else {
-                //    this.logError("Failed to remove " + sageToRemove, response.errors);
-                //}
-            }).finally(function () {
-                return _this._isSavingOrRemoving = false;
+            this.bsDialog.deleteDialog("Do you want to remove " + sageToRemove + "?").then(function () {
+                _this._isSavingOrRemoving = true;
+
+                _this.common.waiter(_this.datacontext.sage.remove(_this.sage.id), controllerId, "Removing " + sageToRemove).then(function (response) {
+                    //if (response.success) {
+                    _this.logSuccess("Removed " + sageToRemove);
+                    _this.$location.path("/sages");
+                    //}
+                    //else {
+                    //    this.logError("Failed to remove " + sageToRemove, response.errors);
+                    //}
+                }).finally(function () {
+                    return _this._isSavingOrRemoving = false;
+                });
             });
         };
 
@@ -107,7 +110,7 @@
             enumerable: true,
             configurable: true
         });
-        SageEdit.$inject = ["$location", "$routeParams", "$scope", "common", "datacontext"];
+        SageEdit.$inject = ["$location", "$routeParams", "$scope", "bootstrap.dialog", "common", "datacontext"];
         return SageEdit;
     })();
 

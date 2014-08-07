@@ -159,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\admin\admin.html" />
+    <Content Include="app\common\bootstrap\bootstrap.dialog.html" />
     <Content Include="app\dashboard\dashboard.html" />
     <Content Include="app\directives\waiter.html" />
     <Content Include="app\layout\shell.html" />
