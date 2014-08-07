@@ -71,17 +71,14 @@
 
                     this._isSavingOrRemoving = true;
 
-
                     this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove)
                         .then(response => {
 
-                            //if (response.success) {
                             this.logSuccess("Removed " + sageToRemove);
                             this.$location.path("/sages");
-                            //}
-                            //else {
-                            //    this.logError("Failed to remove " + sageToRemove, response.errors);
-                            //}
+                        })
+                        .catch(response => {
+                            this.logError("Failed to remove " + sageToRemove, response);
                         })
                         .finally(() => this._isSavingOrRemoving = false);
                 });
@@ -97,18 +94,23 @@
             this.common.waiter(this.datacontext.sage.save(this.sage), controllerId, "Saving " + sageToSave)
                 .then(response => {
 
-                    if (response.success) {
-                        this.sage = response.entity;
-                        this.logSuccess("Saved " + sageToSave);
-                        this.$location.path("/sages/detail/" + this.sage.id);
-                    }
-                    else {
-                        this.logError("Failed to save " + sageToSave, response.errors);
+                    this.sage = response.entity;
+                    this.logSuccess("Saved " + sageToSave);
+                    this.$location.path("/sages/detail/" + this.sage.id);
+                })
+                .catch(response => {
+
+                    var failMessage = "Failed to save " + sageToSave;
+                    if (response.errors) {
+                        this.logError(failMessage, response.errors);
 
                         angular.forEach(response.errors, (errors, field) => {
                             (<ng.INgModelController>this.$scope.form[field]).$setValidity("server", false);
                             this.errors[field] = errors.join(",");
                         });
+                    }
+                    else {
+                        this.logError(failMessage, response);
                     }
                 })
                 .finally(() => this._isSavingOrRemoving = false);

@@ -48,13 +48,10 @@
                 _this._isSavingOrRemoving = true;
 
                 _this.common.waiter(_this.datacontext.sage.remove(_this.sage.id), controllerId, "Removing " + sageToRemove).then(function (response) {
-                    //if (response.success) {
                     _this.logSuccess("Removed " + sageToRemove);
                     _this.$location.path("/sages");
-                    //}
-                    //else {
-                    //    this.logError("Failed to remove " + sageToRemove, response.errors);
-                    //}
+                }).catch(function (response) {
+                    _this.logError("Failed to remove " + sageToRemove, response);
                 }).finally(function () {
                     return _this._isSavingOrRemoving = false;
                 });
@@ -69,17 +66,20 @@
             var sageToSave = this.sage.name;
 
             this.common.waiter(this.datacontext.sage.save(this.sage), controllerId, "Saving " + sageToSave).then(function (response) {
-                if (response.success) {
-                    _this.sage = response.entity;
-                    _this.logSuccess("Saved " + sageToSave);
-                    _this.$location.path("/sages/detail/" + _this.sage.id);
-                } else {
-                    _this.logError("Failed to save " + sageToSave, response.errors);
+                _this.sage = response.entity;
+                _this.logSuccess("Saved " + sageToSave);
+                _this.$location.path("/sages/detail/" + _this.sage.id);
+            }).catch(function (response) {
+                var failMessage = "Failed to save " + sageToSave;
+                if (response.errors) {
+                    _this.logError(failMessage, response.errors);
 
                     angular.forEach(response.errors, function (errors, field) {
                         _this.$scope.form[field].$setValidity("server", false);
                         _this.errors[field] = errors.join(",");
                     });
+                } else {
+                    _this.logError(failMessage, response);
                 }
             }).finally(function () {
                 return _this._isSavingOrRemoving = false;

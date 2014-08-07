@@ -95,7 +95,7 @@
     <Compile Include="Implementations\UserHelper.cs" />
     <Compile Include="Interfaces\IUserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveHelpers\SaveResponse.cs" />
+    <Compile Include="WebAPI\ControllerExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

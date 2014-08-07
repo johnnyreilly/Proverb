@@ -5,6 +5,7 @@
     angular.module("app").factory(serviceId, ["$http", "common", "config", repositorySage]);
 
     function repositorySage($http, common, config) {
+        var $q = common.$q;
         var log = common.logger.getLogFn(serviceId);
         var rootUrl = config.remoteServiceRoot + "sage";
         var cache = {};
@@ -31,24 +32,26 @@
             if (!forceRemote) {
                 sage = cache[id];
                 if (sage) {
-                    log("Sage " + sage.name + " [" + sage.id + "] loaded from cache");
-                    return common.$q.when(sage);
+                    log("Sage " + sage.name + " [id: " + sage.id + "] loaded from cache");
+                    return $q.when(sage);
                 }
             }
 
             return $http.get(rootUrl + "/" + id).then(function (response) {
                 sage = response.data;
                 cache[sage.id] = sage;
-                log("Sage " + sage.name + " [" + sage.id + "] loaded");
+                log("Sage " + sage.name + " [id: " + sage.id + "] loaded");
                 return sage;
             });
         }
 
         function remove(id) {
             return $http.delete(rootUrl + "/" + id).then(function (response) {
-                log("Sage [" + id + "] removed");
+                log("Sage [id: " + id + "] removed");
 
                 return response;
+            }, function (errorReason) {
+                return $q.reject(errorReason.data);
             });
         }
 
@@ -56,10 +59,12 @@
             return $http.post(rootUrl, sage).then(function (response) {
                 var saveResponse = response.data;
                 if (saveResponse.success) {
-                    log("Sage " + saveResponse.entity.name + " [" + saveResponse.entity.id + "] saved");
+                    log("Sage " + saveResponse.entity.name + " [id: " + saveResponse.entity.id + "] saved");
                 }
 
                 return saveResponse;
+            }, function (errorReason) {
+                return $q.reject(errorReason.data);
             });
         }
     }

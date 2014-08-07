@@ -41,18 +41,14 @@ namespace Proverb.Web.Controllers
         {
             if (!ModelState.IsValid) {
 
-                return Ok(new SaveResponse<User>
-                {
-                    Success = false,
-                    Errors = ModelState.ToErrorDictionary()
+                return this.BadRequest(new { 
+                    Errors = ModelState.ToErrorDictionary() 
                 });
             }
 
             sage = _userService.Save(sage);
 
-            return Ok(new SaveResponse<User>
-            {
-                Success = true,
+            return Ok(new {
                 Entity = sage
             });
         }

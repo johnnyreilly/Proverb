@@ -20,6 +20,7 @@ interface repositorySage {
 
     function repositorySage($http: ng.IHttpService, common: common, config: config) {
 
+        var $q = common.$q;
         var log = common.logger.getLogFn(serviceId);
         var rootUrl = config.remoteServiceRoot + "sage";
         var cache: { [id: number]: sage } = {};
@@ -47,15 +48,15 @@ interface repositorySage {
             if (!forceRemote) {
                 sage = cache[id];
                 if (sage) {
-                    log("Sage " + sage.name + " [" + sage.id + "] loaded from cache");
-                    return common.$q.when(sage);
+                    log("Sage " + sage.name + " [id: " + sage.id + "] loaded from cache");
+                    return $q.when(sage);
                 }
             }
 
             return $http.get<sage>(rootUrl + "/" + id).then(response => {
                 sage = response.data;
                 cache[sage.id] = sage;
-                log("Sage " + sage.name + " [" + sage.id + "] loaded");
+                log("Sage " + sage.name + " [id: " + sage.id + "] loaded");
                 return sage;
             });
         }
@@ -63,21 +64,21 @@ interface repositorySage {
         function remove(id: number) {
 
             return $http.delete<saveResponse<void>>(rootUrl + "/" + id).then(response => {
-                log("Sage [" + id + "] removed");
+                log("Sage [id: " + id + "] removed");
 
                 return response;
-            });
+            }, errorReason => $q.reject(errorReason.data));
         }
 
         function save(sage: sage) {
             return $http.post<saveResponse<sage>>(rootUrl, sage).then(response => {
                 var saveResponse = response.data;
                 if (saveResponse.success) {
-                    log("Sage " + saveResponse.entity.name + " [" + saveResponse.entity.id + "] saved");
+                    log("Sage " + saveResponse.entity.name + " [id: " + saveResponse.entity.id + "] saved");
                 }
 
                 return saveResponse;
-            });
+            }, errorReason => $q.reject(errorReason.data));
         }
     }
 })();
