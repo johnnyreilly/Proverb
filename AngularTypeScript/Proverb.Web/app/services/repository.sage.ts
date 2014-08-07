@@ -62,12 +62,10 @@ interface repositorySage {
 
         function remove(id: number) {
 
-            return $http.delete<saveResponse<sage>>(rootUrl + "/" + id).then(response => {
-                var saveResponse = response.data;
-                if (saveResponse.success) {
-                    log("Sage [" + id + "] removed");
-                }
-                return saveResponse;
+            return $http.delete<saveResponse<void>>(rootUrl + "/" + id).then(response => {
+                log("Sage [" + id + "] removed");
+
+                return response;
             });
         }
 

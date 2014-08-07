@@ -46,11 +46,9 @@
 
         function remove(id) {
             return $http.delete(rootUrl + "/" + id).then(function (response) {
-                var saveResponse = response.data;
-                if (saveResponse.success) {
-                    log("Sage [" + id + "] removed");
-                }
-                return saveResponse;
+                log("Sage [" + id + "] removed");
+
+                return response;
             });
         }
 

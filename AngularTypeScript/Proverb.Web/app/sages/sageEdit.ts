@@ -70,15 +70,13 @@
             this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove)
                 .then(response => {
 
-                    if (response.success) {
-                        this.logSuccess("Deleted " + sageToRemove);
+                    //if (response.success) {
+                        this.logSuccess("Removed " + sageToRemove);
                         this.$location.path("/sages");
-                    }
-                    else {
-                        this.logError("Failed to remove " + sageToRemove, response.errors);
-                    }
-
-                    this._isSavingOrRemoving = false;
+                    //}
+                    //else {
+                    //    this.logError("Failed to remove " + sageToRemove, response.errors);
+                    //}
                 })
                 .finally(() => this._isSavingOrRemoving = false);
         }

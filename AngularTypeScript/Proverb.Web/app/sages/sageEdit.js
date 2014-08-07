@@ -46,14 +46,13 @@
             var sageToRemove = this.sage.name;
 
             this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove).then(function (response) {
-                if (response.success) {
-                    _this.logSuccess("Deleted " + sageToRemove);
-                    _this.$location.path("/sages");
-                } else {
-                    _this.logError("Failed to remove " + sageToRemove, response.errors);
-                }
-
-                _this._isSavingOrRemoving = false;
+                //if (response.success) {
+                _this.logSuccess("Removed " + sageToRemove);
+                _this.$location.path("/sages");
+                //}
+                //else {
+                //    this.logError("Failed to remove " + sageToRemove, response.errors);
+                //}
             }).finally(function () {
                 return _this._isSavingOrRemoving = false;
             });

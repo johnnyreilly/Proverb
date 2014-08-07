@@ -9,6 +9,7 @@ namespace Proverb.Services.Interfaces
 {
     public interface IUserService
     {
+        void Delete(int id);
         ICollection<User> GetAll();
         User GetById(int id);
         User Save(User user);

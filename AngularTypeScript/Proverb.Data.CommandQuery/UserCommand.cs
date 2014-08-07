@@ -11,6 +11,15 @@ namespace Proverb.Data.CommandQuery
     {
         public UserCommand(ProverbContext context) : base(context) { }
 
+        public void Delete(int id) 
+        {
+            var userToDelete = _context.Users.Find(id);
+            
+            _context.Users.Remove(userToDelete);
+
+            _context.SaveChanges();
+        }
+
         public User Save(User user)
         {
             if (user.Id > 0)

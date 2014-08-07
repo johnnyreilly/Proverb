@@ -20,6 +20,11 @@ namespace Proverb.Services
         private IUserCommand _userCommand;
         private IUserQuery _userQuery;
 
+        public void Delete(int id)
+        {
+            _userCommand.Delete(id);
+        }
+
         public ICollection<User> GetAll()
         {
             return _userQuery.GetAll();

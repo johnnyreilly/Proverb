@@ -57,15 +57,18 @@ namespace Proverb.Web.Controllers
             });
         }
 
+        // DELETE api/<controller>/5
+        public IHttpActionResult Delete(int id)
+        {
+            _userService.Delete(id);
+
+            return Ok();
+        }
+
         /*
 
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
         {
         }
          */

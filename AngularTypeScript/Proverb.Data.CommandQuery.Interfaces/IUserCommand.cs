@@ -5,6 +5,7 @@ namespace Proverb.Data.CommandQuery.Interfaces
 {
     public interface IUserCommand
     {
+        void Delete(int id);
         User Save(User user);
     }
 }
