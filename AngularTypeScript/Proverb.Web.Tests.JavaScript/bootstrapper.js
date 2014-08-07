@@ -1,6 +1,7 @@
 ﻿angularApp.start({
     thirdPartyLibs: {
-        toastr: window.toastr
+        toastr: window.toastr,
+        underscore: window._
     },
     appConfig: {
         inDebug: true,

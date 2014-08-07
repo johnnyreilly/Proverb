@@ -1,6 +1,7 @@
 ﻿interface bootstrapper {
     thirdPartyLibs: {
-        "toastr": Toastr
+        "toastr": Toastr;
+        "underscore": UnderscoreStatic;
     }
     appConfig: {
         inDebug: boolean;
@@ -58,11 +59,15 @@ var angularApp = (function () {
 
     function initialise(bootstrapper: bootstrapper) {
 
-        // Configure Toastr
+        // Toastr
         var toastr = bootstrapper.thirdPartyLibs.toastr;
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = "toast-bottom-right";
         app.constant("toastr", toastr);
+
+        // Underscore
+        var _ = bootstrapper.thirdPartyLibs.underscore;
+        app.constant("_", _);
 
         var events = {
             controllerActivateSuccess: "controller.activateSuccess",
@@ -115,13 +120,9 @@ var angularApp = (function () {
 
         // Copy across config settings to commonConfig to configure the common services
         app.config(["commonConfigProvider", function (commonConfig: commonConfig) {
-            commonConfig.config.events = {
-                controllerActivateSuccess: config.events.controllerActivateSuccess,
-                failure: config.events.failure,
-                spinnerToggle: config.events.spinnerToggle,
-                waiterStart: config.events.waiterStart,
-                waiterSuccess: config.events.waiterSuccess
-            };
+
+            // Copy events across from config.events
+            commonConfig.config.events = _.extend({}, config.events);
 
             commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
             commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;

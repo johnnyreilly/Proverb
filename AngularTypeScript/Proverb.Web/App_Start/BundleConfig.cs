@@ -21,6 +21,7 @@ namespace Proverb.Web
                 "~/scripts/toastr.js",
                 "~/scripts/moment.js",
                 "~/scripts/spin.js",
+                "~/scripts/underscore.js",
 
                 // Bootstrapping
                 "~/app/app.js",

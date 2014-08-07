@@ -86,7 +86,7 @@ interface logger {
                 logger = $log.log;
                 toastType = toastr.success;
             } else {
-                logger = $log.info;
+                logger = $log.debug;
                 toastType = toastr.info;
             }
             
