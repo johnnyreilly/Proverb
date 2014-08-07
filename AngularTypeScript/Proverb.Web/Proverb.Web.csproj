@@ -333,13 +333,6 @@
     <Content Include="app\common\spinner.js.map">
       <DependentUpon>spinner.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="app\config.exceptionHandler.ts" />
-    <Content Include="app\config.exceptionHandler.js">
-      <DependentUpon>config.exceptionHandler.ts</DependentUpon>
-    </Content>
-    <Content Include="app\config.exceptionHandler.js.map">
-      <DependentUpon>config.exceptionHandler.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="app\config.route.ts" />
     <Content Include="app\config.route.js">
       <DependentUpon>config.route.ts</DependentUpon>

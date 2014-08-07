@@ -24,7 +24,6 @@ namespace Proverb.Web
 
                 // Bootstrapping
                 "~/app/app.js",
-                "~/app/config.exceptionHandler.js",
                 "~/app/config.route.js",
 
                 // common Modules

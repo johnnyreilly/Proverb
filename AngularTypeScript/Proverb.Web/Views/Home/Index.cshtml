@@ -48,9 +48,14 @@
     @Scripts.Render("~/angularApp")
     <script>
         angularApp.start({
-            inDebug: @(AppConfigHelper.InDebug ? "true" : "false"),
-            remoteServiceRoot: "@Url.Content("~/api/")",
-            version: "@(AppConfigHelper.Version)"
+            thirdPartyLibs: {
+                toastr: window.toastr
+            },
+            appConfig: {
+                inDebug: @(AppConfigHelper.InDebug ? "true" : "false"),
+                remoteServiceRoot: "@Url.Content("~/api/")",
+                version: "@(AppConfigHelper.Version)"
+            }
         });
     </script>
 </body>

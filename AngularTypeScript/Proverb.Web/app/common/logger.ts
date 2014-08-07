@@ -18,9 +18,9 @@ interface logger {
 (function () {
     "use strict";
     
-    angular.module("common").factory("logger", ["$log", "config", logger]);
+    angular.module("common").factory("logger", ["$log", "config", "toastr", logger]);
 
-    function logger($log: ng.ILogService, config: config) {
+    function logger($log: ng.ILogService, config: config, toastr: Toastr) {
         var service: logger = {
             getLogFn: getLogFn,
             log: log,
@@ -71,21 +71,32 @@ interface logger {
             logIt(message, data, source, showToast, "error");
         }
 
-        function logIt(message: string, data: Object, source: string, showToast: boolean, toastType: string) {
-            var write = (toastType === "error") ? $log.error : $log.log;
-            source = source ? "[" + source + "] " : "";
-            write(source, message, data);
-            if (showToast) {
-                if (toastType === "error") {
-                    toastr.error(message);
-                } else if (toastType === "warning") {
-                    toastr.warning(message);
-                } else if (toastType === "success") {
-                    toastr.success(message);
-                } else {
-                    toastr.info(message);
-                }
+        function logIt(message: string, data: Object, source: string, showToast: boolean, logType: string) {
+
+            var logger: ng.ILogCall;
+            var toastType: ToastrDisplayMethod;
+
+            if (logType === "error") {
+                logger = $log.error;
+                toastType = toastr.error;
+            } else if (logType === "warning") {
+                logger = $log.warn;
+                toastType = toastr.warning;
+            } else if (logType === "success") {
+                logger = $log.log;
+                toastType = toastr.success;
+            } else {
+                logger = $log.info;
+                toastType = toastr.info;
             }
+            
+            source = source ? "[" + source + "] " : "";
+
+            // Perform log 
+            logger(source, message, data);
+
+            // Show toast if required
+            if (showToast) { toastType(message); }
         }
     }
 })();

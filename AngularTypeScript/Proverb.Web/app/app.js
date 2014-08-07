@@ -3,7 +3,7 @@
 
     var appName = "app";
 
-    // Create Angular "app" module
+    // Create Angular "app" module so all modules that depend on it use it
     var app = angular.module(appName, [
         "ngAnimate",
         "ngRoute",
@@ -17,20 +17,12 @@
         start: start
     };
 
-    function start(appConfig) {
-        // Initialise the app
-        initialise(appConfig);
-
-        // Start Angular
-        angular.element(document).ready(function () {
-            angular.bootstrap(document, [appName]);
-        });
-    }
-
-    function initialise(appConfig) {
+    function initialise(bootstrapper) {
         // Configure Toastr
+        var toastr = bootstrapper.thirdPartyLibs.toastr;
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = "toast-bottom-right";
+        app.constant("toastr", toastr);
 
         var events = {
             controllerActivateSuccess: "controller.activateSuccess",
@@ -44,10 +36,10 @@
             appErrorPrefix: "[Error] ",
             docTitle: "Proverb: ",
             events: events,
-            inDebug: appConfig.inDebug,
-            remoteServiceRoot: appConfig.remoteServiceRoot,
-            urlCacheBusterSuffix: "?v=" + appConfig.version,
-            version: appConfig.version
+            inDebug: bootstrapper.appConfig.inDebug,
+            remoteServiceRoot: bootstrapper.appConfig.remoteServiceRoot,
+            urlCacheBusterSuffix: "?v=" + bootstrapper.appConfig.version,
+            version: bootstrapper.appConfig.version
         };
 
         app.value("config", config);
@@ -57,6 +49,29 @@
                 // turn debugging off/on (no info or warn)
                 if ($logProvider.debugEnabled) {
                     $logProvider.debugEnabled(config.inDebug);
+                }
+            }]);
+
+        // Configure by setting an optional string value for appErrorPrefix.
+        // Accessible via config.appErrorPrefix (via config value).
+        app.config([
+            "$provide", function ($provide) {
+                // Extend the $exceptionHandler service to also display a toast.
+                $provide.decorator("$exceptionHandler", ["$delegate", "config", "logger", extendExceptionHandler]);
+
+                function extendExceptionHandler($delegate, config, logger) {
+                    var appErrorPrefix = config.appErrorPrefix;
+                    var logError = logger.getLogFn("app", "error");
+                    return function (exception, cause) {
+                        $delegate(exception, cause);
+                        if (appErrorPrefix && exception.message.indexOf(appErrorPrefix) === 0) {
+                            return;
+                        }
+
+                        var errorData = { exception: exception, cause: cause };
+                        var msg = appErrorPrefix + exception.message;
+                        logError(msg, errorData, true);
+                    };
                 }
             }]);
 
@@ -99,6 +114,21 @@
             "$route", function ($route) {
                 // Include $route to kick start the router.
             }]);
+    }
+
+    /**
+    * Initialise and then start the application
+    *
+    * @param bootstrapper The 3rd party libraries and app config data from the server
+    */
+    function start(bootstrapper) {
+        // Initialise the app
+        initialise(bootstrapper);
+
+        // Start Angular
+        angular.element(document).ready(function () {
+            angular.bootstrap(document, [appName]);
+        });
     }
 })();
 //# sourceMappingURL=app.js.map

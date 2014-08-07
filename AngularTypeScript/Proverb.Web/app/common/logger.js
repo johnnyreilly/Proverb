@@ -1,9 +1,9 @@
 (function () {
     "use strict";
 
-    angular.module("common").factory("logger", ["$log", "config", logger]);
+    angular.module("common").factory("logger", ["$log", "config", "toastr", logger]);
 
-    function logger($log, config) {
+    function logger($log, config, toastr) {
         var service = {
             getLogFn: getLogFn,
             log: log,
@@ -55,20 +55,32 @@
             logIt(message, data, source, showToast, "error");
         }
 
-        function logIt(message, data, source, showToast, toastType) {
-            var write = (toastType === "error") ? $log.error : $log.log;
+        function logIt(message, data, source, showToast, logType) {
+            var logger;
+            var toastType;
+
+            if (logType === "error") {
+                logger = $log.error;
+                toastType = toastr.error;
+            } else if (logType === "warning") {
+                logger = $log.warn;
+                toastType = toastr.warning;
+            } else if (logType === "success") {
+                logger = $log.log;
+                toastType = toastr.success;
+            } else {
+                logger = $log.info;
+                toastType = toastr.info;
+            }
+
             source = source ? "[" + source + "] " : "";
-            write(source, message, data);
+
+            // Perform log
+            logger(source, message, data);
+
+            // Show toast if required
             if (showToast) {
-                if (toastType === "error") {
-                    toastr.error(message);
-                } else if (toastType === "warning") {
-                    toastr.warning(message);
-                } else if (toastType === "success") {
-                    toastr.success(message);
-                } else {
-                    toastr.info(message);
-                }
+                toastType(message);
             }
         }
     }

@@ -1,5 +1,10 @@
 ﻿angularApp.start({
-    inDebug: true,
-    remoteServiceRoot: "/api/",
-    version: "Testing"
+    thirdPartyLibs: {
+        toastr: window.toastr
+    },
+    appConfig: {
+        inDebug: true,
+        remoteServiceRoot: "/api/",
+        version: "Testing"
+    }
 });
