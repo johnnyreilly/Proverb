@@ -2,6 +2,8 @@
 
     "use strict";
 
+    var controllerId = "dashboard";
+
     class Dashboard {
 
         log: loggerFunction;
@@ -43,6 +45,5 @@
         }
     }
 
-    var controllerId = "dashboard";
     angular.module("app").controller(controllerId, Dashboard);
 }

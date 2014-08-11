@@ -2,6 +2,8 @@
 
     "use strict";
 
+    var controllerId = "shell";
+
     interface sageEditRootScope extends ng.IRootScopeService {
         title: string;
     }
@@ -108,6 +110,5 @@
         }
     }
 
-    var controllerId = "shell";
     angular.module("app").controller(controllerId, Shell);
 }

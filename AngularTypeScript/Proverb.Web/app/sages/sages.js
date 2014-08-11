@@ -2,6 +2,8 @@
 (function (controllers) {
     "use strict";
 
+    var controllerId = "sages";
+
     var Sages = (function () {
         function Sages(common, datacontext) {
             this.common = common;
@@ -31,7 +33,6 @@
         return Sages;
     })();
 
-    var controllerId = "sages";
     angular.module("app").controller(controllerId, Sages);
 })(controllers || (controllers = {}));
 //# sourceMappingURL=sages.js.map

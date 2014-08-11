@@ -2,6 +2,8 @@
 (function (controllers) {
     "use strict";
 
+    var controllerId = "sageDetail";
+
     var SageDetail = (function () {
         function SageDetail($location, $routeParams, common, datacontext) {
             this.$location = $location;
@@ -41,7 +43,6 @@
         return SageDetail;
     })();
 
-    var controllerId = "sageDetail";
     angular.module("app").controller(controllerId, SageDetail);
 })(controllers || (controllers = {}));
 //# sourceMappingURL=sageDetail.js.map

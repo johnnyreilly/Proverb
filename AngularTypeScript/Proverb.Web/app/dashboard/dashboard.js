@@ -2,6 +2,8 @@
 (function (controllers) {
     "use strict";
 
+    var controllerId = "dashboard";
+
     var Dashboard = (function () {
         function Dashboard(common, datacontext) {
             this.common = common;
@@ -36,7 +38,6 @@
         return Dashboard;
     })();
 
-    var controllerId = "dashboard";
     angular.module("app").controller(controllerId, Dashboard);
 })(controllers || (controllers = {}));
 //# sourceMappingURL=dashboard.js.map

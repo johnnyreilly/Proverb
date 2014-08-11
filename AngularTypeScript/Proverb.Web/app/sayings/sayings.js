@@ -2,6 +2,8 @@
 (function (controllers) {
     "use strict";
 
+    var controllerId = "sayings";
+
     var Sayings = (function () {
         function Sayings($q, common, datacontext) {
             var _this = this;
@@ -65,7 +67,6 @@
         return Sayings;
     })();
 
-    var controllerId = "sayings";
     angular.module("app").controller(controllerId, Sayings);
 })(controllers || (controllers = {}));
 //# sourceMappingURL=sayings.js.map

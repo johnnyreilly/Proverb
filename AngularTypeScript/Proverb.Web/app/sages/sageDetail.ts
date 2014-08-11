@@ -2,6 +2,8 @@
 
     "use strict";
 
+    var controllerId = "sageDetail";
+
     interface sageDetailRouteParams extends ng.route.IRouteParamsService {
         id: number;
     }
@@ -50,6 +52,5 @@
         }
     }
 
-    var controllerId = "sageDetail";
     angular.module("app").controller(controllerId, SageDetail);
 }

@@ -2,6 +2,8 @@
 
     "use strict";
 
+    var controllerId = "topnav";
+
     class TopNav {
 
         isCollapsed: boolean;
@@ -24,6 +26,5 @@
         // Instance methods
     }
 
-    var controllerId = "topnav";
     angular.module("app").controller(controllerId, TopNav);
 }

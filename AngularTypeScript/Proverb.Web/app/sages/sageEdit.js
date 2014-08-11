@@ -2,6 +2,8 @@
 (function (controllers) {
     "use strict";
 
+    var controllerId = "sageEdit";
+
     var SageEdit = (function () {
         function SageEdit($location, $routeParams, $scope, bsDialog, common, datacontext) {
             this.$location = $location;
@@ -114,7 +116,6 @@
         return SageEdit;
     })();
 
-    var controllerId = "sageEdit";
     angular.module("app").controller(controllerId, SageEdit);
 })(controllers || (controllers = {}));
 //# sourceMappingURL=sageEdit.js.map

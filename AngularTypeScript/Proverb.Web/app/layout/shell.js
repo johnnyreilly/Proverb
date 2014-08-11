@@ -2,6 +2,8 @@
 (function (controllers) {
     "use strict";
 
+    var controllerId = "shell";
+
     var Shell = (function () {
         function Shell($rootScope, common, config) {
             this.$rootScope = $rootScope;
@@ -80,7 +82,6 @@
         return Shell;
     })();
 
-    var controllerId = "shell";
     angular.module("app").controller(controllerId, Shell);
 })(controllers || (controllers = {}));
 //# sourceMappingURL=shell.js.map

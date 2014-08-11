@@ -2,6 +2,8 @@
 
     "use strict";
 
+    var controllerId = "sages";
+
     class Sages {
 
         log: loggerFunction;
@@ -34,6 +36,5 @@
         }
     }
 
-    var controllerId = "sages";
     angular.module("app").controller(controllerId, Sages);
 }

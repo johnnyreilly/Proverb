@@ -2,6 +2,8 @@
 (function (controllers) {
     "use strict";
 
+    var controllerId = "topnav";
+
     var TopNav = (function () {
         function TopNav() {
             this.activate();
@@ -18,7 +20,6 @@
         return TopNav;
     })();
 
-    var controllerId = "topnav";
     angular.module("app").controller(controllerId, TopNav);
 })(controllers || (controllers = {}));
 //# sourceMappingURL=topnav.js.map
