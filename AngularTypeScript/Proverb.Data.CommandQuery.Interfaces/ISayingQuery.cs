@@ -7,6 +7,6 @@ namespace Proverb.Data.CommandQuery.Interfaces
     {
         ICollection<Saying> GetAll();
         Saying GetById(int id);
-        ICollection<Saying> GetByUserId(int userId);
+        ICollection<Saying> GetBySageId(int sageId);
     }
 }

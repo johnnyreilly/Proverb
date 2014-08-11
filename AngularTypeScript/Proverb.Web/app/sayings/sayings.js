@@ -13,7 +13,7 @@
                 if (!_this.selectedSage) {
                     return true;
                 }
-                return saying.user === _this.selectedSage;
+                return saying.sage === _this.selectedSage;
             };
             this.sayings = [];
             this.sages = [];
@@ -58,7 +58,7 @@
             });
 
             this.sayings.forEach(function (saying) {
-                return saying.user = sageDictionary[saying.userId];
+                return saying.sage = sageDictionary[saying.sageId];
             });
         };
         Sayings.$inject = ["$q", "common", "datacontext"];

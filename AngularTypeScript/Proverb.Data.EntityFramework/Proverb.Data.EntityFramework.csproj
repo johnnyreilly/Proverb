@@ -46,25 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201406230946158_InitialCreate.cs" />
-    <Compile Include="Migrations\201406230946158_InitialCreate.Designer.cs">
-      <DependentUpon>201406230946158_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201406251410541_UsersAndProverbs.cs" />
-    <Compile Include="Migrations\201406251410541_UsersAndProverbs.Designer.cs">
-      <DependentUpon>201406251410541_UsersAndProverbs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201406261139061_IX_Proverb_UserId.cs" />
-    <Compile Include="Migrations\201406261139061_IX_Proverb_UserId.Designer.cs">
-      <DependentUpon>201406261139061_IX_Proverb_UserId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201406300932068_Log4NetChangeColumnSizes.cs" />
-    <Compile Include="Migrations\201406300932068_Log4NetChangeColumnSizes.Designer.cs">
-      <DependentUpon>201406300932068_Log4NetChangeColumnSizes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201407241541167_RenameProverbToSaying.cs" />
-    <Compile Include="Migrations\201407241541167_RenameProverbToSaying.Designer.cs">
-      <DependentUpon>201407241541167_RenameProverbToSaying.cs</DependentUpon>
+    <Compile Include="Migrations\201408111014504_Initial.cs" />
+    <Compile Include="Migrations\201408111014504_Initial.Designer.cs">
+      <DependentUpon>201408111014504_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,27 +59,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201406230946158_InitialCreate.resx">
-      <DependentUpon>201406230946158_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201406251410541_UsersAndProverbs.resx">
-      <DependentUpon>201406251410541_UsersAndProverbs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201406261139061_IX_Proverb_UserId.resx">
-      <DependentUpon>201406261139061_IX_Proverb_UserId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201406300932068_Log4NetChangeColumnSizes.resx">
-      <DependentUpon>201406300932068_Log4NetChangeColumnSizes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201407241541167_RenameProverbToSaying.resx">
-      <DependentUpon>201407241541167_RenameProverbToSaying.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Proverb.Data.Models\Proverb.Data.Models.csproj">
       <Project>{03fe7175-596b-4d57-823e-8d783881fb0d}</Project>
       <Name>Proverb.Data.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201408111014504_Initial.resx">
+      <DependentUpon>201408111014504_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

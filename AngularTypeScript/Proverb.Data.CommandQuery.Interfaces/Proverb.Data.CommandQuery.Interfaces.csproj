@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISayingQuery.cs" />
+    <Compile Include="ISageCommand.cs" />
     <Compile Include="IUserCommand.cs" />
+    <Compile Include="ISageQuery.cs" />
     <Compile Include="IUserQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

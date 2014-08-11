@@ -2,7 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Results;
 
-namespace Proverb.Web.Common.SaveHelpers 
+namespace System.Web.Http
 {
     public static class ControllerExtensions
     {

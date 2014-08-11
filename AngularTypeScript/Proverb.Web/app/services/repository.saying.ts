@@ -1,7 +1,7 @@
 ﻿interface saying {
     id: number;
-    userId: number;
-    user: sage;
+    sageId: number;
+    sage?: sage;
     text: string;
 }
 

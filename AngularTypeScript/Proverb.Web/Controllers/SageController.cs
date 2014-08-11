@@ -13,31 +13,31 @@ namespace Proverb.Web.Controllers
 {
     public class SageController : ApiController
     {
-        IUserService _userService;
+        ISageService _sageService;
         IUserHelper _userHelper;
         ILog _logger;
 
         public SageController(
-            IUserService userService,
+            ISageService userService,
             IUserHelper userHelper,
             ILog logger) 
         {
-            _userService = userService;
+            _sageService = userService;
             _userHelper = userHelper;
             _logger = logger;
         }
 
-        public User Get(int id)
+        public Sage Get(int id)
         {
-            return _userService.GetById(id);
+            return _sageService.GetById(id);
         }
 
-        public IEnumerable<User> Get()
+        public IEnumerable<Sage> Get()
         {
-            return _userService.GetAll();
+            return _sageService.GetAll();
         }
 
-        public IHttpActionResult Post(User sage)
+        public IHttpActionResult Post(Sage sage)
         {
             if (!ModelState.IsValid) {
 
@@ -46,7 +46,7 @@ namespace Proverb.Web.Controllers
                 });
             }
 
-            sage = _userService.Save(sage);
+            sage = _sageService.Save(sage);
 
             return Ok(new {
                 Entity = sage
@@ -56,7 +56,7 @@ namespace Proverb.Web.Controllers
         // DELETE api/<controller>/5
         public IHttpActionResult Delete(int id)
         {
-            _userService.Delete(id);
+            _sageService.Delete(id);
 
             return Ok();
         }

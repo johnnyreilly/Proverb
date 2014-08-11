@@ -23,7 +23,8 @@ namespace Proverb.Data.EntityFramework
         }
 
         public DbSet<Log4Net> Logs { get; set; }
+        public DbSet<Sage> Sages { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Proverb.Data.Models.Saying> Proverbs { get; set; }
+        public DbSet<Saying> Sayings { get; set; }
     }
 }

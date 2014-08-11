@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISageService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="ISayingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

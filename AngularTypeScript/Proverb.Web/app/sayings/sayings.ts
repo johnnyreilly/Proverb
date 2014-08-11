@@ -49,14 +49,14 @@
             var sageDictionary: { [id: number]: sage } = {};
             this.sages.forEach(sage => sageDictionary[sage.id] = sage);
 
-            this.sayings.forEach(saying => saying.user = sageDictionary[saying.userId]);
+            this.sayings.forEach(saying => saying.sage = sageDictionary[saying.sageId]);
         }
 
         // Instance methods
 
         bySelectedSage = (saying: saying) => {
             if (!this.selectedSage) { return true; }
-            return saying.user === this.selectedSage
+            return saying.sage === this.selectedSage
         }
     }
 

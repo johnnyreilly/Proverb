@@ -26,13 +26,17 @@ namespace Proverb.Data.EntityFramework.Migrations
 
             context.Users.AddOrUpdate(
                 l => l.Id,
-                new User { Id = 1, Name = "Developer", UserName = "dev" },
-                new User
+                new User { Id = 1, Name = "Developer", UserName = "dev" }
+            );
+
+            context.Sages.AddOrUpdate(
+                l => l.Id,
+                new Sage
                 {
                     Id = 2,
                     Name = "Arul Aruldas",
                     UserName = "arul.aruldas",
-                    Proverbs = new[] {
+                    Sayings = new[] {
                         new Saying { Text = "Every storm starts with drops of rain..." },
                         new Saying { Text = "Call the class George Clooney" },
                         new Saying { Text = "Keeping Einsteins picture in the exam hall makes people nervous." },
@@ -55,40 +59,40 @@ namespace Proverb.Data.EntityFramework.Migrations
                         new Saying { Text = "Women drivers are like stars, you can see them but they can't see you" }
                     }
                 },
-                new User
+                new Sage
                 {
                     Id = 3,
                     Name = "John Reilly",
                     Email = "johnny_reilly@hotmail.com",
                     UserName = "john.reilly",
-                    Proverbs = new[] {
+                    Sayings = new[] {
                         new Saying { Text = "Ive got to join Marc's back end up with my front end. (a JR quote)" }
                     }
                 },
-                new User
+                new Sage
                 {
                     Id = 4,
                     Name = "Gemma Ozbek",
                     UserName = "gemma.ozbek",
-                    Proverbs = new[] {
+                    Sayings = new[] {
                         new Saying { Text = "I've joined I.T., I've turned 30, life's boring, I feel like Bridget Jones, right, give me them donuts, lets get this over and done with" }
                     }
                 },
-                new User
+                new Sage
                 {
                     Id = 5,
                     Name = "Marc Talary",
                     UserName = "marc.talary",
-                    Proverbs = new[] {
+                    Sayings = new[] {
                         new Saying { Text = "I am band c because I see everything (Marc T speaking about Arul)" }
                     }
                 },
-                new User
+                new Sage
                 {
                     Id = 6,
                     Name = "Pauline Davis",
                     UserName = "pauline.davis",
-                    Proverbs = new[] {
+                    Sayings = new[] {
                         new Saying { Text = "Have you still got it up Marc and can I see it? Pauline enquiring about Five Guys webpage" }
                     }
                 }

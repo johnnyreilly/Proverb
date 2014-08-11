@@ -3,9 +3,9 @@ using Proverb.Data.Models;
 
 namespace Proverb.Data.CommandQuery.Interfaces
 {
-    public interface IUserQuery
+    public interface ISageCommand
     {
-        ICollection<User> GetAll();
-        User GetById(int id);
+        void Delete(int id);
+        Sage Save(Sage sage);
     }
 }

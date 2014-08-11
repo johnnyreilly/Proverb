@@ -16,7 +16,5 @@ namespace Proverb.Data.Models
 
         [EmailAddress]
         public string Email { get; set; }
-        
-        public ICollection<Saying> Proverbs { get; set; }
     }
 }

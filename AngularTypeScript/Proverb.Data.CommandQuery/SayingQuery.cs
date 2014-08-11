@@ -13,17 +13,17 @@ namespace Proverb.Data.CommandQuery
 
         public ICollection<Saying> GetAll()
         {
-            return _context.Proverbs.ToList();
+            return _context.Sayings.ToList();
         }
 
         public Saying GetById(int id)
         {
-            return _context.Proverbs.Find(id);
+            return _context.Sayings.Find(id);
         }
 
-        public ICollection<Saying> GetByUserId(int userId)
+        public ICollection<Saying> GetBySageId(int sageId)
         {
-            return _context.Proverbs.Where(x => x.UserId == userId).ToList();
+            return _context.Sayings.Where(x => x.SageId == sageId).ToList();
         }
     }
 }

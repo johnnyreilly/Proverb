@@ -16,19 +16,9 @@ namespace Proverb.Data.CommandQuery
             return _context.Users.ToList();
         }
 
-        public ICollection<User> GetAllWithProverbs()
-        {
-            return _context.Users.Include(x => x.Proverbs).ToList();
-        }
-
         public User GetById(int id)
         {
             return _context.Users.Find(id);
-        }
-
-        public User GetByIdWithProverbs(int id)
-        {
-            return _context.Users.Include(x => x.Proverbs).SingleOrDefault(x => x.Id == id);
         }
     }
 }
