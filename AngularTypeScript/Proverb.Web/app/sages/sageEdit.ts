@@ -14,6 +14,7 @@
 
     class SageEdit {
 
+        dateOfBirthDatePickerIsOpen: boolean;
         errors: { [field: string]: string };
         log: loggerFunction;
         logError: loggerFunction;
@@ -33,6 +34,7 @@
             private datacontext: datacontext
             ) {
 
+            this.dateOfBirthDatePickerIsOpen = false;
             this.errors = {};
             this.log = common.logger.getLogFn(controllerId);
             this.logError = common.logger.getLogFn(controllerId, "error");
@@ -56,6 +58,10 @@
                     this.log("Activated Sage Edit View");
                     this.title = "Sage Edit: " + this.sage.name;
                 });
+        }
+
+        dateOfBirthDatePickerOpen() {
+            this.dateOfBirthDatePickerIsOpen = true;
         }
 
         getSage(id: number) {

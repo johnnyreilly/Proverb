@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     "use strict";
 
     // Define the common module
@@ -56,6 +56,7 @@
             }, function (reason) {
                 var data = {
                     controllerId: controllerId,
+                    showToast: true,
                     failureReason: reason
                 };
                 $broadcast(events.failure, data);
@@ -160,6 +161,7 @@
             }, function (reason) {
                 var data = {
                     controllerId: controllerId,
+                    showToast: false,
                     failureReason: reason
                 };
                 $broadcast(events.failure, data);

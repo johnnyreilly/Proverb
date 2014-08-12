@@ -57,8 +57,8 @@
             this.$rootScope.$on(events.failure, function (event, data) {
                 _this.toggleSpinner(false);
 
-                var message = _this.config.inDebug ? JSON.stringify(data.failureReason) : "There is a problem. Please contact support.";
-                _this.logError(message, data.failureReason, true);
+                var message = _this.config.inDebug ? JSON.stringify(data.failureReason) : "There was a problem with " + data.controllerId + ". Please contact support.";
+                _this.logError(message, data.failureReason, data.showToast);
             });
 
             this.$rootScope.$on(events.spinnerToggle, function (event, data) {

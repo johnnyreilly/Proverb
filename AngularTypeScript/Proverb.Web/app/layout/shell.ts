@@ -84,8 +84,8 @@
 
                     var message = this.config.inDebug
                         ? JSON.stringify(data.failureReason) // If in debug mode then let's have the full error
-                        : "There is a problem. Please contact support.";
-                    this.logError(message, data.failureReason, true);
+                        : "There was a problem with " + data.controllerId + ". Please contact support.";
+                    this.logError(message, data.failureReason, data.showToast);
                 });
 
             this.$rootScope.$on(events.spinnerToggle,

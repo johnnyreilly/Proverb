@@ -3,6 +3,7 @@ interface sage {
     name: string;
     username: string;
     email: string;
+    dateOfBirth: Date;
     sayings?: saying[];
 }
 

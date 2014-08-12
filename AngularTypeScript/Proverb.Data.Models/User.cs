@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Proverb.Data.Models
@@ -16,5 +17,7 @@ namespace Proverb.Data.Models
 
         [EmailAddress]
         public string Email { get; set; }
+
+        public DateTime? DateOfBirth { get; set; }
     }
 }

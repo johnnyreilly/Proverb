@@ -12,6 +12,7 @@
             this.bsDialog = bsDialog;
             this.common = common;
             this.datacontext = datacontext;
+            this.dateOfBirthDatePickerIsOpen = false;
             this.errors = {};
             this.log = common.logger.getLogFn(controllerId);
             this.logError = common.logger.getLogFn(controllerId, "error");
@@ -33,6 +34,10 @@
                 _this.log("Activated Sage Edit View");
                 _this.title = "Sage Edit: " + _this.sage.name;
             });
+        };
+
+        SageEdit.prototype.dateOfBirthDatePickerOpen = function () {
+            this.dateOfBirthDatePickerIsOpen = true;
         };
 
         SageEdit.prototype.getSage = function (id) {

@@ -28,6 +28,7 @@ interface controllerActivateSuccessData {
 
 interface failureData {
     controllerId: string;
+    showToast: boolean;
     failureReason: any;
 }
 
@@ -110,6 +111,7 @@ interface waiterSuccessData {
                 (reason) => {
                     var data: failureData = {
                         controllerId: controllerId,
+                        showToast: true,
                         failureReason: reason
                     };
                     $broadcast(events.failure, data);
@@ -213,6 +215,7 @@ interface waiterSuccessData {
                 (reason) => {
                     var data: failureData = {
                         controllerId: controllerId,
+                        showToast: false,
                         failureReason: reason
                     };
                     $broadcast(events.failure, data);
