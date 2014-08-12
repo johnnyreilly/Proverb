@@ -28,7 +28,9 @@
         SageEdit.prototype.activate = function () {
             var _this = this;
             var id = this.$routeParams.id;
-            var dataPromises = [this.getSage(id)];
+            var dataPromises = [this.datacontext.sage.getById(id).then(function (sage) {
+                    return _this.sage = sage;
+                })];
 
             this.common.activateController(dataPromises, controllerId, this.title).then(function () {
                 _this.log("Activated Sage Edit View");
@@ -38,13 +40,6 @@
 
         SageEdit.prototype.dateOfBirthDatePickerOpen = function () {
             this.dateOfBirthDatePickerIsOpen = true;
-        };
-
-        SageEdit.prototype.getSage = function (id) {
-            var _this = this;
-            return this.datacontext.sage.getById(id).then(function (sage) {
-                _this.sage = sage;
-            });
         };
 
         SageEdit.prototype.remove = function () {

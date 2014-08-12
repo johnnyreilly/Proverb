@@ -51,7 +51,7 @@
 
         activate() {
             var id = this.$routeParams.id;
-            var dataPromises: ng.IPromise<any>[] = [this.getSage(id)];
+            var dataPromises: ng.IPromise<any>[] = [this.datacontext.sage.getById(id).then(sage => this.sage = sage)];
 
             this.common.activateController(dataPromises, controllerId, this.title)
                 .then(() => {
@@ -62,12 +62,6 @@
 
         dateOfBirthDatePickerOpen() {
             this.dateOfBirthDatePickerIsOpen = true;
-        }
-
-        getSage(id: number) {
-            return this.datacontext.sage.getById(id).then(sage => {
-                this.sage = sage;
-            });
         }
 
         remove() {

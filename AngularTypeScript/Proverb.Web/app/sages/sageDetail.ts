@@ -34,17 +34,13 @@
 
         activate() {
             var id = this.$routeParams.id;
-            var dataPromises: ng.IPromise<any>[] = [this.getSage(id)];
+            var dataPromises: ng.IPromise<any>[] = [this.datacontext.sage.getById(id, true).then(data => this.sage = data)];
 
             this.common.activateController(dataPromises, controllerId, this.title)
                 .then(() => {
                     this.log("Activated Sage Details View");
                     this.title = "Sage Details: " + this.sage.name;
                 });
-        }
-
-        getSage(id: number) {
-            return this.datacontext.sage.getById(id, true).then(data => this.sage = data);
         }
 
         gotoEdit() {

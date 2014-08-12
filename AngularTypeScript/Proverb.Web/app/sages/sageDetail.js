@@ -21,18 +21,13 @@
         SageDetail.prototype.activate = function () {
             var _this = this;
             var id = this.$routeParams.id;
-            var dataPromises = [this.getSage(id)];
+            var dataPromises = [this.datacontext.sage.getById(id, true).then(function (data) {
+                    return _this.sage = data;
+                })];
 
             this.common.activateController(dataPromises, controllerId, this.title).then(function () {
                 _this.log("Activated Sage Details View");
                 _this.title = "Sage Details: " + _this.sage.name;
-            });
-        };
-
-        SageDetail.prototype.getSage = function (id) {
-            var _this = this;
-            return this.datacontext.sage.getById(id, true).then(function (data) {
-                return _this.sage = data;
             });
         };
 
