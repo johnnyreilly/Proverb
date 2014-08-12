@@ -58,9 +58,8 @@
         function save(sage) {
             return $http.post(rootUrl, sage).then(function (response) {
                 var saveResponse = response.data;
-                if (saveResponse.success) {
-                    log("Sage " + saveResponse.entity.name + " [id: " + saveResponse.entity.id + "] saved");
-                }
+
+                log("Sage " + saveResponse.name + " [id: " + saveResponse.id + "] saved");
 
                 return saveResponse;
             }, function (errorReason) {

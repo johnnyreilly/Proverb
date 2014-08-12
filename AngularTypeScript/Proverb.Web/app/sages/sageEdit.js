@@ -73,7 +73,7 @@
             var sageToSave = this.sage.name;
 
             this.common.waiter(this.datacontext.sage.save(this.sage), controllerId, "Saving " + sageToSave).then(function (response) {
-                _this.sage = response.entity;
+                _this.sage = response;
                 _this.logSuccess("Saved " + sageToSave);
                 _this.$location.path("/sages/detail/" + _this.sage.id);
             }).catch(function (response) {

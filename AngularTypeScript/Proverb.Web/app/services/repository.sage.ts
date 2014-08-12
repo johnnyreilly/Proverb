@@ -10,8 +10,8 @@ interface sage {
 interface repositorySage {
     getAll: () => ng.IPromise<sage[]>;
     getById: (id: number, forceRemote?: boolean) => ng.IPromise<sage>;
-    remove: (id: number) => ng.IPromise<saveResponse<sage>>;
-    save: (sage: sage) => ng.IPromise<saveResponse<sage>>;
+    remove: (id: number) => ng.IPromise<sage>;
+    save: (sage: sage) => ng.IPromise<sage>;
 }
 
 (function () {
@@ -65,7 +65,7 @@ interface repositorySage {
 
         function remove(id: number) {
 
-            return $http.delete<saveResponse<void>>(rootUrl + "/" + id).then(response => {
+            return $http.delete<void>(rootUrl + "/" + id).then(response => {
                 log("Sage [id: " + id + "] removed");
 
                 return response;
@@ -73,11 +73,10 @@ interface repositorySage {
         }
 
         function save(sage: sage) {
-            return $http.post<saveResponse<sage>>(rootUrl, sage).then(response => {
+            return $http.post<sage>(rootUrl, sage).then(response => {
                 var saveResponse = response.data;
-                if (saveResponse.success) {
-                    log("Sage " + saveResponse.entity.name + " [id: " + saveResponse.entity.id + "] saved");
-                }
+
+                log("Sage " + saveResponse.name + " [id: " + saveResponse.id + "] saved");
 
                 return saveResponse;
             }, errorReason => $q.reject(errorReason.data));

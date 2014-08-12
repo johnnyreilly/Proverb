@@ -48,9 +48,7 @@ namespace Proverb.Web.Controllers
 
             sage = _sageService.Save(sage);
 
-            return Ok(new {
-                Entity = sage
-            });
+            return Ok(sage);
         }
 
         // DELETE api/<controller>/5
