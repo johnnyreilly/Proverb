@@ -24,15 +24,14 @@
         var directive = {
             link: link,
             restrict: "A",
-            require: "ngModel", // Make Angular supply the ngModel controller as the 4th parameter in the link function
-            scope: { // Pass in name and serverError to the scope
-                name: "@",
-                serverError: "="
-            }
+            require: "ngModel" // Make Angular supply the ngModel controller as the 4th parameter in the link function
         };
         return directive;
 
-        function link(scope: serverErrorScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ngModelController: ng.INgModelController) {
+        function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes, ngModelController: ng.INgModelController) {
+            // Extract values from attributes (deliberately not using isolated scope because using Angular UI)
+            var errorKey: string = attrs["name"]; // eg "sage.name"
+            var errorDictionaryExpression: string = attrs["serverError"]; // eg "vm.errors"
 
             // Bootstrap alert template for error
             var template = '<div class="alert alert-danger col-xs-9 col-xs-offset-2" role="alert"><i class="glyphicon glyphicon-warning-sign larger"></i> %error%</div>';
@@ -49,9 +48,7 @@
                 // Display an error if serverError is true otherwise clear the element
                 var errorHtml = "";
                 if (serverError) {
-                    // Aliasing serverError and name to make it more obvious what their purpose is
-                    var errorDictionary = scope.serverError;
-                    var errorKey = scope.name;
+                    var errorDictionary: { [field: string]: string } = scope.$eval(errorDictionaryExpression);
                     errorHtml = template.replace(/%error%/, errorDictionary[errorKey] || "Unknown error occurred...");
                 }
                 decorator.html(errorHtml);

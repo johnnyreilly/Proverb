@@ -21,15 +21,15 @@
             var directive = {
                 link: link,
                 restrict: "A",
-                require: "ngModel",
-                scope: {
-                    name: "@",
-                    serverError: "="
-                }
+                require: "ngModel"
             };
             return directive;
 
             function link(scope, element, attrs, ngModelController) {
+                // Extract values from attributes (deliberately not using isolated scope because using Angular UI)
+                var errorKey = attrs["name"];
+                var errorDictionaryExpression = attrs["serverError"];
+
                 // Bootstrap alert template for error
                 var template = '<div class="alert alert-danger col-xs-9 col-xs-offset-2" role="alert"><i class="glyphicon glyphicon-warning-sign larger"></i> %error%</div>';
 
@@ -46,9 +46,7 @@
                     // Display an error if serverError is true otherwise clear the element
                     var errorHtml = "";
                     if (serverError) {
-                        // Aliasing serverError and name to make it more obvious what their purpose is
-                        var errorDictionary = scope.serverError;
-                        var errorKey = scope.name;
+                        var errorDictionary = scope.$eval(errorDictionaryExpression);
                         errorHtml = template.replace(/%error%/, errorDictionary[errorKey] || "Unknown error occurred...");
                     }
                     decorator.html(errorHtml);

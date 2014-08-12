@@ -10,11 +10,6 @@ interface spinnerAttributes extends ng.IAttributes {
     spinner: any;
 }
 
-interface serverErrorScope extends ng.IScope {
-    name: string;
-    serverError: { [field: string]: string };
-}
-
 (function () {
     "use strict";
 
