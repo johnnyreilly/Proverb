@@ -7,10 +7,6 @@
     class Dashboard {
 
         log: loggerFunction;
-        news: {
-            title: string;
-            description: string;
-        }
         sages: sage[];
 
         static $inject = ["common", "datacontext"];
@@ -19,10 +15,6 @@
             private datacontext: datacontext
             ) {
 
-            this.news = {
-                title: "Proverb",
-                description: "The Wisdom of Socrates Aruldas (and The Team)"
-            };
             this.sages = [];
 
             this.log = common.logger.getLogFn(controllerId);

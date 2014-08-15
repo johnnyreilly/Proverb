@@ -1045,9 +1045,6 @@ form label {
 body {
   background-color: #ffffff;
 }
-.navbar-inverse {
-  background-color: #333333;
-}
 .sidebar-widget form {
   margin: 0 -1em;
 }
@@ -1062,6 +1059,10 @@ body {
 }
 .sidebar .navi li ul li a:disabled {
   color: #999999;
+}
+.navbar-inverse {
+  background-color: #333333;
+  border-color: #333333;
 }
 .navbar-inverse .btn-navbar {
   background-color: #333333;
@@ -1272,10 +1273,6 @@ small {
 /*#endregion*/
 table th > a {
   font-weight: bold;
-}
-.table-hover tbody tr:hover > td,
-.table-hover tbody tr:hover > th {
-  cursor: pointer;
 }
 .widget-content.referrer {
   border-width: 0;

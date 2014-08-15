@@ -214,6 +214,9 @@
     <Content Include="Content\styles.css">
       <DependentUpon>styles.less</DependentUpon>
     </Content>
+    <Content Include="Content\styles.min.css">
+      <DependentUpon>styles.css</DependentUpon>
+    </Content>
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />

@@ -8,10 +8,6 @@
         function Dashboard(common, datacontext) {
             this.common = common;
             this.datacontext = datacontext;
-            this.news = {
-                title: "Proverb",
-                description: "The Wisdom of Socrates Aruldas (and The Team)"
-            };
             this.sages = [];
 
             this.log = common.logger.getLogFn(controllerId);

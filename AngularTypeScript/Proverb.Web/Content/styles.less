@@ -13,10 +13,6 @@ body {
     background-color: @white;
 }
 
-.navbar-inverse {
-    background-color: @near-black;
-}
-
 .sidebar-widget form {
     margin: 0 -1em;
 }
@@ -39,13 +35,19 @@ body {
     }
 }
 
-.navbar-inverse .btn-navbar {
+.navbar-inverse {
     background-color: @near-black;
+    border-color: @near-black;
 
-    &:hover {
+    .btn-navbar {
         background-color: @near-black;
+
+        &:hover {
+            background-color: @near-black;
+        }
     }
 }
+
 
 .sidebar {
     margin-top: -2px;
@@ -305,10 +307,10 @@ table th > a {
     font-weight: bold;
 }
 
-.table-hover tbody tr:hover > td,
-.table-hover tbody tr:hover > th {
-    cursor: pointer;
-}
+//.table-hover tbody tr:hover > td,
+//.table-hover tbody tr:hover > th {
+//    cursor: pointer;
+//}
 
 
 .widget-content.referrer {
