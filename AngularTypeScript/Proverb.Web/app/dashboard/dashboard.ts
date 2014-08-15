@@ -7,7 +7,6 @@
     class Dashboard {
 
         log: loggerFunction;
-        messageCount: number;
         news: {
             title: string;
             description: string;
@@ -24,7 +23,6 @@
                 title: "Proverb",
                 description: "The Wisdom of Socrates Aruldas (and The Team)"
             };
-            this.messageCount = 0;
             this.sages = [];
 
             this.log = common.logger.getLogFn(controllerId);
@@ -35,7 +33,7 @@
         // Prototype methods
 
         activate() {
-            var promises: ng.IPromise<any>[] = [/*getMessageCount(), */this.getSages()];
+            var promises: ng.IPromise<any>[] = [this.getSages()];
             this.common.activateController(promises, controllerId, "Dashboard")
                 .then(() => this.log("Activated Dashboard View"));
         }

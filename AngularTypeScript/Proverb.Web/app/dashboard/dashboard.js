@@ -12,7 +12,6 @@
                 title: "Proverb",
                 description: "The Wisdom of Socrates Aruldas (and The Team)"
             };
-            this.messageCount = 0;
             this.sages = [];
 
             this.log = common.logger.getLogFn(controllerId);

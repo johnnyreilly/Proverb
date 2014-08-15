@@ -54,16 +54,6 @@
                         content: '<i class="fa fa-comment"></i> Sayings'
                     }
                 }
-            }, {
-                url: "/admin",
-                config: {
-                    title: "admin",
-                    templateUrl: "app/admin/admin.html",
-                    settings: {
-                        nav: 4,
-                        content: '<i class="fa fa-lock"></i> Admin'
-                    }
-                }
             }
         ];
     }

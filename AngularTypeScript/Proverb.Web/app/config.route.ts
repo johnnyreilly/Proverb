@@ -67,7 +67,7 @@ interface configRouteConfig extends ng.route.IRoute {
                         content: '<i class="fa fa-comment"></i> Sayings'
                     }
                 }
-            }, {
+            }/*, {
                 url: "/admin",
                 config: {
                     title: "admin",
@@ -77,7 +77,7 @@ interface configRouteConfig extends ng.route.IRoute {
                         content: '<i class="fa fa-lock"></i> Admin'
                     }
                 }
-            }
+            }*/
         ];
     }
 })();

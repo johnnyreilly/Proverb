@@ -5,11 +5,10 @@
     var controllerId = "sayings";
 
     var Sayings = (function () {
-        function Sayings($location, $q, $routeParams, common, datacontext) {
+        function Sayings($location, $q, common, datacontext) {
             var _this = this;
             this.$location = $location;
             this.$q = $q;
-            this.$routeParams = $routeParams;
             this.common = common;
             this.datacontext = datacontext;
             // Instance methods
@@ -75,7 +74,7 @@
         Sayings.prototype.selectedSageChange = function () {
             this.$location.search("sageId", this.selectedSage.id);
         };
-        Sayings.$inject = ["$location", "$q", "$routeParams", "common", "datacontext"];
+        Sayings.$inject = ["$location", "$q", "common", "datacontext"];
         return Sayings;
     })();
 
