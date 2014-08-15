@@ -5,7 +5,9 @@
             <div class="row-fluid">
                 <div class="form-search">
                     <div class="pull-right">
-                        <select class="input-lg" ng-model="vm.selectedSage" ng-options="sage.name for sage in vm.sages">
+                        <select class="input-lg" 
+                                ng-model="vm.selectedSage" ng-options="sage.name for sage in vm.sages"
+                                ng-change="vm.selectedSageChange()">
                             <option value=""></option>
                         </select>
                     </div>

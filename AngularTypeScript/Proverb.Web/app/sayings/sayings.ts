@@ -7,20 +7,23 @@
     class Sayings {
 
         log: loggerFunction;
+        sageDictionary: { [id: string]: sage };
+        sages: sage[];
         sayings: saying[];
         selectedSage: sage;
-        sages: sage[];
         title: string;
 
-        static $inject = ["$q", "common", "datacontext"];
+        static $inject = ["$location", "$q", "common", "datacontext"];
         constructor(
+            private $location: ng.ILocationService,
             private $q: ng.IQService,
             private common: common,
             private datacontext: datacontext
             ) {
 
-            this.sayings = [];
+            this.sageDictionary = {};
             this.sages = [];
+            this.sayings = [];
             this.selectedSage = undefined;
             this.title = "Sayings";
 
@@ -32,11 +35,24 @@
         // Prototype methods
 
         activate() {
+
             var dataPromises: ng.IPromise<any>[] = [this.getProverbs(), this.getSages()];
             var combinerPromise = this.$q.all(dataPromises).then(() => this.combineData());
 
             this.common.activateController([combinerPromise], controllerId, this.title)
                 .then(() => this.log("Activated Sayings View"));
+        }
+
+        combineData() {
+
+            this.sages.forEach(sage => this.sageDictionary[sage.id.toString()] = sage);
+
+            this.sayings.forEach(saying => saying.sage = this.sageDictionary[saying.sageId.toString()]);
+
+            var search = this.$location.search()
+            if (search.sageId) {
+                this.selectedSage = this.sageDictionary[search.sageId];
+            }
         }
 
         getProverbs() {
@@ -47,11 +63,8 @@
             return this.datacontext.sage.getAll().then(data => this.sages = data);
         }
 
-        combineData() {
-            var sageDictionary: { [id: number]: sage } = {};
-            this.sages.forEach(sage => sageDictionary[sage.id] = sage);
-
-            this.sayings.forEach(saying => saying.sage = sageDictionary[saying.sageId]);
+        selectedSageChange() {
+            this.$location.search("sageId", this.selectedSage.id);
         }
 
         // Instance methods

@@ -5,9 +5,11 @@
     var controllerId = "sayings";
 
     var Sayings = (function () {
-        function Sayings($q, common, datacontext) {
+        function Sayings($location, $q, $routeParams, common, datacontext) {
             var _this = this;
+            this.$location = $location;
             this.$q = $q;
+            this.$routeParams = $routeParams;
             this.common = common;
             this.datacontext = datacontext;
             // Instance methods
@@ -17,8 +19,9 @@
                 }
                 return saying.sage === _this.selectedSage;
             };
-            this.sayings = [];
+            this.sageDictionary = {};
             this.sages = [];
+            this.sayings = [];
             this.selectedSage = undefined;
             this.title = "Sayings";
 
@@ -39,6 +42,22 @@
             });
         };
 
+        Sayings.prototype.combineData = function () {
+            var _this = this;
+            this.sages.forEach(function (sage) {
+                return _this.sageDictionary[sage.id.toString()] = sage;
+            });
+
+            this.sayings.forEach(function (saying) {
+                return saying.sage = _this.sageDictionary[saying.sageId.toString()];
+            });
+
+            var search = this.$location.search();
+            if (search.sageId) {
+                this.selectedSage = this.sageDictionary[search.sageId];
+            }
+        };
+
         Sayings.prototype.getProverbs = function () {
             var _this = this;
             return this.datacontext.saying.getAll().then(function (data) {
@@ -53,17 +72,10 @@
             });
         };
 
-        Sayings.prototype.combineData = function () {
-            var sageDictionary = {};
-            this.sages.forEach(function (sage) {
-                return sageDictionary[sage.id] = sage;
-            });
-
-            this.sayings.forEach(function (saying) {
-                return saying.sage = sageDictionary[saying.sageId];
-            });
+        Sayings.prototype.selectedSageChange = function () {
+            this.$location.search("sageId", this.selectedSage.id);
         };
-        Sayings.$inject = ["$q", "common", "datacontext"];
+        Sayings.$inject = ["$location", "$q", "$routeParams", "common", "datacontext"];
         return Sayings;
     })();
 

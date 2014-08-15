@@ -57,10 +57,11 @@ interface configRouteConfig extends ng.route.IRoute {
                     settings: {}
                 }
             }, {
-                url: "/sayings",
+                url: "/sayings/",
                 config: {
                     title: "sayings",
                     templateUrl: "app/sayings/sayings.html",
+                    reloadOnSearch: false,
                     settings: {
                         nav: 3,
                         content: '<i class="fa fa-comment"></i> Sayings'
