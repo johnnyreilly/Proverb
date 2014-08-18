@@ -39,12 +39,12 @@ namespace Proverb.Data.EntityFramework.Migrations
                     Sayings = new[] {
                         new Saying { Text = "Every storm starts with drops of rain..." },
                         new Saying { Text = "Call the class George Clooney" },
-                        new Saying { Text = "Keeping Einsteins picture in the exam hall makes people nervous." },
+                        new Saying { Text = "Keeping Einstein's picture in the exam hall makes people nervous." },
                         new Saying { Text = "Who's the best? Developers or testers?  Answer - we carry each other..." },
                         new Saying { Text = "I have so many problems... which would you like to know?" },
                         new Saying { Text = "I did not break the build.. it is Microsofts inefficiency" },
                         new Saying { Text = "Tish: It works on my PC. Arul: Fix it - we are not shipping your PC to the customer!" },
-                        new Saying { Text = "If you write some helpers for me I give go down to a 5" },
+                        new Saying { Text = "If you write some helpers for me I go down to a 5" },
                         new Saying { Text = "Salt is high, fat is high, in 5 years time you won't be able to eat those things" },
                         new Saying { Text = "True isn't it?" },
                         new Saying { Text = "I tell you one thing; it is always better to lose an argument than a friend" },
@@ -66,7 +66,7 @@ namespace Proverb.Data.EntityFramework.Migrations
                     Email = "johnny_reilly@hotmail.com",
                     UserName = "john.reilly",
                     Sayings = new[] {
-                        new Saying { Text = "Ive got to join Marc's back end up with my front end. (a JR quote)" }
+                        new Saying { Text = "I've got to join Marc's back end up with my front end... I do not see what is funny about that sentence." }
                     }
                 },
                 new Sage
@@ -75,7 +75,7 @@ namespace Proverb.Data.EntityFramework.Migrations
                     Name = "Gemma Ozbek",
                     UserName = "gemma.ozbek",
                     Sayings = new[] {
-                        new Saying { Text = "I've joined I.T., I've turned 30, life's boring, I feel like Bridget Jones, right, give me them donuts, lets get this over and done with" }
+                        new Saying { Text = "I've joined I.T., I've turned 30, life's boring, I feel like Bridget Jones, right, give me them donuts, let's get this over and done with" }
                     }
                 },
                 new Sage
@@ -84,7 +84,7 @@ namespace Proverb.Data.EntityFramework.Migrations
                     Name = "Marc Talary",
                     UserName = "marc.talary",
                     Sayings = new[] {
-                        new Saying { Text = "I am band c because I see everything (Marc T speaking about Arul)" }
+                        new Saying { Text = "I am band 'C' because I see everything (Marc T speaking about Arul who had assigned developers to band 'A' and band 'B' depending on their grooming contributions)" }
                     }
                 },
                 new Sage
@@ -94,6 +94,25 @@ namespace Proverb.Data.EntityFramework.Migrations
                     UserName = "pauline.davis",
                     Sayings = new[] {
                         new Saying { Text = "Have you still got it up Marc and can I see it? Pauline enquiring about Five Guys webpage" }
+                    }
+                },
+                new Sage
+                {
+                    Id = 7,
+                    Name = "Denis Ewanzang",
+                    UserName = "denis.ewanzang",
+                    Sayings = new[] {
+                        new Saying { Text = "Can I have gravy with that? (Said when ordering any meal at all)" }
+                    }
+                },
+                new Sage
+                {
+                    Id = 8,
+                    Name = "Sandeep Deo",
+                    UserName = "sandeep.deo",
+                    Sayings = new[] {
+                        new Saying { Text = "Moyes needs to go" },
+                        new Saying { Text = "First Capital Connect - I love them so!" }
                     }
                 }
             );
