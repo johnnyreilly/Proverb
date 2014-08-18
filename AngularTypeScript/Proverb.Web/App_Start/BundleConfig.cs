@@ -44,6 +44,7 @@ namespace Proverb.Web
 
             // controllers
             angularApp.IncludeDirectory("~/app/admin", "*.js", true);
+            angularApp.IncludeDirectory("~/app/about", "*.js", true);
             angularApp.IncludeDirectory("~/app/dashboard", "*.js", true);
             angularApp.IncludeDirectory("~/app/layout", "*.js", true);
             angularApp.IncludeDirectory("~/app/sayings", "*.js", true);

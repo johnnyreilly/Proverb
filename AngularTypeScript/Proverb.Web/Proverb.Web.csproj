@@ -158,6 +158,7 @@
     <Compile Include="Utilities\LoggerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\about\about.html" />
     <Content Include="app\admin\admin.html" />
     <Content Include="app\common\bootstrap\bootstrap.dialog.html" />
     <Content Include="app\dashboard\dashboard.html" />
@@ -197,6 +198,9 @@
     <None Include="Content\customtheme.less" />
     <Content Include="Content\customtheme.css">
       <DependentUpon>customtheme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\customtheme.min.css">
+      <DependentUpon>customtheme.css</DependentUpon>
     </Content>
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -298,6 +302,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="app\about\about.ts" />
+    <Content Include="app\about\about.js">
+      <DependentUpon>about.ts</DependentUpon>
+    </Content>
+    <Content Include="app\about\about.js.map">
+      <DependentUpon>about.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="app\admin\admin.ts" />
     <Content Include="app\admin\admin.js">
       <DependentUpon>admin.ts</DependentUpon>

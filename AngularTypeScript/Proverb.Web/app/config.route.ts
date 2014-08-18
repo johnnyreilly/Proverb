@@ -26,7 +26,7 @@ interface configRouteConfig extends ng.route.IRoute {
                 url: "/",
                 config: {
                     templateUrl: "app/dashboard/dashboard.html",
-                    title: "dashboard",
+                    title: "Dashboard",
                     settings: {
                         nav: 1,
                         content: '<i class="fa fa-dashboard"></i> Dashboard'
@@ -35,7 +35,7 @@ interface configRouteConfig extends ng.route.IRoute {
             }, {
                 url: "/sages",
                 config: {
-                    title: "sages",
+                    title: "Sages",
                     templateUrl: "app/sages/sages.html",
                     settings: {
                         nav: 2,
@@ -52,20 +52,27 @@ interface configRouteConfig extends ng.route.IRoute {
             }, {
                 url: "/sages/edit/:id",
                 config: {
-                    title: "sage edit",
+                    title: "Sage Edit",
                     templateUrl: "app/sages/sageEdit.html",
                     settings: {}
                 }
             }, {
                 url: "/sayings/",
                 config: {
-                    title: "sayings",
+                    title: "Sayings",
                     templateUrl: "app/sayings/sayings.html",
                     reloadOnSearch: false,
                     settings: {
                         nav: 3,
                         content: '<i class="fa fa-comment"></i> Sayings'
                     }
+                }
+            }, {
+                url: "/about/",
+                config: {
+                    title: "About",
+                    templateUrl: "app/about/about.html",
+                    settings: {}
                 }
             }/*, {
                 url: "/admin",
