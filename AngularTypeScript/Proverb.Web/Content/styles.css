@@ -1230,7 +1230,7 @@ small {
 }
 .page-splash-message {
   text-align: center;
-  margin: 20% auto 0 auto;
+  margin: 30% auto 0 auto;
   font-size: 400%;
   font-family: "Segoe UI", Arial, Helvetica, sans-serif;
   font-weight: normal;
@@ -1399,6 +1399,7 @@ select.ng-invalid {
   }
   .page-splash-message {
     font-size: 300%;
+    margin: 35% auto 0 auto;
   }
   .btn-group.pull-right {
     float: none !important;
@@ -1429,7 +1430,7 @@ select.ng-invalid {
     overflow: hidden;
   }
   .page-splash-message {
-    font-size: 200%;
+    font-size: 250%;
     margin: 40% auto 0 auto;
   }
   .page-splash-message.page-splash-message-subtle {
@@ -1437,6 +1438,12 @@ select.ng-invalid {
   }
   .sidebar .sidebar-inner {
     height: inherit;
+  }
+}
+@media (max-width: 460px) {
+  .page-splash-message {
+    font-size: 200%;
+    margin: 50% auto 0 auto;
   }
 }
 @media (max-width: 320px) {

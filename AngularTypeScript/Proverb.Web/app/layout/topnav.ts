@@ -8,8 +8,16 @@
 
         isCollapsed: boolean;
 
-        static $inject = [];
-        constructor() {
+        static $inject = ["$scope"];
+        constructor(
+            private $scope: ng.IScope
+            ) {
+
+            // collapse top nav menu when route change starts (only affects mobile)
+            $scope.$on("$routeChangeStart", (event, next, current) => {
+                this.isCollapsed = true;
+            });
+
             this.activate();
         }
 

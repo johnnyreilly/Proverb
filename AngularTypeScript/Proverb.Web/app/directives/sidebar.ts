@@ -16,27 +16,53 @@
         return directive;
 
         function link(scope: ng.IScope, element: ng.IAugmentedJQuery, attrs: ng.IAttributes) {
+
             var $sidebarInner = element.find(".sidebar-inner");
             var $dropdownElement = element.find(".sidebar-dropdown a");
+            var sideBarIsVisible = false;
+            var sideBarIsVisibleClass = "sideBarIsVisible";
+
             element.addClass("sidebar");
             $dropdownElement.click(dropdown);
 
-            function dropdown(e: Event) {
-                var dropClass = "dropy";
-                e.preventDefault();
-                if (!$dropdownElement.hasClass(dropClass)) {
-                    hideAllSidebars();
-                    $sidebarInner.slideDown(350);
-                    $dropdownElement.addClass(dropClass);
-                } else if ($dropdownElement.hasClass(dropClass)) {
-                    $dropdownElement.removeClass(dropClass);
-                    $sidebarInner.slideUp(350);
-                }
+            // collapse sidebar when route change starts (only affects mobile)
+            scope.$on("$routeChangeStart", (event, next, current) => {
+                hideSidebar();
+            });
 
-                function hideAllSidebars() {
-                    $sidebarInner.slideUp(350);
-                    $(".sidebar-dropdown a").removeClass(dropClass);
+
+            function dropdown(e: Event) {
+                e.preventDefault();
+                showOrHideSidebar();
+            }
+
+            function showOrHideSidebar() {
+                if (sideBarIsVisible) {
+                    hideSidebar();
+                } else {
+                    showSidebar();
                 }
+            }
+
+            function hideSidebar() {
+
+                // using direct attribute as the following don't work:
+                // $sidebarInner.css("display") comes back "block" always
+                // $sidebarInner.is(":visible") comes back true always
+                if ($sidebarInner[0].style.display !== "none") { // using as this:  $sidebarInner.is(":visible")
+                    $sidebarInner.slideUp(350);
+                }
+                $dropdownElement.removeClass(sideBarIsVisibleClass);
+                sideBarIsVisible = false;
+            }
+
+            function showSidebar() {
+
+                hideSidebar();
+
+                $sidebarInner.slideDown(350);
+                $dropdownElement.addClass(sideBarIsVisibleClass);
+                sideBarIsVisible = true;
             }
         }
     });
