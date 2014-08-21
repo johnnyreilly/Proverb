@@ -169,6 +169,10 @@
     <Content Include="app\layout\sidebar.html" />
     <Content Include="app\layout\topnav.html" />
     <Content Include="app\directives\widgetHeader.html" />
+    <Content Include="app\sayings\sayingEdit.html" />
+    <Content Include="app\sayings\sayingEdit.js">
+      <DependentUpon>sayingEdit.ts</DependentUpon>
+    </Content>
     <Content Include="app\sayings\sayings.html" />
     <Content Include="app\sayings\sayings.js">
       <DependentUpon>sayings.ts</DependentUpon>
@@ -196,6 +200,9 @@
     </Content>
     <Content Include="app\services\repository.sage.js.map">
       <DependentUpon>repository.sage.ts</DependentUpon>
+    </Content>
+    <Content Include="app\sayings\sayingEdit.js.map">
+      <DependentUpon>sayingEdit.ts</DependentUpon>
     </Content>
     <None Include="Content\customtheme.less" />
     <Content Include="Content\customtheme.css">
@@ -437,6 +444,7 @@
     <Content Include="app\layout\topnav.js.map">
       <DependentUpon>topnav.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="app\sayings\sayingEdit.ts" />
     <TypeScriptCompile Include="app\sayings\sayings.ts" />
     <TypeScriptCompile Include="app\sages\sageEdit.ts" />
     <Content Include="app\sages\sageEdit.js">

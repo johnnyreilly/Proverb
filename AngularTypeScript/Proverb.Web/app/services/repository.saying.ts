@@ -7,6 +7,9 @@
 
 interface repositorySaying {
     getAll: () => ng.IPromise<saying[]>;
+    getById: (id: number, forceRemote?: boolean) => ng.IPromise<saying>;
+    remove: (id: number) => ng.IPromise<saying>;
+    save: (saying: saying) => ng.IPromise<saying>;
 }
 
 (function () {
@@ -17,21 +20,64 @@ interface repositorySaying {
 
     function repositorySaying($http: ng.IHttpService, common: common, config: config) {
 
+        var $q = common.$q;
+        var cache: { [id: number]: saying } = {};
         var log = common.logger.getLogFn(serviceId);
-        var rootUrl = config.remoteServiceRoot;
+        var rootUrl = config.remoteServiceRoot + "saying";
 
         var service: repositorySaying = {
-            getAll: getAll
+            getAll: getAll,
+            getById: getById,
+            remove: remove,
+            save: save
         };
 
         return service;
 
         function getAll() {
-            return $http.get<saying[]>(rootUrl + "saying").then(response => {
+            return $http.get<saying[]>(rootUrl).then(response => {
                 var sayings = response.data;
                 log(sayings.length + " Sayings loaded");
                 return sayings;
             });
+        }
+
+        function getById(id: number, forceRemote?: boolean) {
+
+            var saying: saying;
+            if (!forceRemote) {
+                saying = cache[id];
+                if (saying) {
+                    log("Saying [id: " + saying.id + "] loaded from cache");
+                    return $q.when(saying);
+                }
+            }
+
+            return $http.get<saying>(rootUrl + "/" + id).then(response => {
+                saying = response.data;
+                cache[saying.id] = saying;
+                log("Saying [id: " + saying.id + "] loaded");
+                return saying;
+            });
+        }
+
+        function remove(id: number) {
+
+            return $http.delete<void>(rootUrl + "/" + id).then(response => {
+                log("Saying [id: " + id + "] removed");
+
+                return response;
+            }, errorReason => $q.reject(errorReason.data));
+        }
+
+        function save(saying: saying) {
+            return $http.post<saying>(rootUrl, saying).then(response => {
+                var saveResponse = response.data;
+
+                log("Saying [id: " + saveResponse.id + "] saved");
+
+                return saveResponse;
+            }, errorReason => $q.reject(errorReason.data));
         }
     }
 })();

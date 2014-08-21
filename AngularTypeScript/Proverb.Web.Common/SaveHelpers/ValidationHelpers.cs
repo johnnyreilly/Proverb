@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Proverb.Web.Common.SaveHelpers
 {
-    public static class ModelStateExtensions
+    public static class ValidationHelpers
     {
         public static Dictionary<string, IEnumerable<string>> ToErrorDictionary(
             this System.Web.Http.ModelBinding.ModelStateDictionary modelState, bool camelCaseKeyName = true) 
@@ -19,6 +20,26 @@ namespace Proverb.Web.Common.SaveHelpers
                 );
 
             return errors;
+        }
+
+        public static string GetFieldName<T>(Expression<Func<T, object>> expression, bool camelCaseKeyName = true) where T : class
+        {
+            var body = expression.Body as MemberExpression;
+
+            if (body == null)
+            {
+                var ubody = (UnaryExpression)expression.Body;
+                body = ubody.Operand as MemberExpression;
+            }
+
+            if (body == null)
+                throw new ArgumentException("Invalid property expression");
+
+            var entity = body.Member.DeclaringType.Name; // eg "Saying"
+            var property = body.Member.Name; // eg "SageId"
+            var combined = entity + "." + property;
+            
+            return (camelCaseKeyName) ? CamelCasePropNames(combined) : combined;
         }
 
         private static string CamelCasePropNames(string propName)

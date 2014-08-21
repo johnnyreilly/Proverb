@@ -68,6 +68,13 @@ interface configRouteConfig extends ng.route.IRoute {
                     }
                 }
             }, {
+                url: "/sayings/edit/:id",
+                config: {
+                    title: "Sage Edit",
+                    templateUrl: "app/sayings/sayingEdit.html",
+                    settings: {}
+                }
+            }, {
                 url: "/about/",
                 config: {
                     title: "About",

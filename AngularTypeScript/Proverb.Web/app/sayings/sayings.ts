@@ -13,10 +13,9 @@
         selectedSage: sage;
         title: string;
 
-        static $inject = ["$location", "$q", "common", "datacontext"];
+        static $inject = ["$location", "common", "datacontext"];
         constructor(
             private $location: ng.ILocationService,
-            private $q: ng.IQService,
             private common: common,
             private datacontext: datacontext
             ) {
@@ -37,7 +36,7 @@
         activate() {
 
             var dataPromises: ng.IPromise<any>[] = [this.getProverbs(), this.getSages()];
-            var combinerPromise = this.$q.all(dataPromises).then(() => this.combineData());
+            var combinerPromise = this.common.$q.all(dataPromises).then(() => this.combineData());
 
             this.common.activateController([combinerPromise], controllerId, this.title)
                 .then(() => this.log("Activated Sayings View"));
@@ -61,6 +60,10 @@
 
         getSages() {
             return this.datacontext.sage.getAll().then(data => this.sages = data);
+        }
+
+        gotoAdd() {
+            this.$location.path("/sayings/edit/add");
         }
 
         selectedSageChange() {

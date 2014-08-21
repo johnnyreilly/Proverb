@@ -3,16 +3,18 @@
         <div class="container-fluid">
 
             <div class="row-fluid">
-                <div class="form-search">
-                    <div class="pull-right">
-                        <select class="input-lg" 
-                                ng-model="vm.selectedSage" ng-options="sage.name for sage in vm.sages"
-                                ng-change="vm.selectedSageChange()">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                    <div class="clearfix"></div>
+                <div class="pull-left">
+                    <a ng-click="vm.gotoAdd()"><span class="glyphicon glyphicon-plus"></span> Add</a>
                 </div>
+
+                <div class="pull-right">
+                    <select ng-model="vm.selectedSage" ng-options="sage.name for sage in vm.sages"
+                            ng-change="vm.selectedSageChange()">
+                        <option value=""></option>
+                    </select>
+                </div>
+
+                <div class="clearfix"></div>
             </div>
 
             <div class="row-fluid">
@@ -27,6 +29,7 @@
                             <footer>{{p.sage.name}}</footer>
                         </blockquote>
                     </div>
+
                     <div class="widget-foot">
                         <div class="clearfix"></div>
                     </div>

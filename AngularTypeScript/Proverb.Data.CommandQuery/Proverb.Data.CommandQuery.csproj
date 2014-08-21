@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseCommandQuery.cs" />
+    <Compile Include="SayingCommand.cs" />
     <Compile Include="SayingQuery.cs" />
     <Compile Include="SageCommand.cs" />
     <Compile Include="UserCommand.cs" />

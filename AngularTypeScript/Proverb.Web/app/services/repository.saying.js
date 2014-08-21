@@ -5,20 +5,65 @@
     angular.module("app").factory(serviceId, ["$http", "common", "config", repositorySaying]);
 
     function repositorySaying($http, common, config) {
+        var $q = common.$q;
+        var cache = {};
         var log = common.logger.getLogFn(serviceId);
-        var rootUrl = config.remoteServiceRoot;
+        var rootUrl = config.remoteServiceRoot + "saying";
 
         var service = {
-            getAll: getAll
+            getAll: getAll,
+            getById: getById,
+            remove: remove,
+            save: save
         };
 
         return service;
 
         function getAll() {
-            return $http.get(rootUrl + "saying").then(function (response) {
+            return $http.get(rootUrl).then(function (response) {
                 var sayings = response.data;
                 log(sayings.length + " Sayings loaded");
                 return sayings;
+            });
+        }
+
+        function getById(id, forceRemote) {
+            var saying;
+            if (!forceRemote) {
+                saying = cache[id];
+                if (saying) {
+                    log("Saying [id: " + saying.id + "] loaded from cache");
+                    return $q.when(saying);
+                }
+            }
+
+            return $http.get(rootUrl + "/" + id).then(function (response) {
+                saying = response.data;
+                cache[saying.id] = saying;
+                log("Saying [id: " + saying.id + "] loaded");
+                return saying;
+            });
+        }
+
+        function remove(id) {
+            return $http.delete(rootUrl + "/" + id).then(function (response) {
+                log("Saying [id: " + id + "] removed");
+
+                return response;
+            }, function (errorReason) {
+                return $q.reject(errorReason.data);
+            });
+        }
+
+        function save(saying) {
+            return $http.post(rootUrl, saying).then(function (response) {
+                var saveResponse = response.data;
+
+                log("Saying [id: " + saveResponse.id + "] saved");
+
+                return saveResponse;
+            }, function (errorReason) {
+                return $q.reject(errorReason.data);
             });
         }
     }

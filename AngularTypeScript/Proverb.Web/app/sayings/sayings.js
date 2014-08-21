@@ -5,10 +5,9 @@
     var controllerId = "sayings";
 
     var Sayings = (function () {
-        function Sayings($location, $q, common, datacontext) {
+        function Sayings($location, common, datacontext) {
             var _this = this;
             this.$location = $location;
-            this.$q = $q;
             this.common = common;
             this.datacontext = datacontext;
             // Instance methods
@@ -32,7 +31,7 @@
         Sayings.prototype.activate = function () {
             var _this = this;
             var dataPromises = [this.getProverbs(), this.getSages()];
-            var combinerPromise = this.$q.all(dataPromises).then(function () {
+            var combinerPromise = this.common.$q.all(dataPromises).then(function () {
                 return _this.combineData();
             });
 
@@ -71,10 +70,14 @@
             });
         };
 
+        Sayings.prototype.gotoAdd = function () {
+            this.$location.path("/sayings/edit/add");
+        };
+
         Sayings.prototype.selectedSageChange = function () {
             this.$location.search("sageId", this.selectedSage.id);
         };
-        Sayings.$inject = ["$location", "$q", "common", "datacontext"];
+        Sayings.$inject = ["$location", "common", "datacontext"];
         return Sayings;
     })();
 

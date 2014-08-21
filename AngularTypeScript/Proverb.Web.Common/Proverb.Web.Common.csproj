@@ -92,7 +92,7 @@
     <Compile Include="Base\BaseController.cs" />
     <Compile Include="Base\JsonNetResult.cs" />
     <Compile Include="SaveHelpers\FailedSave.cs" />
-    <Compile Include="SaveHelpers\ModelStateExtensions.cs" />
+    <Compile Include="SaveHelpers\ValidationHelpers.cs" />
     <Compile Include="Implementations\UserHelper.cs" />
     <Compile Include="Interfaces\IUserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

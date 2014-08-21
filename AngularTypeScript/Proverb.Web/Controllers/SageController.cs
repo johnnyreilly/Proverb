@@ -47,11 +47,9 @@ namespace Proverb.Web.Controllers
 
         public async Task<IHttpActionResult> Post(Sage sage)
         {
-            if (!ModelState.IsValid) {
-
-                return this.BadRequest(new FailedSave { 
-                    Errors = ModelState.ToErrorDictionary() 
-                });
+            if (!ModelState.IsValid) 
+            {
+                return this.BadRequest(new FailedSave(ModelState.ToErrorDictionary()));
             }
 
             sage = await _sageService.SaveAsync(sage);
@@ -59,7 +57,6 @@ namespace Proverb.Web.Controllers
             return Ok(sage);
         }
 
-        // DELETE api/<controller>/5
         public async Task<IHttpActionResult> Delete(int id)
         {
             var deleteCount = await _sageService.DeleteAsync(id);

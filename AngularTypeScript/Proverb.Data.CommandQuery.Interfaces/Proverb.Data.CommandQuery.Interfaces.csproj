@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISayingCommand.cs" />
     <Compile Include="ISayingQuery.cs" />
     <Compile Include="ISageCommand.cs" />
     <Compile Include="IUserCommand.cs" />

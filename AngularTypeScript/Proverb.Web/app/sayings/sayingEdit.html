@@ -1,0 +1,42 @@
+﻿<section class="mainbar" ng-controller="sayingEdit as vm">
+    <section class="matter">
+        <div class="container-fluid">
+            <form name="form" novalidate role="form">
+                <div>
+                    <button class="btn btn-info"
+                            ng-click="vm.save()"
+                            ng-disabled="!vm.canSave">
+                        <i class="glyphicon glyphicon-save"></i>Save
+                    </button>
+                    <button class="btn btn-danger"
+                            ng-click="vm.remove()"
+                            ng-disabled="vm.isSavingOrRemoving">
+                        <i class="glyphicon glyphicon-trash"></i>Remove
+                    </button>
+                    <span ng-show="vm.hasChanges"
+                          class="dissolve-animation ng-hide">
+                        <i class="glyphicon glyphicon-asterisk orange"></i>
+                    </span>
+                </div>
+                <div class="widget wblue">
+                    <div widget-header title="{{vm.title}}"></div>
+                    <div class="widget-content form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-2">Saying</label>
+                            <textarea class="col-xs-12 col-sm-9" rows="5"
+                                      name="saying.text" ng-model="vm.saying.text" server-error="vm.errors">
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-2">Sage</label>
+                            <select class="col-xs-12 col-sm-9"
+                                    name="saying.sageId" ng-model="vm.saying.sage"
+                                    ng-options="sage.name for sage in vm.sages"
+                                    server-error="vm.errors"></select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</section>

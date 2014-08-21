@@ -9,6 +9,9 @@ namespace Proverb.Services.Interfaces
 {
     public interface ISayingService
     {
+        Task<int> DeleteAsync(int id);
         Task<ICollection<Saying>> GetAllAsync();
+        Task<Saying> GetByIdAsync(int id);
+        Task<Saying> SaveAsync(Saying saying);
     }
 }

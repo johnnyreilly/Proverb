@@ -11,17 +11,33 @@ namespace Proverb.Services
 {
     public class SayingService : ISayingService
     {
-        public SayingService(ISayingQuery sayingQuery)
+        public SayingService(ISayingCommand sayingCommand, ISayingQuery sayingQuery)
         {
+            _sayingCommand = sayingCommand;
             _sayingQuery = sayingQuery;
         }
 
+        private ISayingCommand _sayingCommand;
         private ISayingQuery _sayingQuery;
+
+        public async Task<int> DeleteAsync(int id)
+        {
+            return await _sayingCommand.DeleteAsync(id);
+        }
 
         public async Task<ICollection<Saying>> GetAllAsync()
         {
             return await _sayingQuery.GetAllAsync();
         }
 
+        public async Task<Saying> GetByIdAsync(int id)
+        {
+            return await _sayingQuery.GetByIdAsync(id);
+        }
+
+        public async Task<Saying> SaveAsync(Saying saying)
+        {
+            return await _sayingCommand.SaveAsync(saying);
+        }
     }
 }

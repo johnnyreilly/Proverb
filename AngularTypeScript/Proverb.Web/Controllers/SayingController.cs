@@ -1,14 +1,15 @@
 ﻿using log4net;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
+using Proverb.Web.Common.SaveHelpers;
 using Proverb.Web.Interfaces;
+using System.Threading.Tasks;
+using System;
 
 namespace Proverb.Web.Controllers
 {
@@ -28,34 +29,52 @@ namespace Proverb.Web.Controllers
             _logger = logger;
         }
 
+        public async Task<IHttpActionResult> Get(int id)
+        {
+            var sage = await _sayingService.GetByIdAsync(id);
+
+            if (sage == null)
+                return NotFound();
+            else
+                return Ok(sage);
+        }
+
         public async Task<IHttpActionResult> Get()
         {
-            var sayings = await _sayingService.GetAllAsync();
+            var sages = await _sayingService.GetAllAsync();
 
-            return Ok(sayings);
+            return Ok(sages);
         }
 
-        /*
-        // GET api/<controller>/5
-        public string Get(int id)
+        public async Task<IHttpActionResult> Post(Saying saying)
         {
-            return "value";
+            if (!ModelState.IsValid)
+            {
+                return this.BadRequest(new FailedSave(ModelState.ToErrorDictionary()));
+            }
+
+            // Probably will move this logic into sayingService - a Validate method
+            if (saying.SageId == 0) 
+            {
+                // eg "saying.sageId"
+                var fieldName = ValidationHelpers.GetFieldName<Saying>(x => x.SageId);
+                return this.BadRequest(new FailedSave(fieldName, "Please select a sage."));
+            }
+
+            saying = await _sayingService.SaveAsync(saying);
+
+            return Ok(saying);
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public async Task<IHttpActionResult> Delete(int id)
         {
-        }
+            var deleteCount = await _sayingService.DeleteAsync(id);
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            if (deleteCount == 0)
+                return NotFound();
+            else
+                return Ok();
         }
-         */
     }
 }
