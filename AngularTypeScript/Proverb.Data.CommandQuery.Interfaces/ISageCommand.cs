@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Proverb.Data.Models;
+using System.Threading.Tasks;
 
 namespace Proverb.Data.CommandQuery.Interfaces
 {
     public interface ISageCommand
     {
-        void Delete(int id);
-        Sage Save(Sage sage);
+        Task<int> DeleteAsync(int id);
+        Task<Sage> SaveAsync(Sage sage);
     }
 }

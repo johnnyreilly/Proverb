@@ -204,7 +204,6 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\ie10mobile.css" />
-    <Content Include="Content\images\AngularJS-small.png" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\socrates-statue.jpg" />
     <Content Include="Content\styles.css.map">

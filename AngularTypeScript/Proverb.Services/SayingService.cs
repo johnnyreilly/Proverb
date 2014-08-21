@@ -18,9 +18,9 @@ namespace Proverb.Services
 
         private ISayingQuery _sayingQuery;
 
-        public ICollection<Saying> GetAll()
+        public async Task<ICollection<Saying>> GetAllAsync()
         {
-            return _sayingQuery.GetAll();
+            return await _sayingQuery.GetAllAsync();
         }
 
     }

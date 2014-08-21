@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Proverb.Data.CommandQuery.Interfaces;
 using Proverb.Data.EntityFramework;
 using Proverb.Data.Models;
@@ -11,30 +12,32 @@ namespace Proverb.Data.CommandQuery
     {
         public SageQuery(ProverbContext context) : base(context) { }
 
-        public ICollection<Sage> GetAll()
+        public async Task<ICollection<Sage>> GetAllAsync()
         {
-            var sages = _context.Sages.ToList();
+            var sages = await _context.Sages.ToListAsync();
             
             return sages;
         }
 
-        public ICollection<Sage> GetAllWithSayings()
+        public async Task<ICollection<Sage>> GetAllWithSayingsAsync()
         {
-            var sagesWithSayings = _context.Sages.Include(x => x.Sayings).ToList();
+            var sagesWithSayings = await _context.Sages.Include(x => x.Sayings).ToListAsync();
             
             return sagesWithSayings;
         }
 
-        public Sage GetById(int id)
+        public async Task<Sage> GetByIdAsync(int id)
         {
-            var sage = _context.Sages.Find(id);
+            var sage = await _context.Sages.FindAsync(id);
             
             return sage;
         }
 
-        public Sage GetByIdWithSayings(int id)
+        public async Task<Sage> GetByIdWithSayingsAsync(int id)
         {
-            var sageWithSayings = _context.Sages.Include(x => x.Sayings).SingleOrDefault(x => x.Id == id);
+            var sageWithSayings = await _context.Sages
+                .Include(x => x.Sayings)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             return sageWithSayings;
         }

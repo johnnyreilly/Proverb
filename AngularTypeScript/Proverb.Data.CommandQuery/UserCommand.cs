@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Proverb.Data.CommandQuery.Interfaces;
 using Proverb.Data.EntityFramework;
 using Proverb.Data.Models;
@@ -11,16 +12,19 @@ namespace Proverb.Data.CommandQuery
     {
         public UserCommand(ProverbContext context) : base(context) { }
 
-        public void Delete(int id) 
+        public async Task<int> DeleteAsync(int id) 
         {
-            var userToDelete = _context.Users.Find(id);
+            var userToDelete = await _context.Users.FindAsync(id);
+
+            if (userToDelete == null)
+                return 0;
             
             _context.Users.Remove(userToDelete);
 
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
-        public User Save(User user)
+        public async Task<User> SaveAsync(User user)
         {
             if (user.Id > 0)
             {
@@ -30,7 +34,7 @@ namespace Proverb.Data.CommandQuery
             {
                 _context.Users.Add(user);
             }
-            _context.SaveChanges();
+            var saved = await _context.SaveChangesAsync();
 
             return user;
         }

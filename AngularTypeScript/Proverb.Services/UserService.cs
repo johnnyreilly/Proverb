@@ -20,24 +20,24 @@ namespace Proverb.Services
         private IUserCommand _userCommand;
         private IUserQuery _userQuery;
 
-        public void Delete(int id)
+        public async Task<int> DeleteAsync(int id)
         {
-            _userCommand.Delete(id);
+            return await _userCommand.DeleteAsync(id);
         }
 
-        public ICollection<User> GetAll()
+        public async Task<ICollection<User>> GetAllAsync()
         {
-            return _userQuery.GetAll();
+            return await _userQuery.GetAllAsync();
         }
 
-        public User GetById(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
-            return _userQuery.GetById(id);
+            return await _userQuery.GetByIdAsync(id);
         }
 
-        public User Save(User user) 
+        public async Task<User> SaveAsync(User user) 
         {
-            return _userCommand.Save(user);
+            return await _userCommand.SaveAsync(user);
         }
 
     }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Proverb.Data.Models;
 
 namespace Proverb.Data.CommandQuery.Interfaces
 {
     public interface IUserQuery
     {
-        ICollection<User> GetAll();
-        User GetById(int id);
+        Task<ICollection<User>> GetAllAsync();
+        Task<User> GetByIdAsync(int id);
     }
 }

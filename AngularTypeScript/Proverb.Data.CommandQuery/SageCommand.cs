@@ -4,6 +4,7 @@ using System.Linq;
 using Proverb.Data.CommandQuery.Interfaces;
 using Proverb.Data.EntityFramework;
 using Proverb.Data.Models;
+using System.Threading.Tasks;
 
 namespace Proverb.Data.CommandQuery
 {
@@ -11,16 +12,21 @@ namespace Proverb.Data.CommandQuery
     {
         public SageCommand(ProverbContext context) : base(context) { }
 
-        public void Delete(int id) 
+        public async Task<int> DeleteAsync(int id) 
         {
-            var userToDelete = _context.Sages.Find(id);
-            
+            var userToDelete = await _context.Sages.FindAsync(id);
+
+            if (userToDelete == null)
+                return 0;
+
             _context.Sages.Remove(userToDelete);
 
-            _context.SaveChanges();
+            var saved = await _context.SaveChangesAsync();
+
+            return saved;
         }
 
-        public Sage Save(Sage sage)
+        public async Task<Sage> SaveAsync(Sage sage)
         {
             if (sage.Id > 0)
             {
@@ -30,7 +36,7 @@ namespace Proverb.Data.CommandQuery
             {
                 _context.Sages.Add(sage);
             }
-            _context.SaveChanges();
+            var saved = await _context.SaveChangesAsync();
 
             return sage;
         }

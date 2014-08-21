@@ -4,6 +4,7 @@ using System.Linq;
 using Proverb.Data.CommandQuery.Interfaces;
 using Proverb.Data.EntityFramework;
 using Proverb.Data.Models;
+using System.Threading.Tasks;
 
 namespace Proverb.Data.CommandQuery
 {
@@ -11,19 +12,25 @@ namespace Proverb.Data.CommandQuery
     {
         public SayingQuery(ProverbContext context) : base(context) { }
 
-        public ICollection<Saying> GetAll()
+        public async Task<ICollection<Saying>> GetAllAsync()
         {
-            return _context.Sayings.ToList();
+            var sayings = await _context.Sayings.ToListAsync();
+
+            return sayings;
         }
 
-        public Saying GetById(int id)
+        public async Task<Saying> GetByIdAsync(int id)
         {
-            return _context.Sayings.Find(id);
+            var sayings = await _context.Sayings.FindAsync(id);
+
+            return sayings;
         }
 
-        public ICollection<Saying> GetBySageId(int sageId)
+        public async Task<ICollection<Saying>> GetBySageIdAsync(int sageId)
         {
-            return _context.Sayings.Where(x => x.SageId == sageId).ToList();
+            var sayings = await _context.Sayings.Where(x => x.SageId == sageId).ToListAsync();
+
+            return sayings;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Proverb.Data.CommandQuery.Interfaces;
 using Proverb.Data.EntityFramework;
 using Proverb.Data.Models;
@@ -11,14 +12,18 @@ namespace Proverb.Data.CommandQuery
     {
         public UserQuery(ProverbContext context) : base(context) { }
 
-        public ICollection<User> GetAll()
+        public async Task<ICollection<User>> GetAllAsync()
         {
-            return _context.Users.ToList();
+            var users = await _context.Users.ToListAsync();
+
+            return users;
         }
 
-        public User GetById(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
-            return _context.Users.Find(id);
+            var user = await _context.Users.FindAsync(id);
+
+            return user;
         }
     }
 }

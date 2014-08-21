@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 
 namespace Proverb.Web.Tests.Controllers
@@ -31,6 +33,26 @@ namespace Proverb.Web.Tests.Controllers
 
             _controller = new SayingController(_sayingServiceMock.Object, _userHelperMock.Object, _loggerMock.Object);
         }
+
+        [TestMethod()]
+        public async Task Get_returns_an_Ok_with_an_ICollection_of_Saying()
+        {
+            var sayings = new List<Saying>{
+                new Saying{ Id = 1, Text = "Pithy comment", SageId = 2 }
+            };
+
+            _sayingServiceMock
+                .Setup(x => x.GetAllAsync())
+                .ReturnsAsync(sayings);
+
+            IHttpActionResult result = await _controller.Get();
+
+            var ok = result as OkNegotiatedContentResult<ICollection<Saying>>;
+            Assert.IsNotNull(ok);
+            Assert.AreSame(sayings, ok.Content);
+            _sayingServiceMock.Verify(x => x.GetAllAsync());
+        }
+
         /*
         private void Index_setup()
         {

@@ -9,6 +9,6 @@ namespace Proverb.Services.Interfaces
 {
     public interface ISayingService
     {
-        ICollection<Saying> GetAll();
+        Task<ICollection<Saying>> GetAllAsync();
     }
 }

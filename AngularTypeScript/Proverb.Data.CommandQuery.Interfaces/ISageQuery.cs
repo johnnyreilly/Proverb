@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Proverb.Data.Models;
 
 namespace Proverb.Data.CommandQuery.Interfaces
 {
     public interface ISageQuery
     {
-        ICollection<Sage> GetAll();
-        ICollection<Sage> GetAllWithSayings();
-        Sage GetById(int id);
-        Sage GetByIdWithSayings(int id);
+        Task<ICollection<Sage>> GetAllAsync();
+        Task<ICollection<Sage>> GetAllWithSayingsAsync();
+        Task<Sage> GetByIdAsync(int id);
+        Task<Sage> GetByIdWithSayingsAsync(int id);
     }
 }

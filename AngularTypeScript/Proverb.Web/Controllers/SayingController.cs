@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
@@ -27,9 +28,11 @@ namespace Proverb.Web.Controllers
             _logger = logger;
         }
 
-        public IEnumerable<Saying> Get()
+        public async Task<IHttpActionResult> Get()
         {
-            return _sayingService.GetAll();
+            var sayings = await _sayingService.GetAllAsync();
+
+            return Ok(sayings);
         }
 
         /*

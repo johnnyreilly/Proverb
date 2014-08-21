@@ -9,9 +9,9 @@ namespace Proverb.Services.Interfaces
 {
     public interface ISageService
     {
-        void Delete(int id);
-        ICollection<Sage> GetAll();
-        Sage GetById(int id);
-        Sage Save(Sage sage);
+        Task<int> DeleteAsync(int id);
+        Task<ICollection<Sage>> GetAllAsync();
+        Task<Sage> GetByIdAsync(int id);
+        Task<Sage> SaveAsync(Sage sage);
     }
 }
