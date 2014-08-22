@@ -54,8 +54,8 @@ namespace Proverb.Web
 
             bundles.Add(new StyleBundle("~/css").Include(
                 "~/content/ie10mobile.css",
-                "~/content/bootstrap.min.css",
-                "~/content/font-awesome.min.css",
+                "~/content/bootstrap.css",
+                "~/content/font-awesome.css",
                 "~/content/toastr.css",
                 "~/content/styles.css"
             ));
