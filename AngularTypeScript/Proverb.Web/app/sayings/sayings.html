@@ -23,10 +23,10 @@
                          title="{{vm.title}}"
                          subtitle="{{(vm.sayings|filter:vm.bySelectedSage).length}}"></div>
 
-                    <div class="widget-content user">
-                        <blockquote data-ng-repeat="p in vm.sayings | filter:vm.bySelectedSage">
-                            <p>{{p.text}}</p>
-                            <footer>{{p.sage.name}}</footer>
+                    <div class="widget-content">
+                        <blockquote data-ng-repeat="s in vm.sayings | filter:vm.bySelectedSage">
+                            <p><a ng-href="#/sayings/edit/{{s.id}}">{{s.text}}</a></p>
+                            <footer>{{s.sage.name}}</footer>
                         </blockquote>
                     </div>
 

@@ -5,10 +5,11 @@
     var controllerId = "sayingEdit";
 
     var SayingEdit = (function () {
-        function SayingEdit($location, $routeParams, $scope, bsDialog, common, datacontext) {
+        function SayingEdit($location, $routeParams, $scope, _, bsDialog, common, datacontext) {
             this.$location = $location;
             this.$routeParams = $routeParams;
             this.$scope = $scope;
+            this._ = _;
             this.bsDialog = bsDialog;
             this.common = common;
             this.datacontext = datacontext;
@@ -26,13 +27,13 @@
         // Prototype methods
         SayingEdit.prototype.activate = function () {
             var _this = this;
-            var id = this.$routeParams.id;
+            var id = parseInt(this.$routeParams.id, 10);
             var dataPromises = [this.datacontext.sage.getAll().then(function (data) {
                     return _this.sages = data;
                 })];
             var title;
 
-            if (id !== "add") {
+            if (id) {
                 dataPromises.push(this.datacontext.saying.getById(id).then(function (saying) {
                     return _this.saying = saying;
                 }));
@@ -44,6 +45,11 @@
             this.common.activateController(dataPromises, controllerId, title).then(function () {
                 _this.log("Activated " + title + " View");
                 _this.title = title;
+
+                // Set the saying's sage by looking it up in the sages already loaded
+                _this.saying.sage = _this._.find(_this.sages, function (s) {
+                    return s.id === _this.saying.sageId;
+                });
             });
         };
 
@@ -54,7 +60,7 @@
 
                 _this.common.waiter(_this.datacontext.sage.remove(_this.saying.id), controllerId, "Removing saying").then(function (response) {
                     _this.logSuccess("Removed saying");
-                    _this.$location.path("/sayings");
+                    _this.$location.path("/sayings/").search("sageId", _this.saying.sageId);
                 }).catch(function (response) {
                     _this.logError("Failed to remove saying", response);
                 }).finally(function () {
@@ -78,9 +84,8 @@
             sayingToSave.sage = null;
 
             this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying").then(function (response) {
-                _this.saying = response;
                 _this.logSuccess("Saved saying");
-                _this.$location.path("/sayings");
+                _this.$location.path("/sayings/").search("sageId", response.sageId);
             }).catch(function (response) {
                 var failMessage = "Failed to save saying";
                 if (response.errors) {
@@ -122,7 +127,7 @@
             enumerable: true,
             configurable: true
         });
-        SayingEdit.$inject = ["$location", "$routeParams", "$scope", "bootstrap.dialog", "common", "datacontext"];
+        SayingEdit.$inject = ["$location", "$routeParams", "$scope", "_", "bootstrap.dialog", "common", "datacontext"];
         return SayingEdit;
     })();
 

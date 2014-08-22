@@ -5,7 +5,7 @@
     var controllerId = "sayingEdit";
 
     interface sayingEditRouteParams extends ng.route.IRouteParamsService {
-        id: any;
+        id: string;
     }
 
     interface sayingEditScope extends ng.IScope {
@@ -24,11 +24,12 @@
 
         private _isSavingOrRemoving: boolean;
 
-        static $inject = ["$location", "$routeParams", "$scope", "bootstrap.dialog", "common", "datacontext"];
+        static $inject = ["$location", "$routeParams", "$scope", "_", "bootstrap.dialog", "common", "datacontext"];
         constructor(
             private $location: ng.ILocationService,
             private $routeParams: sayingEditRouteParams,
             private $scope: sayingEditScope,
+            private _: UnderscoreStatic,
             private bsDialog: bootstrapDialog,
             private common: common,
             private datacontext: datacontext
@@ -50,11 +51,11 @@
 
         activate() {
 
-            var id = this.$routeParams.id;
+            var id = parseInt(this.$routeParams.id, 10);
             var dataPromises: ng.IPromise<any>[] = [this.datacontext.sage.getAll().then(data => this.sages = data)];
             var title: string;
 
-            if (id !== "add") {
+            if (id) {
                 dataPromises.push(this.datacontext.saying.getById(id).then(saying => this.saying = saying));
                 title = "Saying Edit";
             }
@@ -66,6 +67,9 @@
                 .then(() => {
                     this.log("Activated " + title + " View");
                     this.title = title;
+
+                    // Set the saying's sage by looking it up in the sages already loaded
+                    this.saying.sage = this._.find(this.sages, s => s.id === this.saying.sageId);
                 });
         }
 
@@ -80,7 +84,7 @@
                         .then(response => {
 
                             this.logSuccess("Removed saying");
-                            this.$location.path("/sayings");
+                            this.$location.path("/sayings/").search("sageId", this.saying.sageId);
                         })
                         .catch(response => {
                             this.logError("Failed to remove saying", response);
@@ -107,9 +111,8 @@
             this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying")
                 .then(response => {
 
-                    this.saying = response;
                     this.logSuccess("Saved saying");
-                    this.$location.path("/sayings");
+                    this.$location.path("/sayings/").search("sageId", response.sageId);
                 })
                 .catch(response => {
 
