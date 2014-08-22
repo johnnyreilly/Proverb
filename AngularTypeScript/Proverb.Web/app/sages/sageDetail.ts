@@ -5,7 +5,7 @@
     var controllerId = "sageDetail";
 
     interface sageDetailRouteParams extends ng.route.IRouteParamsService {
-        id: number;
+        id: string;
     }
 
     class SageDetail {
@@ -33,7 +33,7 @@
         // Prototype methods
 
         activate() {
-            var id = this.$routeParams.id;
+            var id = parseInt(this.$routeParams.id, 10);
             var dataPromises: ng.IPromise<any>[] = [this.datacontext.sage.getById(id, true).then(data => this.sage = data)];
 
             this.common.activateController(dataPromises, controllerId, this.title)

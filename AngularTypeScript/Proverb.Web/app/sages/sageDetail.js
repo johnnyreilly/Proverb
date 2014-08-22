@@ -20,7 +20,7 @@
         // Prototype methods
         SageDetail.prototype.activate = function () {
             var _this = this;
-            var id = this.$routeParams.id;
+            var id = parseInt(this.$routeParams.id, 10);
             var dataPromises = [this.datacontext.sage.getById(id, true).then(function (data) {
                     return _this.sage = data;
                 })];

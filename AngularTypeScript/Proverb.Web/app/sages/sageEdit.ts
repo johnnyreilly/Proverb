@@ -5,7 +5,7 @@
     var controllerId = "sageEdit";
 
     interface sageEditRouteParams extends ng.route.IRouteParamsService {
-        id: number;
+        id: string;
     }
 
     interface sageEditScope extends ng.IScope {
@@ -50,7 +50,7 @@
         // Prototype methods
 
         activate() {
-            var id = this.$routeParams.id;
+            var id = parseInt(this.$routeParams.id, 10);
             var dataPromises: ng.IPromise<any>[] = [this.datacontext.sage.getById(id).then(sage => this.sage = sage)];
 
             this.common.activateController(dataPromises, controllerId, this.title)
