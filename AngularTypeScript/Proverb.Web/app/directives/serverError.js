@@ -31,7 +31,7 @@
                 var errorDictionaryExpression = attrs["serverError"];
 
                 // Bootstrap alert template for error
-                var template = '<div class="alert alert-danger col-xs-9 col-xs-offset-2" role="alert"><i class="glyphicon glyphicon-warning-sign larger"></i> %error%</div>';
+                var template = '<div class="alert alert-danger" role="alert"><i class="glyphicon glyphicon-warning-sign larger"></i> %error%</div>';
 
                 // Create an element to hold the validation message
                 var decorator = angular.element('<div></div>');
