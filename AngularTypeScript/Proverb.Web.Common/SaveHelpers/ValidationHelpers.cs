@@ -22,7 +22,7 @@ namespace Proverb.Web.Common.SaveHelpers
             return errors;
         }
 
-        public static string GetFieldName<T>(Expression<Func<T, object>> expression, bool camelCaseKeyName = true) where T : class
+        public static string GetFieldName<T>(T entity, Expression<Func<T, object>> expression, bool camelCaseKeyName = true) where T : class
         {
             var body = expression.Body as MemberExpression;
 
@@ -35,9 +35,9 @@ namespace Proverb.Web.Common.SaveHelpers
             if (body == null)
                 throw new ArgumentException("Invalid property expression");
 
-            var entity = body.Member.DeclaringType.Name; // eg "Saying"
+            var entityName = typeof(T).Name; // eg "Saying"
             var property = body.Member.Name; // eg "SageId"
-            var combined = entity + "." + property;
+            var combined = entityName + "." + property;
             
             return (camelCaseKeyName) ? CamelCasePropNames(combined) : combined;
         }

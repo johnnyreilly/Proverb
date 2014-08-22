@@ -94,7 +94,7 @@
             this.errors = {}; //Wipe server errors
             this._isSavingOrRemoving = true;
 
-            // Prepare the saying to save - send the minimal payload of data
+            // Prepare the saying to save - send the minimal payload of data across the wire
             var sayingToSave: saying = angular.copy(this.saying);
             if (sayingToSave.sage) {
                 sayingToSave.sageId = sayingToSave.sage.id;

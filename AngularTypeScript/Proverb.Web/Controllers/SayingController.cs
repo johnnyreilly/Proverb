@@ -57,7 +57,7 @@ namespace Proverb.Web.Controllers
             if (saying.SageId == 0) 
             {
                 // eg "saying.sageId"
-                var fieldName = ValidationHelpers.GetFieldName<Saying>(x => x.SageId);
+                var fieldName = ValidationHelpers.GetFieldName(saying, x => x.SageId);
                 return this.BadRequest(new FailedSave(fieldName, "Please select a sage."));
             }
 

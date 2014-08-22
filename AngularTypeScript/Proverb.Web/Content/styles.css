@@ -1234,8 +1234,6 @@ small {
   font-size: 400%;
   font-family: "Segoe UI", Arial, Helvetica, sans-serif;
   font-weight: normal;
-  -webkit-text-shadow: 2px 2px #000000;
-  text-shadow: 2px 2px #000000;
   text-shadow: 2px 2px rgba(0, 0, 0, 0.15);
   text-transform: uppercase;
   text-decoration: none;
