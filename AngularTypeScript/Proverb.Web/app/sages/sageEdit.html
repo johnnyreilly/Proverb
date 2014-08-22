@@ -23,29 +23,39 @@
                     <div class="widget-content form-horizontal">
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-2">Name</label>
-                            <input class="col-xs-12 col-sm-9" type="text" name="sage.name" ng-model="vm.sage.name" server-error="vm.errors" />
+                            <div class="col-xs-12 col-sm-9">
+                                <input class="form-control" type="text" name="sage.name" ng-model="vm.sage.name" server-error="vm.errors" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-2">Username</label>
-                            <input class="col-xs-12 col-sm-9" type="text" name="sage.userName" ng-model="vm.sage.userName" server-error="vm.errors" />
+                            <div class="col-xs-12 col-sm-9">
+                                <input class="form-control" type="text" name="sage.userName" ng-model="vm.sage.userName" server-error="vm.errors" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-2">Email</label>
-                            <input class="col-xs-12 col-sm-9" type="email"
-                                   name="sage.email" ng-model="vm.sage.email" server-error="vm.errors" />
+                            <div class="col-xs-12 col-sm-9">
+                                <input class="form-control" type="email"
+                                       name="sage.email" ng-model="vm.sage.email" server-error="vm.errors" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-2">Date of Birth</label>
-                            <input class="col-xs-12 col-sm-9" type="text"
-                                   datepicker-popup="mediumDate"
-                                   is-open="vm.dateOfBirthDatePickerIsOpen"
-                                   ng-click="vm.dateOfBirthDatePickerOpen()"
-                                   name="sage.dateOfBirth" ng-model="vm.sage.dateOfBirth" server-error="vm.errors" />
+                            <div class="col-xs-12 col-sm-9">
+                                <input class="form-control" type="text"
+                                       datepicker-popup="mediumDate"
+                                       is-open="vm.dateOfBirthDatePickerIsOpen"
+                                       ng-click="vm.dateOfBirthDatePickerOpen()"
+                                       name="sage.dateOfBirth" ng-model="vm.sage.dateOfBirth" server-error="vm.errors" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-2">Sagacity</label>
-                            <input class="col-xs-12 col-sm-9" type="number"
-                                   name="sage.sagacity" ng-model="vm.sage.sagacity" server-error="vm.errors" />
+                            <div class="col-xs-12 col-sm-9">
+                                <input class="form-control" type="number"
+                                       name="sage.sagacity" ng-model="vm.sage.sagacity" server-error="vm.errors" />
+                            </div>
                         </div>
                     </div>
                 </div>
