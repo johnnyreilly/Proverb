@@ -72,16 +72,19 @@
                 _this.logSuccess("Saved " + sageToSave);
                 _this.$location.path("/sages/detail/" + _this.sage.id);
             }).catch(function (response) {
-                var failMessage = "Failed to save " + sageToSave;
                 if (response.errors) {
-                    _this.logError(failMessage, response.errors);
-
                     angular.forEach(response.errors, function (errors, field) {
-                        _this.$scope.form[field].$setValidity("server", false);
+                        var model = _this.$scope.form[field];
+                        if (model) {
+                            model.$setValidity("server", false);
+                        } else {
+                            // No screen element to tie failure message to so pop a toast
+                            _this.logError(errors);
+                        }
                         _this.errors[field] = errors.join(",");
                     });
                 } else {
-                    _this.logError(failMessage, response);
+                    _this.logError("Failed to save " + sageToSave, response);
                 }
             }).finally(function () {
                 return _this._isSavingOrRemoving = false;

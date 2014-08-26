@@ -102,17 +102,22 @@
                 })
                 .catch(response => {
 
-                    var failMessage = "Failed to save " + sageToSave;
                     if (response.errors) {
-                        this.logError(failMessage, response.errors);
 
                         angular.forEach(response.errors, (errors, field) => {
-                            (<ng.INgModelController>this.$scope.form[field]).$setValidity("server", false);
+                            var model: ng.INgModelController = this.$scope.form[field];
+                            if (model) {
+                                model.$setValidity("server", false);
+                            }
+                            else {
+                                // No screen element to tie failure message to so pop a toast
+                                this.logError(errors);
+                            }
                             this.errors[field] = errors.join(",");
                         });
                     }
                     else {
-                        this.logError(failMessage, response);
+                        this.logError("Failed to save " + sageToSave, response);
                     }
                 })
                 .finally(() => this._isSavingOrRemoving = false);

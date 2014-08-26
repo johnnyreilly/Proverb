@@ -89,16 +89,19 @@
                 _this.logSuccess("Saved saying");
                 _this.$location.path("/sayings/").search("sageId", response.sageId.toString());
             }).catch(function (response) {
-                var failMessage = "Failed to save saying";
                 if (response.errors) {
-                    _this.logError(failMessage, response.errors);
-
                     angular.forEach(response.errors, function (errors, field) {
-                        _this.$scope.form[field].$setValidity("server", false);
+                        var model = _this.$scope.form[field];
+                        if (model) {
+                            model.$setValidity("server", false);
+                        } else {
+                            // No screen element to tie failure message to so pop a toast
+                            _this.logError(errors);
+                        }
                         _this.errors[field] = errors.join(",");
                     });
                 } else {
-                    _this.logError(failMessage, response);
+                    _this.logError("Failed to save saying", response);
                 }
             }).finally(function () {
                 return _this._isSavingOrRemoving = false;
