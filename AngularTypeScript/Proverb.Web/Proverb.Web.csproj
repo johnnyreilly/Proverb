@@ -498,6 +498,10 @@
     <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Proverb.Data.Common\Proverb.Data.Common.csproj">
+      <Project>{5e2275c2-592d-45eb-b1aa-704692129afe}</Project>
+      <Name>Proverb.Data.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Proverb.Data.EntityFramework\Proverb.Data.EntityFramework.csproj">
       <Project>{20df06e0-0a4f-42ef-a6be-2db1c5f8d62d}</Project>
       <Name>Proverb.Data.EntityFramework</Name>

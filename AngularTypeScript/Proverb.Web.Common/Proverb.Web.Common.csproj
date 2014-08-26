@@ -91,8 +91,7 @@
     <Compile Include="ActionFilters\AjaxExceptionFilter.cs" />
     <Compile Include="Base\BaseController.cs" />
     <Compile Include="Base\JsonNetResult.cs" />
-    <Compile Include="SaveHelpers\FailedSave.cs" />
-    <Compile Include="SaveHelpers\ValidationHelpers.cs" />
+    <Compile Include="SaveHelpers\SaveHelpers.cs" />
     <Compile Include="Implementations\UserHelper.cs" />
     <Compile Include="Interfaces\IUserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Proverb.Data.Common\Proverb.Data.Common.csproj">
+      <Project>{5e2275c2-592d-45eb-b1aa-704692129afe}</Project>
+      <Name>Proverb.Data.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,15 +1,11 @@
 ﻿using log4net;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using Proverb.Data.Common;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
 using Proverb.Web.Common.SaveHelpers;
 using Proverb.Web.Interfaces;
 using System.Threading.Tasks;
-using System;
+using System.Web.Http;
 
 namespace Proverb.Web.Controllers
 {
@@ -50,16 +46,13 @@ namespace Proverb.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return this.BadRequest(new FailedSave(ModelState.ToErrorDictionary()));
+                return this.BadRequest(ModelState.ToValidationMessages());
             }
 
-            // Probably will move this logic into sayingService - a Validate method
-            if (saying.SageId == 0) 
-            {
-                // eg "saying.sageId"
-                var fieldName = ValidationHelpers.GetFieldName(saying, x => x.SageId);
-                return this.BadRequest(new FailedSave(fieldName, "Please select a sage."));
-            }
+            // Perform service validations
+            var serviceValidations = _sayingService.Validate(saying);
+            if (serviceValidations.HasErrors())
+                return this.BadRequest(serviceValidations.WithCamelCaseKeys());
 
             saying = await _sayingService.SaveAsync(saying);
 

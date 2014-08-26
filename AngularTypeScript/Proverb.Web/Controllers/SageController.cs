@@ -1,14 +1,11 @@
 ﻿using log4net;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using Proverb.Data.Common;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
 using Proverb.Web.Common.SaveHelpers;
 using Proverb.Web.Interfaces;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Proverb.Web.Controllers
 {
@@ -49,7 +46,7 @@ namespace Proverb.Web.Controllers
         {
             if (!ModelState.IsValid) 
             {
-                return this.BadRequest(new FailedSave(ModelState.ToErrorDictionary()));
+                return this.BadRequest(ModelState.ToValidationMessages());
             }
 
             sage = await _sageService.SaveAsync(sage);

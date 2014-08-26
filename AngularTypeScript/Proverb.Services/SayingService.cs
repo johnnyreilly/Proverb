@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Proverb.Data.CommandQuery.Interfaces;
+﻿using Proverb.Data.CommandQuery.Interfaces;
+using Proverb.Data.Common;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Proverb.Services
 {
@@ -38,6 +36,21 @@ namespace Proverb.Services
         public async Task<Saying> SaveAsync(Saying saying)
         {
             return await _sayingCommand.SaveAsync(saying);
+        }
+
+        public ValidationMessages Validate(Saying saying)
+        {
+            var validations = new ValidationMessages();
+
+            // Probably will move this logic into sayingService - a Validate method
+            if (saying.SageId == 0) 
+            {
+                // eg "saying.sageId"
+                var fieldName = ValidationHelpers.GetFieldName(saying, x => x.SageId);
+                validations.AddError(fieldName, "Please select a sage.");
+            }
+
+            return validations;
         }
     }
 }

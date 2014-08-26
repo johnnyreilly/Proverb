@@ -75,7 +75,7 @@
         };
 
         Sayings.prototype.selectedSageChange = function () {
-            this.$location.search("sageId", this.selectedSage.id);
+            this.$location.search("sageId", this.selectedSage.id.toString());
         };
         Sayings.$inject = ["$location", "common", "datacontext"];
         return Sayings;

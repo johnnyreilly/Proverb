@@ -68,8 +68,10 @@
                     this.log("Activated " + title + " View");
                     this.title = title;
 
-                    // Set the saying's sage by looking it up in the sages already loaded
-                    this.saying.sage = this._.find(this.sages, s => s.id === this.saying.sageId);
+                    if (id) {
+                        // Set the saying's sage by looking it up in the sages already loaded
+                        this.saying.sage = this._.find(this.sages, s => s.id === this.saying.sageId);
+                    }
                 });
         }
 
@@ -84,7 +86,7 @@
                         .then(response => {
 
                             this.logSuccess("Removed saying");
-                            this.$location.path("/sayings/").search("sageId", this.saying.sageId);
+                            this.$location.path("/sayings/").search("sageId", this.saying.sageId.toString());
                         })
                         .catch(response => {
                             this.logError("Failed to remove saying", response);
@@ -112,7 +114,7 @@
                 .then(response => {
 
                     this.logSuccess("Saved saying");
-                    this.$location.path("/sayings/").search("sageId", response.sageId);
+                    this.$location.path("/sayings/").search("sageId", response.sageId.toString());
                 })
                 .catch(response => {
 

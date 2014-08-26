@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proverb.Data.Models;
+using Proverb.Data.Common;
 
 namespace Proverb.Services.Interfaces
 {
@@ -13,5 +14,6 @@ namespace Proverb.Services.Interfaces
         Task<ICollection<Saying>> GetAllAsync();
         Task<Saying> GetByIdAsync(int id);
         Task<Saying> SaveAsync(Saying saying);
+        ValidationMessages Validate(Saying saying);
     }
 }

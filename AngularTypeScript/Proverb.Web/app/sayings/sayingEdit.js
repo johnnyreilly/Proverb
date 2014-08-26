@@ -46,10 +46,12 @@
                 _this.log("Activated " + title + " View");
                 _this.title = title;
 
-                // Set the saying's sage by looking it up in the sages already loaded
-                _this.saying.sage = _this._.find(_this.sages, function (s) {
-                    return s.id === _this.saying.sageId;
-                });
+                if (id) {
+                    // Set the saying's sage by looking it up in the sages already loaded
+                    _this.saying.sage = _this._.find(_this.sages, function (s) {
+                        return s.id === _this.saying.sageId;
+                    });
+                }
             });
         };
 
@@ -60,7 +62,7 @@
 
                 _this.common.waiter(_this.datacontext.sage.remove(_this.saying.id), controllerId, "Removing saying").then(function (response) {
                     _this.logSuccess("Removed saying");
-                    _this.$location.path("/sayings/").search("sageId", _this.saying.sageId);
+                    _this.$location.path("/sayings/").search("sageId", _this.saying.sageId.toString());
                 }).catch(function (response) {
                     _this.logError("Failed to remove saying", response);
                 }).finally(function () {
@@ -85,7 +87,7 @@
 
             this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying").then(function (response) {
                 _this.logSuccess("Saved saying");
-                _this.$location.path("/sayings/").search("sageId", response.sageId);
+                _this.$location.path("/sayings/").search("sageId", response.sageId.toString());
             }).catch(function (response) {
                 var failMessage = "Failed to save saying";
                 if (response.errors) {

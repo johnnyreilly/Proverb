@@ -106,6 +106,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Proverb.Data.Common\Proverb.Data.Common.csproj">
+      <Project>{5e2275c2-592d-45eb-b1aa-704692129afe}</Project>
+      <Name>Proverb.Data.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Proverb.Data.Models\Proverb.Data.Models.csproj">
       <Project>{03fe7175-596b-4d57-823e-8d783881fb0d}</Project>
       <Name>Proverb.Data.Models</Name>

@@ -67,7 +67,7 @@
         }
 
         selectedSageChange() {
-            this.$location.search("sageId", this.selectedSage.id);
+            this.$location.search("sageId", this.selectedSage.id.toString());
         }
 
         // Instance methods

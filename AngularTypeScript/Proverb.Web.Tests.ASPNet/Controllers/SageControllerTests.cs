@@ -1,20 +1,17 @@
 ﻿using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Proverb.Data.Common;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
-using Proverb.Web.Common.SaveHelpers;
 using Proverb.Web.Controllers;
 using Proverb.Web.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using System.Web.Mvc;
 
 namespace Proverb.Web.Tests.Controllers
 {
@@ -97,7 +94,7 @@ namespace Proverb.Web.Tests.Controllers
 
             IHttpActionResult result = await _controller.Post(_sage);
 
-            var badRequest = result as NegotiatedContentResult<FailedSave>;
+            var badRequest = result as NegotiatedContentResult<ValidationMessages>;
             Assert.IsNotNull(badRequest);
             Assert.AreEqual(HttpStatusCode.BadRequest, badRequest.StatusCode);
             Assert.IsTrue(badRequest.Content.Errors.ContainsKey(key));

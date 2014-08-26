@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FC9EF515-88D8-4366-BF4F-9FD08CE5138D}</ProjectGuid>
+    <ProjectGuid>{5E2275C2-592D-45EB-B1AA-704692129AFE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Proverb.Services.Interfaces</RootNamespace>
-    <AssemblyName>Proverb.Services.Interfaces</AssemblyName>
+    <RootNamespace>Proverb.Data.Common</RootNamespace>
+    <AssemblyName>Proverb.Data.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,20 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISageService.cs" />
-    <Compile Include="IUserService.cs" />
-    <Compile Include="ISayingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Proverb.Data.Common\Proverb.Data.Common.csproj">
-      <Project>{5e2275c2-592d-45eb-b1aa-704692129afe}</Project>
-      <Name>Proverb.Data.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Data.Models\Proverb.Data.Models.csproj">
-      <Project>{03fe7175-596b-4d57-823e-8d783881fb0d}</Project>
-      <Name>Proverb.Data.Models</Name>
-    </ProjectReference>
+    <Compile Include="ValidationHelpers.cs" />
+    <Compile Include="ValidationMessages.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
