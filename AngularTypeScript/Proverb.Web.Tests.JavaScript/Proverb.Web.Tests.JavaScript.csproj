@@ -45,8 +45,12 @@
     <None Include="chutzpah.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\sages\sageDetail.js" />
     <Content Include="app\sages\sages.js" />
     <Content Include="bootstrapper.js" />
+    <Content Include="scripts\boot.js" />
+    <Content Include="scripts\jasmine.js" />
+    <Content Include="scripts\_references.js" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
