@@ -42,9 +42,14 @@
 
                 expect(sagesController.sages.length).toBe(0);
             });
+
+            it("datacontext.sage.getById should be called", function () {
+
+                expect(datacontext.sage.getAll).toHaveBeenCalledWith();
+            });
         });
 
-        describe("on activation ->", function () {
+        describe("activateController ->", function () {
 
             var stubSages;
             beforeEach(function () {
