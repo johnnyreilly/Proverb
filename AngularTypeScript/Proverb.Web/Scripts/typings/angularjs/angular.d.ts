@@ -38,10 +38,115 @@ declare module ng {
     ///////////////////////////////////////////////////////////////////////////
     interface IAngularStatic {
         bind(context: any, fn: Function, ...args: any[]): Function;
-        bootstrap(element: string, modules?: any[]): auto.IInjectorService;
-        bootstrap(element: JQuery, modules?: any[]): auto.IInjectorService;
-        bootstrap(element: Element, modules?: any[]): auto.IInjectorService;
-        bootstrap(element: Document, modules?: any[]): auto.IInjectorService;
+
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: string, modules?: string): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: string, modules?: Function): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: string, modules?: string[]): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: JQuery, modules?: string): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: JQuery, modules?: Function): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: JQuery, modules?: string[]): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: Element, modules?: string): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: Element, modules?: Function): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: Element, modules?: string[]): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: Document, modules?: string): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: Document, modules?: Function): auto.IInjectorService;
+        /**
+         * Use this function to manually start up angular application.
+         *
+         * @param element DOM element which is the root of angular application.
+         * @param modules An array of modules to load into the application.
+         *     Each item in the array should be the name of a predefined module or a (DI annotated)
+         *     function that will be invoked by the injector as a run block.
+         */
+        bootstrap(element: Document, modules?: string[]): auto.IInjectorService;
 
         /**
          * Creates a deep copy of source, which should be an object or an array.
@@ -56,6 +161,11 @@ declare module ng {
          */
         copy<T>(source: T, destination?: T): T;
 
+        /**
+         * Wraps a raw DOM element or HTML string as a jQuery element.
+         * 
+         * If jQuery is available, angular.element is an alias for the jQuery function. If jQuery is not available, angular.element delegates to Angular's built-in subset of jQuery, called "jQuery lite" or "jqLite."
+         */
         element: IAugmentedJQueryStatic;
         equals(value1: any, value2: any): boolean;
         extend(destination: any, ...sources: any[]): any;
@@ -177,8 +287,20 @@ declare module ng {
          * @param controllerConstructor Controller constructor fn (optionally decorated with DI annotations in the array notation).
          */
         controller(name: string, inlineAnnotatedConstructor: any[]): IModule;
-        controller(object : Object): IModule;
+        controller(object: Object): IModule;
+        /**
+         * Register a new directive with the compiler.
+         * 
+         * @param name Name of the directive in camel-case (i.e. ngBind which will match as ng-bind)
+         * @param directiveFactory An injectable directive factory function.
+         */
         directive(name: string, directiveFactory: IDirectiveFactory): IModule;
+        /**
+         * Register a new directive with the compiler.
+         * 
+         * @param name Name of the directive in camel-case (i.e. ngBind which will match as ng-bind)
+         * @param directiveFactory An injectable directive factory function.
+         */
         directive(name: string, inlineAnnotatedFunction: any[]): IModule;
         directive(object: Object): IModule;
         /**
@@ -346,10 +468,10 @@ declare module ng {
         (): void;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Scope and RootScope
-    // see https://docs.angularjs.org/api/ng/type/$rootScope.Scope and http://docs.angularjs.org/api/ng.$rootScope
-    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * $rootScope - $rootScopeProvider - service in module ng
+     * see https://docs.angularjs.org/api/ng/type/$rootScope.Scope and https://docs.angularjs.org/api/ng/service/$rootScope
+     */
     interface IRootScopeService {
         $apply(): any;
         $apply(exp: string): any;
@@ -371,6 +493,14 @@ declare module ng {
         // Defaults to false by the implementation checking strategy
         $new(isolate?: boolean): IScope;
 
+        /**
+         * Listens on events of a given type. See $emit for discussion of event life cycle.
+         * 
+         * The event listener function format is: function(event, args...). 
+         * 
+         * @param name Event name to listen on.
+         * @param listener Function to call when the event is emitted.
+         */
         $on(name: string, listener: (event: IAngularEvent, ...args: any[]) => any): Function;
 
         $watch(watchExpression: string, listener?: string, objectEquality?: boolean): Function;
@@ -401,14 +531,30 @@ declare module ng {
     }
 
     interface IAngularEvent {
+        /**
+         * the scope on which the event was $emit-ed or $broadcast-ed.
+         */
         targetScope: IScope;
+        /**
+         * the scope that is currently handling the event. Once the event propagates through the scope hierarchy, this property is set to null.
+         */
         currentScope: IScope;
+        /**
+         * name of the event.
+         */
         name: string;
-        preventDefault: Function;
-        defaultPrevented: boolean;
-
-        // Available only events that were $emit-ted
+        /**
+         * calling stopPropagation function will cancel further event propagation (available only for events that were $emit-ed).
+         */
         stopPropagation?: Function;
+        /**
+         * calling preventDefault sets defaultPrevented flag to true.
+         */
+        preventDefault: Function;
+        /**
+         * true if preventDefault was called.
+         */
+        defaultPrevented: boolean;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -712,15 +858,43 @@ declare module ng {
     }
 
     interface IPromise<T> {
+        /**
+         * Regardless of when the promise was or will be resolved or rejected, then calls one of the success or error callbacks asynchronously as soon as the result is available. The callbacks are called with a single argument: the result or rejection reason. Additionally, the notify callback may be called zero or more times to provide a progress indication, before the promise is resolved or rejected.
+         *
+         * This method returns a new promise which is resolved or rejected via the return value of the successCallback, errorCallback. It also notifies via the return value of the notifyCallback method. The promise can not be resolved or rejected from the notifyCallback method.
+         */
         then<TResult>(successCallback: (promiseValue: T) => IHttpPromise<TResult>, errorCallback?: (reason: any) => any, notifyCallback?: (state: any) => any): IPromise<TResult>;
+        /**
+         * Regardless of when the promise was or will be resolved or rejected, then calls one of the success or error callbacks asynchronously as soon as the result is available. The callbacks are called with a single argument: the result or rejection reason. Additionally, the notify callback may be called zero or more times to provide a progress indication, before the promise is resolved or rejected.
+         *
+         * This method returns a new promise which is resolved or rejected via the return value of the successCallback, errorCallback. It also notifies via the return value of the notifyCallback method. The promise can not be resolved or rejected from the notifyCallback method.
+         */
         then<TResult>(successCallback: (promiseValue: T) => IPromise<TResult>, errorCallback?: (reason: any) => any, notifyCallback?: (state: any) => any): IPromise<TResult>;
+        /**
+         * Regardless of when the promise was or will be resolved or rejected, then calls one of the success or error callbacks asynchronously as soon as the result is available. The callbacks are called with a single argument: the result or rejection reason. Additionally, the notify callback may be called zero or more times to provide a progress indication, before the promise is resolved or rejected.
+         *
+         * This method returns a new promise which is resolved or rejected via the return value of the successCallback, errorCallback. It also notifies via the return value of the notifyCallback method. The promise can not be resolved or rejected from the notifyCallback method.
+         */
         then<TResult>(successCallback: (promiseValue: T) => TResult, errorCallback?: (reason: any) => TResult, notifyCallback?: (state: any) => any): IPromise<TResult>;
 
-
+        /**
+         * Shorthand for promise.then(null, errorCallback)
+         */
         catch<TResult>(onRejected: (reason: any) => IHttpPromise<TResult>): IPromise<TResult>;
+        /**
+         * Shorthand for promise.then(null, errorCallback)
+         */
         catch<TResult>(onRejected: (reason: any) => IPromise<TResult>): IPromise<TResult>;
+        /**
+         * Shorthand for promise.then(null, errorCallback)
+         */
         catch<TResult>(onRejected: (reason: any) => TResult): IPromise<TResult>;
 
+        /**
+         * Allows you to observe either the fulfillment or rejection of a promise, but to do so without modifying the final value. This is useful to release resources or do some clean-up that needs to be done whether the promise was rejected or resolved. See the full specification for more information.
+         * 
+         * Because finally is a reserved word in JavaScript and reserved keywords are not supported as property names by ES3, you'll need to invoke the method like promise['finally'](callback) to make your code IE8 and Android 2.x compatible.
+         */
         finally<TResult>(finallyCallback: ()=>any):IPromise<TResult>;
     }
 
@@ -1151,12 +1325,12 @@ declare module ng {
         transclude?: any;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // angular.element
-    // when calling angular.element, angular returns a jQuery object,
-    // augmented with additional methods like e.g. scope.
-    // see: http://docs.angularjs.org/api/angular.element
-    ///////////////////////////////////////////////////////////////////////////
+    /**
+     * angular.element
+     * when calling angular.element, angular returns a jQuery object,
+     * augmented with additional methods like e.g. scope.
+     * see: http://docs.angularjs.org/api/angular.element
+     */
     interface IAugmentedJQueryStatic extends JQueryStatic {
         (selector: string, context?: any): IAugmentedJQuery;
         (element: Element): IAugmentedJQuery;
