@@ -56,7 +56,7 @@
             var title: string;
 
             if (id) {
-                dataPromises.push(this.datacontext.saying.getById(id).then(saying => this.saying = saying));
+                dataPromises.push(this.datacontext.saying.getById(id, true).then(saying => this.saying = saying));
                 title = "Saying Edit";
             }
             else {
