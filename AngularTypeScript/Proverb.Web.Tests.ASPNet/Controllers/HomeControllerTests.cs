@@ -17,6 +17,8 @@ namespace Proverb.Web.Tests.Controllers
     [TestClass]
     public class HomeControllerTests
     {
+        private const string CATEGORY = "Proverb.Web -> HomeController";
+
         private Mock<IUserService> _userServiceMock;
         private Mock<IUserHelper> _userHelperMock;
         private Mock<ILog> _loggerMock;
@@ -32,13 +34,13 @@ namespace Proverb.Web.Tests.Controllers
             _controller = new HomeController(_userServiceMock.Object, _userHelperMock.Object, _loggerMock.Object);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory(CATEGORY)]
         public void Index_returns_ViewResult()
         {
             ViewResult result = _controller.Index();
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory(CATEGORY)]
         public void About_sets_ViewBagMessage()
         {
             ViewResult result = _controller.About();
@@ -46,7 +48,7 @@ namespace Proverb.Web.Tests.Controllers
             Assert.AreEqual("Your application description page.", result.ViewBag.Message);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory(CATEGORY)]
         public void Contact_sets_ViewBagMessage()
         {
             ViewResult result = _controller.Contact();

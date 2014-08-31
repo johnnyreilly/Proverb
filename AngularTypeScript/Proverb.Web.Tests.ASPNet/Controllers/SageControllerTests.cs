@@ -18,6 +18,8 @@ namespace Proverb.Web.Tests.Controllers
     [TestClass]
     public class SageControllerTests
     {
+        private const string CATEGORY = "Proverb.Web -> SageController";
+
         private Mock<ISageService> _sageServiceMock;
         private Mock<IUserHelper> _userHelperMock;
         private Mock<ILog> _loggerMock;
@@ -35,7 +37,7 @@ namespace Proverb.Web.Tests.Controllers
             _controller = new SageController(_sageServiceMock.Object, _userHelperMock.Object, _loggerMock.Object);
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Get_with_an_id_returns_a_NotFound()
         {
             var sageId = 1;
@@ -51,7 +53,7 @@ namespace Proverb.Web.Tests.Controllers
             _sageServiceMock.Verify(x => x.GetByIdAsync(sageId));
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Get_with_an_id_returns_an_Ok_with_a_Sage()
         {
             _sageServiceMock
@@ -66,7 +68,7 @@ namespace Proverb.Web.Tests.Controllers
             _sageServiceMock.Verify(x => x.GetByIdAsync(_sage.Id));
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Get_returns_an_Ok_with_an_ICollection_of_Sage()
         {
             var sages = new List<Sage>{
@@ -85,7 +87,7 @@ namespace Proverb.Web.Tests.Controllers
             _sageServiceMock.Verify(x => x.GetAllAsync());
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Post_returns_a_BadRequest_with_a_Dictionary_of_errors()
         {
             var key = "dummy error";
@@ -101,7 +103,7 @@ namespace Proverb.Web.Tests.Controllers
             Assert.IsTrue(badRequest.Content.Errors[key].Contains(errorMessage));
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Post_returns_an_Ok_with_a_Sage()
         {
             _sageServiceMock
@@ -116,7 +118,7 @@ namespace Proverb.Web.Tests.Controllers
             _sageServiceMock.Verify(x => x.SaveAsync(_sage));
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Delete_returns_a_NotFound()
         {
             _sageServiceMock
@@ -130,7 +132,7 @@ namespace Proverb.Web.Tests.Controllers
             _sageServiceMock.Verify(x => x.DeleteAsync(_sage.Id));
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Delete_returns_an_Ok()
         {
             _sageServiceMock

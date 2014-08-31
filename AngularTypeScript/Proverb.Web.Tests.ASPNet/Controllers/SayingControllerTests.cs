@@ -19,6 +19,8 @@ namespace Proverb.Web.Tests.Controllers
     [TestClass]
     public class SayingControllerTests
     {
+        private const string CATEGORY = "Proverb.Web -> SayingController";
+
         private Mock<ISayingService> _sayingServiceMock;
         private Mock<IUserHelper> _userHelperMock;
         private Mock<ILog> _loggerMock;
@@ -34,7 +36,7 @@ namespace Proverb.Web.Tests.Controllers
             _controller = new SayingController(_sayingServiceMock.Object, _userHelperMock.Object, _loggerMock.Object);
         }
 
-        [TestMethod()]
+        [TestMethod, TestCategory(CATEGORY)]
         public async Task Get_returns_an_Ok_with_an_ICollection_of_Saying()
         {
             var sayings = new List<Saying>{

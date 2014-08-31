@@ -1,4 +1,4 @@
-﻿describe("controllers ->", function () {
+﻿describe("Proverb.Web -> app-> controllers ->", function () {
 
     beforeEach(function () {
 
