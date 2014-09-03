@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Proverb.Web.Tests.Controllers
+namespace Proverb.Web.Tests.ASPNet.Controllers
 {
     [TestClass]
     public class HomeControllerTests

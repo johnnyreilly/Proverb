@@ -14,7 +14,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using System.Web.Mvc;
 
-namespace Proverb.Web.Tests.Controllers
+namespace Proverb.Web.Tests.ASPNet.Controllers
 {
     [TestClass]
     public class SayingControllerTests

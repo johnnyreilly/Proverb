@@ -6,8 +6,8 @@
     <ProjectGuid>{7A92AAF6-4D49-4415-B3E5-EC3F56743316}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Proverb.Web.Tests</RootNamespace>
-    <AssemblyName>Proverb.Web.Tests</AssemblyName>
+    <RootNamespace>Proverb.Web.Tests.ASPNet</RootNamespace>
+    <AssemblyName>Proverb.Web.Tests.ASPNet</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
