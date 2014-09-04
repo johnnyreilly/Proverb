@@ -20,7 +20,7 @@ declare module ng {
 
     // not directly implemented, but ensures that constructed class implements $get
     interface IServiceProviderClass {
-        new(...args: any[]): IServiceProvider;
+        new (...args: any[]): IServiceProvider;
     }
 
     interface IServiceProviderFactory {
@@ -380,7 +380,7 @@ declare module ng {
         // The observer function will be invoked once during the next $digest
         // following compilation. The observer is then invoked whenever the
         // interpolated value changes.
-        $observe(name: string, fn:(value?:any)=>any): Function;
+        $observe(name: string, fn: (value?: any) => any): Function;
 
         // A map of DOM element attribute names to the normalized name. This is needed
         // to do reverse lookup from normalized name back to actual name.
@@ -482,13 +482,11 @@ declare module ng {
         $digest(): void;
         $emit(name: string, ...args: any[]): IAngularEvent;
 
-        // Documentation says exp is optional, but actual implementaton counts on it
-        $eval(expression: string, args?: Object): any;
-        $eval(expression: (scope: IScope) => any, args?: Object): any;
+        $eval(expression?: string, args?: Object): any;
+        $eval(expression?: (scope: IScope) => any, args?: Object): any;
 
-        // Documentation says exp is optional, but actual implementaton counts on it
-        $evalAsync(expression: string): void;
-        $evalAsync(expression: (scope: IScope) => any): void;
+        $evalAsync(expression?: string): void;
+        $evalAsync(expression?: (scope: IScope) => any): void;
 
         // Defaults to false by the implementation checking strategy
         $new(isolate?: boolean): IScope;
@@ -512,7 +510,7 @@ declare module ng {
         $watchCollection(watchExpression: (scope: IScope) => any, listener: (newValue: any, oldValue: any, scope: IScope) => any): Function;
 
         $watchGroup(watchExpressions: any[], listener: (newValue: any, oldValue: any, scope: IScope) => any): Function;
-        $watchGroup(watchExpressions: {(scope: IScope) : any}[], listener: (newValue: any, oldValue: any, scope: IScope) => any): Function;
+        $watchGroup(watchExpressions: { (scope: IScope): any }[], listener: (newValue: any, oldValue: any, scope: IScope) => any): Function;
 
         $parent: IScope;
 
@@ -895,13 +893,13 @@ declare module ng {
          * 
          * Because finally is a reserved word in JavaScript and reserved keywords are not supported as property names by ES3, you'll need to invoke the method like promise['finally'](callback) to make your code IE8 and Android 2.x compatible.
          */
-        finally<TResult>(finallyCallback: ()=>any):IPromise<TResult>;
+        finally<TResult>(finallyCallback: () => any): IPromise<TResult>;
     }
 
     interface IDeferred<T> {
         resolve(value?: T): void;
         reject(reason?: any): void;
-        notify(state?:any): void;
+        notify(state?: any): void;
         promise: IPromise<T>;
     }
 
@@ -930,7 +928,7 @@ declare module ng {
 
         // Methods bellow are not documented
         info(): any;
-        get (cacheId: string): ICacheObject;
+        get(cacheId: string): ICacheObject;
     }
 
     interface ICacheObject {
@@ -942,7 +940,7 @@ declare module ng {
             //capacity: number;
         };
         put(key: string, value?: any): void;
-        get (key: string): any;
+        get(key: string): any;
         remove(key: string): void;
         removeAll(): void;
         destroy(): void;
@@ -1292,7 +1290,7 @@ declare module ng {
             instanceAttributes: IAttributes,
             controller: any,
             transclude: ITranscludeFunction
-        ): void;
+            ): void;
     }
 
     interface IDirectivePrePost {
@@ -1305,7 +1303,7 @@ declare module ng {
             templateElement: IAugmentedJQuery,
             templateAttributes: IAttributes,
             transclude: ITranscludeFunction
-        ): IDirectivePrePost;
+            ): IDirectivePrePost;
     }
 
     interface IDirective {
