@@ -86,7 +86,7 @@
                         .then(response => {
 
                             this.logSuccess("Removed saying");
-                            this.$location.path("/sayings/").search("sageId", this.saying.sageId.toString());
+                            this.$location.path("/sayings/").search("sageId", this.saying.sageId);
                         })
                         .catch(response => {
                             this.logError("Failed to remove saying", response);
@@ -114,7 +114,7 @@
                 .then(response => {
 
                     this.logSuccess("Saved saying");
-                    this.$location.path("/sayings/").search("sageId", response.sageId.toString());
+                    this.$location.path("/sayings/").search("sageId", response.sageId);
                 })
                 .catch(response => {
 

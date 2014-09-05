@@ -445,6 +445,7 @@ declare module ng {
         $untouched: boolean;
 
         $validators: IModelValidators;
+        $asyncValidators: IModelValidators;
 
         $pristine: boolean;
         $dirty: boolean;
@@ -749,6 +750,14 @@ declare module ng {
          * @param paramValue If search is a string, then paramValue will override only a single search property. If paramValue is null, the property specified via the first argument will be deleted.
          */
         search(search: string, paramValue: string): ILocationService;
+
+        /**
+         * Change search part when called with parameter and return $location.
+         * 
+         * @param search New search params
+         * @param paramValue If search is a string or a Number, then paramValue will override only a single search property. If paramValue is null, the property specified via the first argument will be deleted.
+         */
+        search(search: string, paramValue: number): ILocationService;
 
         /**
          * Change search part when called with parameter and return $location.

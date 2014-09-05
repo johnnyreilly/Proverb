@@ -62,7 +62,7 @@
 
                 _this.common.waiter(_this.datacontext.sage.remove(_this.saying.id), controllerId, "Removing saying").then(function (response) {
                     _this.logSuccess("Removed saying");
-                    _this.$location.path("/sayings/").search("sageId", _this.saying.sageId.toString());
+                    _this.$location.path("/sayings/").search("sageId", _this.saying.sageId);
                 }).catch(function (response) {
                     _this.logError("Failed to remove saying", response);
                 }).finally(function () {
@@ -87,7 +87,7 @@
 
             this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying").then(function (response) {
                 _this.logSuccess("Saved saying");
-                _this.$location.path("/sayings/").search("sageId", response.sageId.toString());
+                _this.$location.path("/sayings/").search("sageId", response.sageId);
             }).catch(function (response) {
                 if (response.errors) {
                     angular.forEach(response.errors, function (errors, field) {
