@@ -70,7 +70,7 @@
                 activateControllerDeferred.resolve();
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
-                expect(sagesController.log).toHaveBeenCalledWith("Activated Sages View");
+                expect(sagesController.log).toHaveBeenCalledWith("Activated Sages View2");
             });
         });
     });
