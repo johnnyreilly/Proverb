@@ -7,7 +7,7 @@
 
     describe("sages ->", function () {
 
-        var $rootScope, activateControllerDeferred, common, datacontext, getAllDeferred, sagesController;
+        var $rootScope, activateController_deferred, common, datacontext, getAll_deferred, sagesController;
 
         beforeEach(inject(function (_$controller_, _$rootScope_, _$q_, _common_, _datacontext_) {
 
@@ -16,11 +16,11 @@
             common = _common_;
             datacontext = _datacontext_;
 
-            getAllDeferred = $q.defer();
-            activateControllerDeferred = $q.defer();
+            getAll_deferred = $q.defer();
+            activateController_deferred = $q.defer();
 
-            spyOn(datacontext.sage, "getAll").and.returnValue(getAllDeferred.promise);
-            spyOn(common, "activateController").and.returnValue(activateControllerDeferred.promise);
+            spyOn(datacontext.sage, "getAll").and.returnValue(getAll_deferred.promise);
+            spyOn(common, "activateController").and.returnValue(activateController_deferred.promise);
             spyOn(common.logger, "getLogFn").and.returnValue(jasmine.createSpy("log"));
             
             sagesController = _$controller_("sages", {
@@ -58,7 +58,7 @@
 
             it("should set sages to be the resolved promise values", function () {
 
-                getAllDeferred.resolve(stubSages);
+                getAll_deferred.resolve(stubSages);
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
                 expect(sagesController.sages).toBe(stubSages);
@@ -66,8 +66,8 @@
 
             it("should log 'Activated Sages View'", function () {
 
-                getAllDeferred.resolve(stubSages);
-                activateControllerDeferred.resolve();
+                getAll_deferred.resolve(stubSages);
+                activateController_deferred.resolve();
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
                 expect(sagesController.log).toHaveBeenCalledWith("Activated Sages View");
