@@ -7,10 +7,10 @@
 
     describe("sageDetail ->", function () {
 
-        var $rootScope, activateController_deferred,
-            $location, $routeParams_stub, common, datacontext,
-            getById_deferred,
-            sageDetailController;
+        var $rootScope,
+            getById_deferred, // deferred used for promises
+            $location, $routeParams_stub, common, datacontext, // controller dependencies
+            sageDetailController; // the controller
 
         beforeEach(inject(function (_$controller_, _$rootScope_, _$q_, _$location_, _common_, _datacontext_) {
 
@@ -23,10 +23,9 @@
 
             $routeParams_stub = { id: "10" };
             getById_deferred = $q.defer();
-            activateController_deferred = $q.defer();
 
             spyOn(datacontext.sage, "getById").and.returnValue(getById_deferred.promise);
-            spyOn(common, "activateController").and.returnValue(activateController_deferred.promise);
+            spyOn(common, "activateController").and.callThrough();
             spyOn(common.logger, "getLogFn").and.returnValue(jasmine.createSpy("log"));
             spyOn($location, "path").and.returnValue(jasmine.createSpy("path"));
 
@@ -76,7 +75,6 @@
             it("should log 'Activated Sage Details View' and set title with name", function () {
 
                 getById_deferred.resolve(sage_stub);
-                activateController_deferred.resolve();
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
                 expect(sageDetailController.log).toHaveBeenCalledWith("Activated Sage Details View");
@@ -94,7 +92,6 @@
             it("should set $location.path to edit URL", function () {
 
                 getById_deferred.resolve(sage_stub);
-                activateController_deferred.resolve();
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
                 sageDetailController.gotoEdit();

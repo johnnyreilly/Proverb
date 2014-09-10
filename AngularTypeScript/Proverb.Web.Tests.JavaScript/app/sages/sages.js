@@ -7,7 +7,7 @@
 
     describe("sages ->", function () {
 
-        var $rootScope, activateController_deferred, common, datacontext, getAll_deferred, sagesController;
+        var $rootScope, common, datacontext, getAll_deferred, sagesController;
 
         beforeEach(inject(function (_$controller_, _$rootScope_, _$q_, _common_, _datacontext_) {
 
@@ -17,10 +17,9 @@
             datacontext = _datacontext_;
 
             getAll_deferred = $q.defer();
-            activateController_deferred = $q.defer();
 
             spyOn(datacontext.sage, "getAll").and.returnValue(getAll_deferred.promise);
-            spyOn(common, "activateController").and.returnValue(activateController_deferred.promise);
+            spyOn(common, "activateController").and.callThrough();
             spyOn(common.logger, "getLogFn").and.returnValue(jasmine.createSpy("log"));
             
             sagesController = _$controller_("sages", {
@@ -67,7 +66,6 @@
             it("should log 'Activated Sages View'", function () {
 
                 getAll_deferred.resolve(stubSages);
-                activateController_deferred.resolve();
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
                 expect(sagesController.log).toHaveBeenCalledWith("Activated Sages View");
