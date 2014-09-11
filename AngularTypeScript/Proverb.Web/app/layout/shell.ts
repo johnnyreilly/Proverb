@@ -70,7 +70,7 @@
                 });
 
             this.$rootScope.$on(events.controllerActivateSuccess,
-                (event, data: controllerActivateSuccessData) => {
+                (event: ng.IAngularEvent, data: controllerActivateSuccessData) => {
                     // Deactivate spinner as long as the controller that has been activated is not the shell
                     if (data.controllerId !== controllerId) {
                         this.toggleSpinner(false);
@@ -79,7 +79,7 @@
                 });
 
             this.$rootScope.$on(events.failure,
-                (event, data: failureData) => {
+                (event: ng.IAngularEvent, data: failureData) => {
                     this.toggleSpinner(false);
 
                     var message = this.config.inDebug
@@ -89,18 +89,18 @@
                 });
 
             this.$rootScope.$on(events.spinnerToggle,
-                (event, data: spinnerToggleEvent) => {
+                (event: ng.IAngularEvent, data: spinnerToggleEvent) => {
                     this.toggleSpinner(data.show);
                 });
 
             this.$rootScope.$on(events.waiterStart,
-                (event, data: waiterStartData) => {
+                (event: ng.IAngularEvent, data: waiterStartData) => {
                     this.busyMessage = data.message;
                     this.toggleSpinner(true);
                 });
 
             this.$rootScope.$on(events.waiterSuccess,
-                (event, data: controllerActivateSuccessData) => {
+                (event: ng.IAngularEvent, data: controllerActivateSuccessData) => {
                     this.toggleSpinner(false);
                 });
         }

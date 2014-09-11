@@ -1,4 +1,5 @@
 interface datacontext {
+    [index: string]: any; // Because of this issue: https://typescript.codeplex.com/discussions/535628
     saying: repositorySaying;
     sage: repositorySage;
 }

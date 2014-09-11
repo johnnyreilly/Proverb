@@ -19,7 +19,7 @@ interface repositories {
         return service;
 
         // Get named Repository Ctor (by injection), new it, and initialize it
-        function getRepo(repoName) {
+        function getRepo(repoName: string) {
             var fullRepoName = "repository." + repoName.toLowerCase();
             var repo = $injector.get(fullRepoName);
             return repo;
