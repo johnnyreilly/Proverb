@@ -37,6 +37,7 @@
         SageDetail.$inject = ["$location", "$routeParams", "common", "datacontext"];
         return SageDetail;
     })();
+    controllers.SageDetail = SageDetail;
 
     angular.module("app").controller(controllerId, SageDetail);
 })(controllers || (controllers = {}));
