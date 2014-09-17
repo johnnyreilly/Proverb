@@ -1,9 +1,17 @@
 ﻿/// <reference path="../../../proverb.web/scripts/typings/angularjs/angular.d.ts" />
 /// <reference path="../../../proverb.web/scripts/typings/angularjs/angular-mocks.d.ts" />
+/// <reference path="../../../proverb.web/scripts/typings/angularjs/angular-route.d.ts" />
+/// <reference path="../../../proverb.web/scripts/typings/toastr/toastr.d.ts" />
+/// <reference path="../../../proverb.web/scripts/typings/underscore/underscore.d.ts" />
 /// <reference path="../../../proverb.web/app/sages/sagedetail.ts" />
+/// <reference path="../../../proverb.web/app/common/logger.ts" />
 /// <reference path="../../../proverb.web/app/common/common.ts" />
 /// <reference path="../../../proverb.web/app/services/datacontext.ts" />
+/// <reference path="../../../proverb.web/app/services/repositories.ts" />
 /// <reference path="../../../proverb.web/app/services/repository.sage.ts" />
+/// <reference path="../../../proverb.web/app/services/repository.saying.ts" />
+/// <reference path="../../../proverb.web/app/app.ts" />
+/// <reference path="../../../proverb.web/app/config.route.ts" />
 describe("Proverb.Web -> app-> controllers ->", function () {
 
     beforeEach(function () {
