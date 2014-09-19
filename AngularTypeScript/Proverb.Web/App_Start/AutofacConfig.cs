@@ -2,14 +2,12 @@
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using log4net;
-using Proverb.Data;
 using Proverb.Web.Implementations;
 using Proverb.Web.Interfaces;
 using Proverb.Web.Utilities;
 using System.Reflection;
 using System.Web;
 using System.Web.Optimization;
-using Proverb.Data.EntityFramework;
 
 namespace Proverb.Web
 {
@@ -18,21 +16,6 @@ namespace Proverb.Web
         public static void RegisterAndBuild()
         {
             var builder = new ContainerBuilder();
-
-            // DbContext
-            builder.RegisterType<ProverbContext>().As<ProverbContext>().InstancePerLifetimeScope();
-
-            // Queries / Commands
-            builder.RegisterAssemblyTypes(Assembly.Load("Proverb.Data.CommandQuery"))
-                .Where(t => t.Name.EndsWith("Query") || t.Name.EndsWith("Command"))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-            // Domain Services
-            builder.RegisterAssemblyTypes(Assembly.Load("Proverb.Services"))
-                .Where(t => t.Name.EndsWith("Service"))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
 
             // Web Project
             var assembly = Assembly.GetExecutingAssembly();

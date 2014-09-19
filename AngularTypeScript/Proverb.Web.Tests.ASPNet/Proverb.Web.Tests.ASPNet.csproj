@@ -100,24 +100,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\SageControllerTests.cs" />
-    <Compile Include="Controllers\SayingControllerTests.cs" />
     <Compile Include="Controllers\HomeControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Proverb.Data.Common\Proverb.Data.Common.csproj">
-      <Project>{5e2275c2-592d-45eb-b1aa-704692129afe}</Project>
-      <Name>Proverb.Data.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Data.Models\Proverb.Data.Models.csproj">
-      <Project>{03fe7175-596b-4d57-823e-8d783881fb0d}</Project>
-      <Name>Proverb.Data.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Services.Interfaces\Proverb.Services.Interfaces.csproj">
-      <Project>{fc9ef515-88d8-4366-bf4f-9fd08ce5138d}</Project>
-      <Name>Proverb.Services.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Proverb.Web.Common\Proverb.Web.Common.csproj">
       <Project>{5eebb14d-2bf8-45e3-bdec-ce99044ac0d8}</Project>
       <Name>Proverb.Web.Common</Name>

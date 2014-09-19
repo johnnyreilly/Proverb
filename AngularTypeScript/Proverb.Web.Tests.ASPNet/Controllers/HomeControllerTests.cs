@@ -1,8 +1,6 @@
 ﻿using log4net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Proverb.Data.Models;
-using Proverb.Services.Interfaces;
 using Proverb.Web.Controllers;
 using Proverb.Web.Interfaces;
 using System;
@@ -19,7 +17,6 @@ namespace Proverb.Web.Tests.ASPNet.Controllers
     {
         private const string CATEGORY = "Proverb.Web -> HomeController";
 
-        private Mock<IUserService> _userServiceMock;
         private Mock<IUserHelper> _userHelperMock;
         private Mock<ILog> _loggerMock;
         private HomeController _controller;
@@ -27,11 +24,10 @@ namespace Proverb.Web.Tests.ASPNet.Controllers
         [TestInitialize]
         public void Initialise()
         {
-            _userServiceMock = new Mock<IUserService>();
             _userHelperMock = new Mock<IUserHelper>();
             _loggerMock = new Mock<ILog>();
 
-            _controller = new HomeController(_userServiceMock.Object, _userHelperMock.Object, _loggerMock.Object);
+            _controller = new HomeController(_userHelperMock.Object, _loggerMock.Object);
         }
 
         [TestMethod, TestCategory(CATEGORY)]

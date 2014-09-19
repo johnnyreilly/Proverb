@@ -150,8 +150,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SayingController.cs" />
-    <Compile Include="Controllers\SageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -497,37 +495,9 @@
     <TypeScriptCompile Include="Scripts\typings\underscore\underscore.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Proverb.Data.Common\Proverb.Data.Common.csproj">
-      <Project>{5e2275c2-592d-45eb-b1aa-704692129afe}</Project>
-      <Name>Proverb.Data.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Data.EntityFramework\Proverb.Data.EntityFramework.csproj">
-      <Project>{20df06e0-0a4f-42ef-a6be-2db1c5f8d62d}</Project>
-      <Name>Proverb.Data.EntityFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Data.Models\Proverb.Data.Models.csproj">
-      <Project>{03fe7175-596b-4d57-823e-8d783881fb0d}</Project>
-      <Name>Proverb.Data.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Services.Interfaces\Proverb.Services.Interfaces.csproj">
-      <Project>{fc9ef515-88d8-4366-bf4f-9fd08ce5138d}</Project>
-      <Name>Proverb.Services.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Services\Proverb.Services.csproj">
-      <Project>{7eb46c18-fdc2-4c7a-84d7-b1a7c43190ef}</Project>
-      <Name>Proverb.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Proverb.Web.Common\Proverb.Web.Common.csproj">
       <Project>{5eebb14d-2bf8-45e3-bdec-ce99044ac0d8}</Project>
       <Name>Proverb.Web.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Data.CommandQuery.Interfaces\Proverb.Data.CommandQuery.Interfaces.csproj">
-      <Project>{7a107de0-9097-4a1b-a287-ee4ac271e4d3}</Project>
-      <Name>Proverb.Data.CommandQuery.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Proverb.Data.CommandQuery\Proverb.Data.CommandQuery.csproj">
-      <Project>{5e2f8b10-1114-4a87-9146-ed7ea8da0c6e}</Project>
-      <Name>Proverb.Data.CommandQuery</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
