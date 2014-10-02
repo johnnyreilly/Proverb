@@ -1,11 +1,8 @@
 ﻿using log4net;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 
-namespace Proverb.Web.Utilities
+namespace Proverb.Web.Logging
 {
     public static class LoggerHelper
     {

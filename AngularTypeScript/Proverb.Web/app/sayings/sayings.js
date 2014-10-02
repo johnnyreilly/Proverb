@@ -23,7 +23,7 @@
             this.selectedSage = undefined;
             this.title = "Sayings";
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -36,7 +36,7 @@
             });
 
             this.common.activateController([combinerPromise], controllerId, this.title).then(function () {
-                return _this.log("Activated Sayings View");
+                return _this.log.info("Activated Sayings View");
             });
         };
 

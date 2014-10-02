@@ -1,21 +1,18 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using log4net;
-using Proverb.Data;
-using Proverb.Web.Implementations;
-using Proverb.Web.Interfaces;
-using Proverb.Web.Utilities;
-using System.Reflection;
-using System.Web;
-using System.Web.Optimization;
 using Proverb.Data.EntityFramework;
+using Proverb.Web.Helpers;
+using Proverb.Web.Logging;
+using System.Reflection;
+using System.Security.Principal;
+using System.Web;
 
 namespace Proverb.Web
 {
     public class AutofacConfig
     {
-        public static void RegisterAndBuild()
+        public static IContainer RegisterAndBuild()
         {
             var builder = new ContainerBuilder();
 
@@ -39,10 +36,19 @@ namespace Proverb.Web
             builder.RegisterControllers(assembly).InstancePerLifetimeScope();
             builder.RegisterApiControllers(assembly).InstancePerLifetimeScope();
 
+            // Helpers
+            builder.RegisterType<AppConfigHelper>().As<IAppConfigHelper>().InstancePerLifetimeScope();
+            builder.RegisterType<AppCache>().As<IAppCache>().InstancePerLifetimeScope();
+            builder.RegisterType<FileHelper>().As<IFileHelper>().InstancePerLifetimeScope();
+            //builder.RegisterType<SessionHelper>().As<ISessionHelper>().InstancePerLifetimeScope();
             builder.RegisterType<UserHelper>().As<IUserHelper>().InstancePerLifetimeScope();
 
+            // User
+            builder.Register(c => HttpContext.Current.User).As<IPrincipal>().InstancePerLifetimeScope();
+
             // Logger
-            builder.Register(c => LoggerHelper.GetLogger()).As<ILog>().InstancePerLifetimeScope();
+            //builder.Register(c => LoggerHelper.GetLogger()).As<ILog>().InstancePerLifetimeScope();
+            builder.RegisterModule<LoggingModule>();
 
             builder.RegisterFilterProvider();
 
@@ -55,6 +61,8 @@ namespace Proverb.Web
             // Set the dependency resolver for MVC.
             var mvcResolver = new AutofacDependencyResolver(container);
             System.Web.Mvc.DependencyResolver.SetResolver(mvcResolver);
+
+            return container;
         }
     }
 }

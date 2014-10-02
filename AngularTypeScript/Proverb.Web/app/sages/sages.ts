@@ -6,7 +6,7 @@
 
     class Sages {
 
-        log: loggerFunction;
+        log: logger.loggers;
         sages: sage[];
         title: string;
 
@@ -19,7 +19,7 @@
             this.sages = [];
             this.title = "Sages";
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -28,7 +28,7 @@
 
         activate() {
             this.common.activateController([this.getSages()], controllerId, this.title)
-                .then(() => this.log("Activated Sages View"));
+                .then(() => this.log.info("Activated Sages View"));
         }
 
         getSages() {

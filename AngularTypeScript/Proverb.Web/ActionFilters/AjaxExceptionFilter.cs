@@ -1,8 +1,8 @@
 ﻿using log4net;
+using Proverb.Web.Helpers;
 using System;
 using System.Net;
 using System.Web.Mvc;
-using Proverb.Web.Interfaces;
 
 namespace Proverb.Web.ActionFilters
 {
@@ -21,7 +21,7 @@ namespace Proverb.Web.ActionFilters
             // We're consuming the exception here, so ensure it's still logged manually
             var request = filterContext.HttpContext.Request;
             var message = string.Format("{0} experienced an exception via AJAX: {1} {2}",
-                UserHelper.User.Identity.Name, request.HttpMethod, request.Url);
+                UserHelper.UserName, request.HttpMethod, request.Url);
             Logger.Error(message, filterContext.Exception);
 
             //Set the response status code to 500

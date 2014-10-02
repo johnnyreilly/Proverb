@@ -1,13 +1,20 @@
 ﻿interface bootstrapper {
-    thirdPartyLibs: {
-        "toastr": Toastr;
-        "underscore": UnderscoreStatic;
-    }
-    appConfig: {
-        inDebug: boolean;
-        remoteServiceRoot: string;
-        version: string;
-    }
+    thirdPartyLibs: thirdPartyLibs;
+    appConfig: appConfig;
+}
+
+interface thirdPartyLibs {
+    moment: MomentStatic;
+    toastr: Toastr;
+    underscore: UnderscoreStatic;
+}
+
+interface appConfig {
+    appName: string;
+    appRoot: string;
+    inDebug: boolean;
+    remoteServiceRoot: string;
+    version: string;
 }
 
 interface configEvents {
@@ -18,7 +25,7 @@ interface configEvents {
     waiterSuccess: string;
 }
 
-interface config {
+interface config extends appConfig {
     appErrorPrefix: string;
     docTitle: string;
     events: configEvents;
@@ -26,10 +33,7 @@ interface config {
         imageBasePath: string;
         unknownPersonImageSource: string;
     }
-    inDebug: boolean;
-    remoteServiceRoot: string;
     urlCacheBusterSuffix: string;
-    version: string;
 }
 
 var angularApp = (function () {
@@ -39,16 +43,16 @@ var angularApp = (function () {
 
     // Create Angular "app" module so all modules that depend on it use it
     var app = angular.module(appName, [
-        // Angular modules 
+    // Angular modules 
         "ngAnimate",        // animations
         "ngRoute",          // routing
         "ngSanitize",       // sanitizes html bindings (ex: sidebar.js)
 
-        // Custom modules 
+    // Custom modules 
         "common",           // common functions, logger, spinner
         "common.bootstrap", // bootstrap dialog wrapper functions
 
-        // 3rd Party Modules
+    // 3rd Party Modules
         "ui.bootstrap"      // ui-bootstrap (ex: carousel, pagination, dialog)
     ]);
     
@@ -56,35 +60,47 @@ var angularApp = (function () {
         start: start
     }
 
-
-    function initialise(bootstrapper: bootstrapper) {
+    /**
+     * Add 3rd party libraries to Angular app
+     */
+    function addThirdPartyLibs(thirdPartyLibs: thirdPartyLibs) {
 
         // Toastr
-        var toastr = bootstrapper.thirdPartyLibs.toastr;
+        var toastr = thirdPartyLibs.toastr;
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = "toast-bottom-right";
         app.constant("toastr", toastr);
 
         // Underscore
-        var _ = bootstrapper.thirdPartyLibs.underscore;
+        var _ = thirdPartyLibs.underscore;
         app.constant("_", _);
 
-        var events = {
-            controllerActivateSuccess: "controller.activateSuccess",
-            failure: "failure",
-            spinnerToggle: "spinner.toggle",
-            waiterStart: "waiter.start",
-            waiterSuccess: "waiter.success"
-        };
+        // Moment
+        var moment = thirdPartyLibs.moment;
+        app.constant("moment", moment);
+    }
+
+    /**
+     * Configure application
+     */
+    function configureApp(appConfig: appConfig) {
 
         var config: config = {
             appErrorPrefix: "[Error] ", //Configure the exceptionHandler decorator
-            docTitle: "Proverb: ",
-            events: events,
-            inDebug: bootstrapper.appConfig.inDebug,
-            remoteServiceRoot: bootstrapper.appConfig.remoteServiceRoot, 
-            urlCacheBusterSuffix: "?v=" + bootstrapper.appConfig.version,
-            version: bootstrapper.appConfig.version
+            appName: appConfig.appName,
+            appRoot: appConfig.appRoot,
+            docTitle: appConfig.appName + ": ",
+            events: {
+                controllerActivateSuccess: "controller.activateSuccess",
+                failure: "failure",
+                spinnerToggle: "spinner.toggle",
+                waiterStart: "waiter.start",
+                waiterSuccess: "waiter.success"
+            },
+            inDebug: appConfig.inDebug,
+            remoteServiceRoot: appConfig.remoteServiceRoot,
+            urlCacheBusterSuffix: "?v=" + ((appConfig.inDebug) ? Date.now().toString() : appConfig.version),
+            version: appConfig.version
         };
 
         app.value("config", config);
@@ -96,15 +112,56 @@ var angularApp = (function () {
             }
         }]);
 
-        // Configure by setting an optional string value for appErrorPrefix.
-        // Accessible via config.appErrorPrefix (via config value).
+        // Copy across config settings to commonConfig to configure the common services
+        app.config(["commonConfigProvider", function (commonConfig: commonConfig) {
+
+            commonConfig.config.appRoot = config.appRoot;
+
+            // Copy events across from config.events
+            commonConfig.config.events = _.extend({}, config.events);
+
+            commonConfig.config.inDebug = config.inDebug;
+            commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
+            commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
+            commonConfig.config.version = config.version;
+        }]);
+    }
+
+    /**
+     * Configure the routes and route resolvers
+     */
+    function configureRoutes() {
+
+        var routesConfigured = false;
+        app.config(["$routeProvider", "routes", "commonConfigProvider", function ($routeProvider: ng.route.IRouteProvider, routes: configRoute[], commonConfig: commonConfig) {
+
+            // Ensure routes are only configured once (unit tests attempt to configure twice)
+            if (routesConfigured) { return; }
+
+            routes.forEach(function (r) {
+                r.config.templateUrl = commonConfig.config.appRoot + r.config.templateUrl + commonConfig.config.urlCacheBusterSuffix;
+                $routeProvider.when(r.url, r.config);
+            });
+            $routeProvider.otherwise({ redirectTo: "/" });
+
+            routesConfigured = true;
+        }]);
+
+    }
+
+    /**
+     * Configure by setting an optional string value for appErrorPrefix.
+     * Accessible via config.appErrorPrefix (via config value).
+     */
+    function decorateExceptionHandler() {
+
         app.config(["$provide", function ($provide: ng.auto.IProvideService) {
 
             // Extend the $exceptionHandler service to also display a toast.
             $provide.decorator("$exceptionHandler",
                 ["$delegate", "config", "logger", extendExceptionHandler]);
 
-            function extendExceptionHandler($delegate: ng.IExceptionHandlerService, config: config, logger: logger) {
+            function extendExceptionHandler($delegate: ng.IExceptionHandlerService, config: config, logger: logger.logger) {
                 var appErrorPrefix = config.appErrorPrefix;
                 var logError = logger.getLogFn("app", "error");
                 return function (exception: Error, cause: string) {
@@ -118,33 +175,17 @@ var angularApp = (function () {
             }
         }]);
 
-        // Copy across config settings to commonConfig to configure the common services
-        app.config(["commonConfigProvider", function (commonConfig: commonConfig) {
+    }
 
-            // Copy events across from config.events
-            commonConfig.config.events = _.extend({}, config.events);
+    function initialise(bootstrapper: bootstrapper) {
 
-            commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
-            commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
-            commonConfig.config.version = config.version;
-        }]);
+        addThirdPartyLibs(bootstrapper.thirdPartyLibs);
 
+        configureApp(bootstrapper.appConfig);
 
-        // Configure the routes and route resolvers
-        var routesConfigured = false;
-        app.config(["$routeProvider", "routes", "commonConfigProvider", function ($routeProvider: ng.route.IRouteProvider, routes: configRoute[], commonConfig: commonConfig) {
+        decorateExceptionHandler();
 
-            // Ensure routes are only configured once (unit tests attempt to configure twice)
-            if (routesConfigured) { return; }
-
-            routes.forEach(function (r) {
-                r.config.templateUrl += commonConfig.config.urlCacheBusterSuffix;
-                $routeProvider.when(r.url, r.config);
-            });
-            $routeProvider.otherwise({ redirectTo: "/" });
-
-            routesConfigured = true;
-        }]);
+        configureRoutes();
 
         // Handle routing errors and success events
         app.run(["$route", function ($route: ng.route.IRouteService) {

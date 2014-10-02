@@ -88,12 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionFilters\AjaxExceptionFilter.cs" />
-    <Compile Include="Base\BaseController.cs" />
-    <Compile Include="Base\JsonNetResult.cs" />
     <Compile Include="SaveHelpers\SaveHelpers.cs" />
-    <Compile Include="Implementations\UserHelper.cs" />
-    <Compile Include="Interfaces\IUserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebAPI\ControllerExtensions.cs" />
   </ItemGroup>

@@ -1,10 +1,6 @@
 ﻿using log4net;
 using Proverb.Web.ActionFilters;
-using Proverb.Web.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Proverb.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.UI;
 
@@ -25,8 +21,8 @@ namespace Proverb.Web.Base
 
         protected override System.IAsyncResult BeginExecute(System.Web.Routing.RequestContext requestContext, System.AsyncCallback callback, object state)
         {
-            Logger.InfoFormat("{0} hit this endpoint{1}: {2} {3}", 
-                UserHelper.User.Identity.Name, 
+            Logger.InfoFormat("{0} hit this endpoint{1}: {2} {3}",
+                UserHelper.UserName, 
                 ((requestContext.HttpContext.Request.IsAjaxRequest()) ? " via AJAX" : ""),
                 requestContext.HttpContext.Request.HttpMethod,
                 requestContext.HttpContext.Request.Url);

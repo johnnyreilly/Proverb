@@ -16,9 +16,7 @@
 
         dateOfBirthDatePickerIsOpen: boolean;
         errors: { [field: string]: string };
-        log: loggerFunction;
-        logError: loggerFunction;
-        logSuccess: loggerFunction;
+        log: logger.loggers;
         sage: sage;
         title: string;
 
@@ -36,9 +34,7 @@
 
             this.dateOfBirthDatePickerIsOpen = false;
             this.errors = {};
-            this.log = common.logger.getLogFn(controllerId);
-            this.logError = common.logger.getLogFn(controllerId, "error");
-            this.logSuccess = common.logger.getLogFn(controllerId, "success");
+            this.log = common.logger.getLoggers(controllerId);
             this.sage = undefined;
             this.title = "Sage Edit";
 
@@ -55,7 +51,7 @@
 
             this.common.activateController(dataPromises, controllerId, this.title)
                 .then(() => {
-                    this.log("Activated Sage Edit View");
+                    this.log.info("Activated Sage Edit View");
                     this.title = "Sage Edit: " + this.sage.name;
                 });
         }
@@ -76,11 +72,11 @@
                     this.common.waiter(this.datacontext.sage.remove(this.sage.id), controllerId, "Removing " + sageToRemove)
                         .then(response => {
 
-                            this.logSuccess("Removed " + sageToRemove);
+                            this.log.success("Removed " + sageToRemove);
                             this.$location.path("/sages");
                         })
                         .catch(response => {
-                            this.logError("Failed to remove " + sageToRemove, response);
+                            this.log.error("Failed to remove " + sageToRemove, response);
                         })
                         .finally(() => this._isSavingOrRemoving = false);
                 });
@@ -97,7 +93,7 @@
                 .then(response => {
 
                     this.sage = response;
-                    this.logSuccess("Saved " + sageToSave);
+                    this.log.success("Saved " + sageToSave);
                     this.$location.path("/sages/detail/" + this.sage.id);
                 })
                 .catch(response => {
@@ -111,13 +107,13 @@
                             }
                             else {
                                 // No screen element to tie failure message to so pop a toast
-                                this.logError(errors);
+                                this.log.error(errors);
                             }
                             this.errors[field] = errors.join(",");
                         });
                     }
                     else {
-                        this.logError("Failed to save " + sageToSave, response);
+                        this.log.error("Failed to save " + sageToSave, response);
                     }
                 })
                 .finally(() => this._isSavingOrRemoving = false);

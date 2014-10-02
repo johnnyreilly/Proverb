@@ -10,7 +10,7 @@
             this.datacontext = datacontext;
             this.sages = [];
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -19,7 +19,7 @@
             var _this = this;
             var promises = [this.getSages()];
             this.common.activateController(promises, controllerId, "Dashboard").then(function () {
-                return _this.log("Activated Dashboard View");
+                return _this.log.info("Activated Dashboard View");
             });
         };
 

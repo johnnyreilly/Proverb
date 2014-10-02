@@ -4,7 +4,7 @@ using Moq;
 using Proverb.Data.Models;
 using Proverb.Services.Interfaces;
 using Proverb.Web.Controllers;
-using Proverb.Web.Interfaces;
+using Proverb.Web.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

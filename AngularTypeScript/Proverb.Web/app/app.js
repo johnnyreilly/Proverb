@@ -17,33 +17,45 @@
         start: start
     };
 
-    function initialise(bootstrapper) {
+    /**
+    * Add 3rd party libraries to Angular app
+    */
+    function addThirdPartyLibs(thirdPartyLibs) {
         // Toastr
-        var toastr = bootstrapper.thirdPartyLibs.toastr;
+        var toastr = thirdPartyLibs.toastr;
         toastr.options.timeOut = 4000;
         toastr.options.positionClass = "toast-bottom-right";
         app.constant("toastr", toastr);
 
         // Underscore
-        var _ = bootstrapper.thirdPartyLibs.underscore;
+        var _ = thirdPartyLibs.underscore;
         app.constant("_", _);
 
-        var events = {
-            controllerActivateSuccess: "controller.activateSuccess",
-            failure: "failure",
-            spinnerToggle: "spinner.toggle",
-            waiterStart: "waiter.start",
-            waiterSuccess: "waiter.success"
-        };
+        // Moment
+        var moment = thirdPartyLibs.moment;
+        app.constant("moment", moment);
+    }
 
+    /**
+    * Configure application
+    */
+    function configureApp(appConfig) {
         var config = {
             appErrorPrefix: "[Error] ",
-            docTitle: "Proverb: ",
-            events: events,
-            inDebug: bootstrapper.appConfig.inDebug,
-            remoteServiceRoot: bootstrapper.appConfig.remoteServiceRoot,
-            urlCacheBusterSuffix: "?v=" + bootstrapper.appConfig.version,
-            version: bootstrapper.appConfig.version
+            appName: appConfig.appName,
+            appRoot: appConfig.appRoot,
+            docTitle: appConfig.appName + ": ",
+            events: {
+                controllerActivateSuccess: "controller.activateSuccess",
+                failure: "failure",
+                spinnerToggle: "spinner.toggle",
+                waiterStart: "waiter.start",
+                waiterSuccess: "waiter.success"
+            },
+            inDebug: appConfig.inDebug,
+            remoteServiceRoot: appConfig.remoteServiceRoot,
+            urlCacheBusterSuffix: "?v=" + ((appConfig.inDebug) ? Date.now().toString() : appConfig.version),
+            version: appConfig.version
         };
 
         app.value("config", config);
@@ -56,8 +68,48 @@
                 }
             }]);
 
-        // Configure by setting an optional string value for appErrorPrefix.
-        // Accessible via config.appErrorPrefix (via config value).
+        // Copy across config settings to commonConfig to configure the common services
+        app.config([
+            "commonConfigProvider", function (commonConfig) {
+                commonConfig.config.appRoot = config.appRoot;
+
+                // Copy events across from config.events
+                commonConfig.config.events = _.extend({}, config.events);
+
+                commonConfig.config.inDebug = config.inDebug;
+                commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
+                commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
+                commonConfig.config.version = config.version;
+            }]);
+    }
+
+    /**
+    * Configure the routes and route resolvers
+    */
+    function configureRoutes() {
+        var routesConfigured = false;
+        app.config([
+            "$routeProvider", "routes", "commonConfigProvider", function ($routeProvider, routes, commonConfig) {
+                // Ensure routes are only configured once (unit tests attempt to configure twice)
+                if (routesConfigured) {
+                    return;
+                }
+
+                routes.forEach(function (r) {
+                    r.config.templateUrl = commonConfig.config.appRoot + r.config.templateUrl + commonConfig.config.urlCacheBusterSuffix;
+                    $routeProvider.when(r.url, r.config);
+                });
+                $routeProvider.otherwise({ redirectTo: "/" });
+
+                routesConfigured = true;
+            }]);
+    }
+
+    /**
+    * Configure by setting an optional string value for appErrorPrefix.
+    * Accessible via config.appErrorPrefix (via config value).
+    */
+    function decorateExceptionHandler() {
         app.config([
             "$provide", function ($provide) {
                 // Extend the $exceptionHandler service to also display a toast.
@@ -78,35 +130,16 @@
                     };
                 }
             }]);
+    }
 
-        // Copy across config settings to commonConfig to configure the common services
-        app.config([
-            "commonConfigProvider", function (commonConfig) {
-                // Copy events across from config.events
-                commonConfig.config.events = _.extend({}, config.events);
+    function initialise(bootstrapper) {
+        addThirdPartyLibs(bootstrapper.thirdPartyLibs);
 
-                commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
-                commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
-                commonConfig.config.version = config.version;
-            }]);
+        configureApp(bootstrapper.appConfig);
 
-        // Configure the routes and route resolvers
-        var routesConfigured = false;
-        app.config([
-            "$routeProvider", "routes", "commonConfigProvider", function ($routeProvider, routes, commonConfig) {
-                // Ensure routes are only configured once (unit tests attempt to configure twice)
-                if (routesConfigured) {
-                    return;
-                }
+        decorateExceptionHandler();
 
-                routes.forEach(function (r) {
-                    r.config.templateUrl += commonConfig.config.urlCacheBusterSuffix;
-                    $routeProvider.when(r.url, r.config);
-                });
-                $routeProvider.otherwise({ redirectTo: "/" });
-
-                routesConfigured = true;
-            }]);
+        configureRoutes();
 
         // Handle routing errors and success events
         app.run([

@@ -11,7 +11,7 @@
             this.sages = [];
             this.title = "Sages";
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -19,7 +19,7 @@
         Sages.prototype.activate = function () {
             var _this = this;
             this.common.activateController([this.getSages()], controllerId, this.title).then(function () {
-                return _this.log("Activated Sages View");
+                return _this.log.info("Activated Sages View");
             });
         };
 

@@ -16,7 +16,7 @@
                     "rightText": "@",
                     "allowCollapse": "@"
                 },
-                templateUrl: "/app/directives/widgetHeader.html" + config.urlCacheBusterSuffix
+                templateUrl: config.appRoot + "app/directives/widgetHeader.html" + config.urlCacheBusterSuffix
             };
             return directive;
 

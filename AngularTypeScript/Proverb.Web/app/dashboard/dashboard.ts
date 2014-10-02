@@ -6,7 +6,7 @@
 
     class Dashboard {
 
-        log: loggerFunction;
+        log: logger.loggers;
         sages: sage[];
 
         static $inject = ["common", "datacontext"];
@@ -17,7 +17,7 @@
 
             this.sages = [];
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -27,7 +27,7 @@
         activate() {
             var promises: ng.IPromise<any>[] = [this.getSages()];
             this.common.activateController(promises, controllerId, "Dashboard")
-                .then(() => this.log("Activated Dashboard View"));
+                .then(() => this.log.info("Activated Dashboard View"));
         }
 
         getSages() {

@@ -8,5 +8,6 @@ namespace Proverb.Data.CommandQuery.Interfaces
     {
         Task<ICollection<User>> GetAllAsync();
         Task<User> GetByIdAsync(int id);
+        Task<User> GetByUserNameAsync(string userName);
     }
 }

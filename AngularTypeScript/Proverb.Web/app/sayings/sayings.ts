@@ -6,7 +6,7 @@
 
     class Sayings {
 
-        log: loggerFunction;
+        log: logger.loggers;
         sageDictionary: { [id: string]: sage };
         sages: sage[];
         sayings: saying[];
@@ -26,7 +26,7 @@
             this.selectedSage = undefined;
             this.title = "Sayings";
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -39,7 +39,7 @@
             var combinerPromise = this.common.$q.all(dataPromises).then(() => this.combineData());
 
             this.common.activateController([combinerPromise], controllerId, this.title)
-                .then(() => this.log("Activated Sayings View"));
+                .then(() => this.log.info("Activated Sayings View"));
         }
 
         combineData() {

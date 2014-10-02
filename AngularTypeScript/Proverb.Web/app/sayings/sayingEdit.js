@@ -14,9 +14,7 @@
             this.common = common;
             this.datacontext = datacontext;
             this.errors = {};
-            this.log = common.logger.getLogFn(controllerId);
-            this.logError = common.logger.getLogFn(controllerId, "error");
-            this.logSuccess = common.logger.getLogFn(controllerId, "success");
+            this.log = common.logger.getLoggers(controllerId);
             this.sages = [];
             this.saying = undefined;
 
@@ -43,7 +41,7 @@
             }
 
             this.common.activateController(dataPromises, controllerId, title).then(function () {
-                _this.log("Activated " + title + " View");
+                _this.log.info("Activated " + title + " View");
                 _this.title = title;
 
                 if (id) {
@@ -61,10 +59,10 @@
                 _this._isSavingOrRemoving = true;
 
                 _this.common.waiter(_this.datacontext.sage.remove(_this.saying.id), controllerId, "Removing saying").then(function (response) {
-                    _this.logSuccess("Removed saying");
+                    _this.log.success("Removed saying");
                     _this.$location.path("/sayings/").search("sageId", _this.saying.sageId);
                 }).catch(function (response) {
-                    _this.logError("Failed to remove saying", response);
+                    _this.log.error("Failed to remove saying", response);
                 }).finally(function () {
                     return _this._isSavingOrRemoving = false;
                 });
@@ -86,7 +84,7 @@
             sayingToSave.sage = null;
 
             this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying").then(function (response) {
-                _this.logSuccess("Saved saying");
+                _this.log.success("Saved saying");
                 _this.$location.path("/sayings/").search("sageId", response.sageId);
             }).catch(function (response) {
                 if (response.errors) {
@@ -96,12 +94,12 @@
                             model.$setValidity("server", false);
                         } else {
                             // No screen element to tie failure message to so pop a toast
-                            _this.logError(errors);
+                            _this.log.error(errors);
                         }
                         _this.errors[field] = errors.join(",");
                     });
                 } else {
-                    _this.logError("Failed to save saying", response);
+                    _this.log.error("Failed to save saying", response);
                 }
             }).finally(function () {
                 return _this._isSavingOrRemoving = false;

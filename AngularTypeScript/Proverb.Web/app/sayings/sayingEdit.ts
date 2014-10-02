@@ -15,9 +15,7 @@
     class SayingEdit {
 
         errors: { [field: string]: string };
-        log: loggerFunction;
-        logError: loggerFunction;
-        logSuccess: loggerFunction;
+        log: logger.loggers;
         sages: sage[];
         saying: saying;
         title: string;
@@ -36,9 +34,7 @@
             ) {
 
             this.errors = {};
-            this.log = common.logger.getLogFn(controllerId);
-            this.logError = common.logger.getLogFn(controllerId, "error");
-            this.logSuccess = common.logger.getLogFn(controllerId, "success");
+            this.log = common.logger.getLoggers(controllerId);
             this.sages = [];
             this.saying = undefined;
 
@@ -65,7 +61,7 @@
 
             this.common.activateController(dataPromises, controllerId, title)
                 .then(() => {
-                    this.log("Activated " + title + " View");
+                    this.log.info("Activated " + title + " View");
                     this.title = title;
 
                     if (id) {
@@ -85,11 +81,11 @@
                     this.common.waiter(this.datacontext.sage.remove(this.saying.id), controllerId, "Removing saying")
                         .then(response => {
 
-                            this.logSuccess("Removed saying");
+                            this.log.success("Removed saying");
                             this.$location.path("/sayings/").search("sageId", this.saying.sageId);
                         })
                         .catch(response => {
-                            this.logError("Failed to remove saying", response);
+                            this.log.error("Failed to remove saying", response);
                         })
                         .finally(() => this._isSavingOrRemoving = false);
                 });
@@ -113,7 +109,7 @@
             this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying")
                 .then(response => {
 
-                    this.logSuccess("Saved saying");
+                    this.log.success("Saved saying");
                     this.$location.path("/sayings/").search("sageId", response.sageId);
                 })
                 .catch(response => {
@@ -127,13 +123,13 @@
                             }
                             else {
                                 // No screen element to tie failure message to so pop a toast
-                                this.logError(errors);
+                                this.log.error(errors);
                             }
                             this.errors[field] = errors.join(",");
                         });
                     }
                     else {
-                        this.logError("Failed to save saying", response);
+                        this.log.error("Failed to save saying", response);
                     }
                 })
                 .finally(() => this._isSavingOrRemoving = false);

@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json.Serialization;
+using Proverb.Web.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace Proverb.Web
 {
@@ -20,6 +22,8 @@ namespace Proverb.Web
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Services.Add(typeof(IExceptionLogger), new UnhandledExceptionLogger());
 
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

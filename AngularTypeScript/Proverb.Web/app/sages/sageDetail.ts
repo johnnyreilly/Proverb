@@ -10,7 +10,7 @@
 
     class SageDetail {
 
-        log: loggerFunction;
+        log: logger.loggers;
         sage: sage;
         title: string;
 
@@ -25,7 +25,7 @@
             this.sage = undefined;
             this.title = "Sage Details";
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -38,7 +38,7 @@
 
             this.common.activateController(dataPromises, controllerId, this.title)
                 .then(() => {
-                    this.log("Activated Sage Details View");
+                    this.log.info("Activated Sage Details View");
                     this.title = "Sage Details: " + this.sage.name;
                 });
         }

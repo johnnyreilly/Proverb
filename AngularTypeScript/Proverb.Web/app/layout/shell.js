@@ -9,8 +9,7 @@
             this.$rootScope = $rootScope;
             this.common = common;
             this.config = config;
-            this.logSuccess = common.logger.getLogFn(controllerId, "success");
-            this.logError = common.logger.getLogFn(controllerId, "error");
+            this.log = common.logger.getLoggers(controllerId);
             this.busyMessage = "Please wait ...";
             this.isBusy = true;
             this.spinnerOptions = {
@@ -33,7 +32,7 @@
         Shell.prototype.activate = function () {
             var _this = this;
             this.common.activateController([], controllerId, "Loading....").then(function () {
-                _this.logSuccess("Proverb v" + _this.config.version + " loaded!", null, true);
+                _this.log.success("Proverb v" + _this.config.version + " loaded!", null, true);
             });
         };
 
@@ -58,7 +57,7 @@
                 _this.toggleSpinner(false);
 
                 var message = _this.config.inDebug ? JSON.stringify(data.failureReason) : "There was a problem with " + data.controllerId + ". Please contact support.";
-                _this.logError(message, data.failureReason, data.showToast);
+                _this.log.error(message, data.failureReason, data.showToast);
             });
 
             this.$rootScope.$on(events.spinnerToggle, function (event, data) {

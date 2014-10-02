@@ -16,7 +16,7 @@
                     "spinnerOptions": "=",
                     "waitMessage": "="
                 },
-                templateUrl: "/app/directives/waiter.html" + config.urlCacheBusterSuffix
+                templateUrl: config.appRoot + "app/directives/waiter.html" + config.urlCacheBusterSuffix
             };
             return directive;
 

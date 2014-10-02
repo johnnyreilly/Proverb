@@ -6,7 +6,7 @@
 
     class About {
 
-        log: loggerFunction;
+        log: logger.loggers;
         version: string;
 
         static $inject = ["common", "config"];
@@ -17,7 +17,7 @@
 
             this.version = config.version;
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -26,7 +26,7 @@
 
         activate() {
             this.common.activateController([], controllerId, "About")
-                .then(() => this.log("Activated About View"));
+                .then(() => this.log.info("Activated About View"));
         }
     }
 

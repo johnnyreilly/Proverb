@@ -52,7 +52,7 @@ namespace Proverb.Web
 
             bundles.Add(angularApp);
 
-            bundles.Add(new StyleBundle("~/css").Include(
+            bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/content/ie10mobile.css",
                 "~/content/bootstrap.css",
                 "~/content/font-awesome.css",

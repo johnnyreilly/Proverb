@@ -25,5 +25,12 @@ namespace Proverb.Data.CommandQuery
 
             return user;
         }
+
+        public async Task<User> GetByUserNameAsync(string userName)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == userName);
+
+            return user;
+        }
     }
 }

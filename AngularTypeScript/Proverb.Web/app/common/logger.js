@@ -1,13 +1,18 @@
-(function () {
+var logger;
+(function (_logger) {
     "use strict";
 
-    angular.module("common").factory("logger", ["$log", "config", "toastr", logger]);
+    angular.module("common").factory("logger", ["$log", "toastr", logger]);
 
-    function logger($log, config, toastr) {
+    function logger($log, toastr) {
         var service = {
             getLogFn: getLogFn,
-            log: log,
+            getLoggers: getLoggers
+        };
+
+        var internals = {
             logError: logError,
+            logInfo: logInfo,
             logSuccess: logSuccess,
             logWarning: logWarning
         };
@@ -15,7 +20,7 @@
         return service;
 
         function getLogFn(moduleId, fnName) {
-            fnName = fnName || "log";
+            fnName = fnName || "info";
             switch (fnName.toLowerCase()) {
                 case "success":
                     fnName = "logSuccess";
@@ -26,20 +31,29 @@
                 case "warn":
                     fnName = "logWarning";
                     break;
-                case "warning":
-                    fnName = "logWarning";
+                default:
+                    fnName = "logInfo";
                     break;
             }
 
-            var logFn = service[fnName] || service.log;
+            var logFn = internals[fnName] || internals.logInfo;
             return function (msg, data, showToast) {
-                var displayToast = (showToast === undefined) ? (fnName !== "log") ? true : false : showToast;
+                var displayToast = (showToast === undefined) ? (fnName !== "logInfo") ? true : false : showToast;
 
                 logFn(msg, data, moduleId, displayToast);
             };
         }
 
-        function log(message, data, source, showToast) {
+        function getLoggers(moduleId) {
+            return {
+                error: getLogFn(moduleId, "error"),
+                info: getLogFn(moduleId, "info"),
+                success: getLogFn(moduleId, "success"),
+                warn: getLogFn(moduleId, "warn")
+            };
+        }
+
+        function logInfo(message, data, source, showToast) {
             logIt(message, data, source, showToast, "info");
         }
 
@@ -84,5 +98,5 @@
             }
         }
     }
-})();
+})(logger || (logger = {}));
 //# sourceMappingURL=logger.js.map

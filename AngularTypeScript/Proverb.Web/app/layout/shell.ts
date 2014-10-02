@@ -4,7 +4,7 @@
 
     var controllerId = "shell";
 
-    interface sageEditRootScope extends ng.IRootScopeService {
+    interface shellRootScope extends ng.IRootScopeService {
         title: string;
     }
 
@@ -16,21 +16,19 @@
 
         busyMessage: string;
         isBusy: boolean;
-        logError: loggerFunction;
-        logSuccess: loggerFunction;
+        log: logger.loggers;
         spinnerOptions: SpinnerOptions;
         urlSidebar: string;
         urlTopNav: string;
 
         static $inject = ["$rootScope", "common", "config"];
         constructor(
-            private $rootScope: sageEditRootScope,
+            private $rootScope: shellRootScope,
             private common: common,
             private config: config
             ) {
 
-            this.logSuccess = common.logger.getLogFn(controllerId, "success");
-            this.logError = common.logger.getLogFn(controllerId, "error");
+            this.log = common.logger.getLoggers(controllerId);
             this.busyMessage = "Please wait ...";
             this.isBusy = true;
             this.spinnerOptions = {
@@ -55,7 +53,7 @@
         activate() {
             this.common.activateController([], controllerId, "Loading....")
                 .then(() => {
-                    this.logSuccess("Proverb v" + this.config.version + " loaded!", null, true);
+                    this.log.success("Proverb v" + this.config.version + " loaded!", null, true);
                 });
         }
 
@@ -85,7 +83,7 @@
                     var message = this.config.inDebug
                         ? JSON.stringify(data.failureReason) // If in debug mode then let's have the full error
                         : "There was a problem with " + data.controllerId + ". Please contact support.";
-                    this.logError(message, data.failureReason, data.showToast);
+                    this.log.error(message, data.failureReason, data.showToast);
                 });
 
             this.$rootScope.$on(events.spinnerToggle,

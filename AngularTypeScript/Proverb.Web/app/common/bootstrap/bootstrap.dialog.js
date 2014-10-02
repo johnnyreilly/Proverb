@@ -49,7 +49,7 @@
                         };
                     }
                 },
-                templateUrl: "/app/common/bootstrap/bootstrap.dialog.html" + config.urlCacheBusterSuffix
+                templateUrl: config.appRoot + "app/common/bootstrap/bootstrap.dialog.html" + config.urlCacheBusterSuffix
             };
 
             return $modal.open(modalOptions).result;

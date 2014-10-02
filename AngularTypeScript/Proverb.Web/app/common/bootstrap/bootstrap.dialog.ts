@@ -71,7 +71,7 @@ interface bootstrapDialogScope extends ng.IScope {
                         };
                     }
                 },
-                templateUrl: "/app/common/bootstrap/bootstrap.dialog.html" + config.urlCacheBusterSuffix  //"modalDialog.tpl.html",
+                templateUrl: config.appRoot + "app/common/bootstrap/bootstrap.dialog.html" + config.urlCacheBusterSuffix  //"modalDialog.tpl.html",
             };
 
             return $modal.open(modalOptions).result; 

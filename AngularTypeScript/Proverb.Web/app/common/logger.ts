@@ -1,30 +1,46 @@
-interface loggerFunction {
-    (message: string, data?: Object, showToast?: boolean): void;
-}
+module logger {
 
-interface loggerFunctionWithSource {
-    (message: string, data: Object, source: string, showToast: boolean): void;
-}
-
-interface logger {
-    [fnName: string]: any;
-    getLogFn(moduleId: string, fnName?: string): loggerFunction;
-    log: loggerFunctionWithSource;
-    logError: loggerFunctionWithSource;
-    logSuccess: loggerFunctionWithSource;
-    logWarning: loggerFunctionWithSource;
-}
-
-(function () {
     "use strict";
-    
-    angular.module("common").factory("logger", ["$log", "config", "toastr", logger]);
 
-    function logger($log: ng.ILogService, config: config, toastr: Toastr) {
+    export interface loggerFunction {
+        (message: string, data?: Object, showToast?: boolean): void;
+    }
+
+    export interface logger {
+        getLogFn(moduleId: string, fnName?: string): loggerFunction;
+        getLoggers(moduleId: string): loggers;
+    }
+
+    export interface loggers {
+        info: loggerFunction;
+        error: loggerFunction;
+        success: loggerFunction;
+        warn: loggerFunction;
+    }
+
+    interface loggerFunctionWithSource {
+        (message: string, data: Object, source: string, showToast: boolean): void;
+    }
+
+    interface loggerInternals {
+        [fnName: string]: any;
+        logError: loggerFunctionWithSource;
+        logInfo: loggerFunctionWithSource;
+        logSuccess: loggerFunctionWithSource;
+        logWarning: loggerFunctionWithSource;
+    }
+
+    angular.module("common").factory("logger", ["$log", "toastr", logger]);
+
+    function logger($log: ng.ILogService, toastr: Toastr) {
         var service: logger = {
             getLogFn: getLogFn,
-            log: log,
+            getLoggers: getLoggers
+        };
+
+        var internals: loggerInternals = {
             logError: logError,
+            logInfo: logInfo,
             logSuccess: logSuccess,
             logWarning: logWarning
         };
@@ -32,7 +48,7 @@ interface logger {
         return service;
 
         function getLogFn(moduleId: string, fnName?: string) {
-            fnName = fnName || "log";
+            fnName = fnName || "info";
             switch (fnName.toLowerCase()) { // convert aliases
                 case "success":
                     fnName = "logSuccess"; break;
@@ -40,22 +56,32 @@ interface logger {
                     fnName = "logError"; break;
                 case "warn":
                     fnName = "logWarning"; break;
-                case "warning":
-                    fnName = "logWarning"; break;
+                default:
+                    fnName = "logInfo"; break;
             }
 
-            var logFn: loggerFunctionWithSource = service[fnName] || service.log;
+            var logFn: loggerFunctionWithSource = internals[fnName] || internals.logInfo;
             return function (msg: string, data: Object, showToast: boolean) {
 
                 var displayToast = (showToast === undefined)
-                    ? (fnName !== "log") ? true : false // config.inDebug - use this to show toasts for "log" messages in debug mode 
+                    ? (fnName !== "logInfo") ? true : false
                     : showToast;
 
                 logFn(msg, data, moduleId, displayToast);
             };
         }
 
-        function log(message: string, data: Object, source: string, showToast: boolean) {
+        function getLoggers(moduleId: string): loggers {
+
+            return {
+                error: getLogFn(moduleId, "error"),
+                info: getLogFn(moduleId, "info"),
+                success: getLogFn(moduleId, "success"),
+                warn: getLogFn(moduleId, "warn")
+            }
+        }
+
+        function logInfo(message: string, data: Object, source: string, showToast: boolean) {
             logIt(message, data, source, showToast, "info");
         }
 
@@ -89,7 +115,7 @@ interface logger {
                 logger = $log.debug;
                 toastType = toastr.info;
             }
-            
+
             source = source ? "[" + source + "] " : "";
 
             // Perform log 
@@ -99,4 +125,4 @@ interface logger {
             if (showToast) { toastType(message); }
         }
     }
-})();
+}

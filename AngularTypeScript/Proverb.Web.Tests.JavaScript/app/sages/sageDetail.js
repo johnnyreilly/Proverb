@@ -26,7 +26,9 @@
 
             spyOn(datacontext.sage, "getById").and.returnValue(getById_deferred.promise);
             spyOn(common, "activateController").and.callThrough();
-            spyOn(common.logger, "getLogFn").and.returnValue(jasmine.createSpy("log"));
+            spyOn(common.logger, "getLoggers").and.returnValue({
+                info: jasmine.createSpy("logInfo")
+            });
             spyOn($location, "path").and.returnValue(jasmine.createSpy("path"));
 
             sageDetailController = _$controller_("sageDetail", {
@@ -77,7 +79,7 @@
                 getById_deferred.resolve(sage_stub);
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
-                expect(sageDetailController.log).toHaveBeenCalledWith("Activated Sage Details View");
+                expect(sageDetailController.log.info).toHaveBeenCalledWith("Activated Sage Details View");
                 expect(sageDetailController.title).toBe("Sage Details: " + sage_stub.name);
             });
         });

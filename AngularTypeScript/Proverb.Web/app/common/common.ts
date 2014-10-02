@@ -7,14 +7,16 @@ interface common {
     createSearchThrottle: (viewmodel: { [list: string]: any }, list: string, filteredList: string, filter: string, delay: number) => void;
     debouncedThrottle: (key: string, callback: Function, delay: number, immediate: boolean) => void;
     isNumber: (val: string) => boolean;
-    logger: logger;
+    logger: logger.logger;
     textContains: (text: string, searchText: string) => boolean;
     waiter: <T>(promise: ng.IPromise<T>, controllerId: string, message?: string) => ng.IPromise<T>;
 }
 
 interface commonConfig {
     config: {
+        appRoot: string;
         events: configEvents;
+        inDebug: boolean;
         remoteServiceRoot: string;
         urlCacheBusterSuffix: string;
         version: string;
@@ -76,7 +78,7 @@ interface waiterSuccessData {
         $rootScope: ng.IRootScopeService,
         $timeout: ng.ITimeoutService,
         commonConfig: commonConfig,
-        logger: logger) {
+        logger: logger.logger) {
         var throttles: { [key: string]: ng.IPromise<any> } = {};
 
         var service: common = {

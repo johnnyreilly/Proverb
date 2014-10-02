@@ -13,7 +13,7 @@
             this.sage = undefined;
             this.title = "Sage Details";
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -26,7 +26,7 @@
                 })];
 
             this.common.activateController(dataPromises, controllerId, this.title).then(function () {
-                _this.log("Activated Sage Details View");
+                _this.log.info("Activated Sage Details View");
                 _this.title = "Sage Details: " + _this.sage.name;
             });
         };

@@ -10,7 +10,7 @@
             this.config = config;
             this.version = config.version;
 
-            this.log = common.logger.getLogFn(controllerId);
+            this.log = common.logger.getLoggers(controllerId);
 
             this.activate();
         }
@@ -18,7 +18,7 @@
         About.prototype.activate = function () {
             var _this = this;
             this.common.activateController([], controllerId, "About").then(function () {
-                return _this.log("Activated About View");
+                return _this.log.info("Activated About View");
             });
         };
         About.$inject = ["common", "config"];

@@ -9,9 +9,11 @@ namespace Proverb.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<int> DeleteAsync(int id);
+        Task<int> CreateAsync(User user);
+        Task DeleteAsync(int id);
         Task<ICollection<User>> GetAllAsync();
         Task<User> GetByIdAsync(int id);
-        Task<User> SaveAsync(User user);
+        Task<User> GetByUserNameAsync(string userName);
+        Task UpdateAsync(User user);
     }
 }

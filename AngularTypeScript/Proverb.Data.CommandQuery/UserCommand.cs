@@ -12,31 +12,29 @@ namespace Proverb.Data.CommandQuery
     {
         public UserCommand(ProverbContext context) : base(context) { }
 
-        public async Task<int> DeleteAsync(int id) 
+        public async Task<int> CreateAsync(User user)
+        {
+            _context.Users.Add(user);
+
+            await _context.SaveChangesAsync();
+
+            return user.Id;
+        }
+
+        public async Task DeleteAsync(int id) 
         {
             var userToDelete = await _context.Users.FindAsync(id);
-
-            if (userToDelete == null)
-                return 0;
             
             _context.Users.Remove(userToDelete);
 
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<User> SaveAsync(User user)
+        public async Task UpdateAsync(User user)
         {
-            if (user.Id > 0)
-            {
-                _context.Entry(user).State = EntityState.Modified;
-            }
-            else
-            {
-                _context.Users.Add(user);
-            }
-            var saved = await _context.SaveChangesAsync();
+            _context.Entry(user).State = EntityState.Modified;
 
-            return user;
+            await _context.SaveChangesAsync();
         }
     }
 }

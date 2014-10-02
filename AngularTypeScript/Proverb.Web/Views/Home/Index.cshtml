@@ -25,11 +25,11 @@
         }
     </script>
     <link rel="icon" type="image/png" href="~/content/images/icon.png">
-    @Styles.Render("~/css")
+    @Styles.Render("~/Content/css")
 </head>
 <body>
     <div>
-        <div ng-include="'/app/layout/shell.html?v=@(AppConfigHelper.Version)'"></div>
+        <div ng-include="'@Url.Content("~/app/layout/shell.html")'"></div>
         <div id="splash-page" ng-show="false" class="dissolve-animation">
             <div class="page-splash">
                 <div class="page-splash-message">
@@ -47,17 +47,25 @@
 
     @Scripts.Render("~/angularApp")
     <script>
-        angularApp.start({
-            thirdPartyLibs: {
-                toastr: window.toastr,
-                underscore: window._
-            },
-            appConfig: {
-                inDebug: @(AppConfigHelper.InDebug ? "true" : "false"),
-                remoteServiceRoot: "@Url.Content("~/api/")",
-                version: "@(AppConfigHelper.Version)"
-            }
-        });
+    (function () {
+        $.getJSON('@Url.Content("~/Home/StartApp")')
+            .done(function (startUpData) {
+
+                var appConfig = $.extend({}, startUpData, {
+                    appRoot: '@Url.Content("~/")',
+                    remoteServiceRoot: '@Url.Content("~/api/")'
+                });
+
+                angularApp.start({
+                    thirdPartyLibs: {
+                        moment: window.moment,
+                        toastr: window.toastr,
+                        underscore: window._
+                    },
+                    appConfig: appConfig
+                });
+            });
+    })();
     </script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,6 +14,7 @@ namespace Proverb.Web.Base
         public JsonNetResult()
         {
             SerializerSettings = new JsonSerializerSettings();
+            SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
         public override void ExecuteResult(ControllerContext context)

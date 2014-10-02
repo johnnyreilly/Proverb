@@ -6,7 +6,8 @@ namespace Proverb.Data.CommandQuery.Interfaces
 {
     public interface IUserCommand
     {
-        Task<int> DeleteAsync(int id);
-        Task<User> SaveAsync(User user);
+        Task<int> CreateAsync(User user);
+        Task DeleteAsync(int id);
+        Task UpdateAsync(User user);
     }
 }

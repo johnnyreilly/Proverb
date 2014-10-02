@@ -20,8 +20,10 @@
 
             spyOn(datacontext.sage, "getAll").and.returnValue(getAll_deferred.promise);
             spyOn(common, "activateController").and.callThrough();
-            spyOn(common.logger, "getLogFn").and.returnValue(jasmine.createSpy("log"));
-            
+            spyOn(common.logger, "getLoggers").and.returnValue({
+                info: jasmine.createSpy("logInfo")
+            });
+
             sagesController = _$controller_("sages", {
                 common: common,
                 datacontext: datacontext
@@ -68,7 +70,7 @@
                 getAll_deferred.resolve(stubSages);
                 $rootScope.$digest(); // So Angular processes the resolved promise
 
-                expect(sagesController.log).toHaveBeenCalledWith("Activated Sages View");
+                expect(sagesController.log.info).toHaveBeenCalledWith("Activated Sages View");
             });
         });
     });
