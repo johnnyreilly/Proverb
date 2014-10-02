@@ -26,6 +26,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proverb.Data.EntityFramework", "Proverb.Data.EntityFramework\Proverb.Data.EntityFramework.csproj", "{20DF06E0-0A4F-42EF-A6BE-2DB1C5F8D62D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proverb.Web.Tests.JavaScript", "Proverb.Web.Tests.JavaScript\Proverb.Web.Tests.JavaScript.csproj", "{C8F2C0F1-884F-4A3A-80F9-098ABA2043F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5E9E7C67-8A8F-4FB2-A947-32AEFFEFD800} = {5E9E7C67-8A8F-4FB2-A947-32AEFFEFD800}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proverb.Web.Tests.ASPNet", "Proverb.Web.Tests.ASPNet\Proverb.Web.Tests.ASPNet.csproj", "{7A92AAF6-4D49-4415-B3E5-EC3F56743316}"
 EndProject
