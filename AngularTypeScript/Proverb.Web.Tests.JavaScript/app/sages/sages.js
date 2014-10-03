@@ -44,9 +44,9 @@
                 expect(sagesController.sages.length).toBe(0);
             });
 
-            it("datacontext.sage.getById should be called", function () {
+            it("datacontext.sage.getAll should be called", function () {
 
-                expect(datacontext.sage.getAll).toHaveBeenCalledWith();
+                expect(datacontext.sage.getAll).toHaveBeenCalled();
             });
         });
 
