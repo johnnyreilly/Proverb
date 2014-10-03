@@ -91,10 +91,9 @@
                 sage_stub = { id: 20 };
             });
 
-            it("should set $location.path to edit URL", function () {
+            it("should set $location.path to edit URL with the sage id", function () {
 
-                getById_deferred.resolve(sage_stub);
-                $rootScope.$digest(); // So Angular processes the resolved promise
+                sageDetailController.sage = sage_stub;
 
                 sageDetailController.gotoEdit();
 

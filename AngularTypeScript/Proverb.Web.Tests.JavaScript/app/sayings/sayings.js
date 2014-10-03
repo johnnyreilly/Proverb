@@ -11,6 +11,16 @@
             sage_getAll_deferred, saying_getAll_deferred,
             sayingsController;
 
+        var stubSayings, stubSages;
+
+        function setupStubs() {
+            stubSages = [{ id: 1, name: "John" }];
+            stubSayings = [{ sageId: 1, id: 2, text: "Pithy pithy pithy" }];
+
+            sage_getAll_deferred.resolve(stubSages);
+            saying_getAll_deferred.resolve(stubSayings);;
+        }
+
         beforeEach(inject(function (_$controller_, _$location_, _$rootScope_, _$q_, _common_, _datacontext_) {
 
             $location = _$location_;
@@ -71,13 +81,8 @@
 
         describe("activateController ->", function () {
 
-            var stubSayings, stubSages;
             beforeEach(function () {
-                stubSages = [{ id: 1, name: "John" }];
-                stubSayings = [{ sageId: 1, id: 2, text: "Pithy pithy pithy" }];
-
-                sage_getAll_deferred.resolve(stubSages);
-                saying_getAll_deferred.resolve(stubSayings);;
+                setupStubs();
             });
 
             it("should set sayings to be the resolved promise values", function () {
@@ -112,6 +117,31 @@
                 $rootScope.$digest();
 
                 expect(sayingsController.log.info).toHaveBeenCalledWith("Activated Sayings View");
+            });
+        });
+
+        describe("gotoAdd ->", function () {
+
+            it("should set $location.path to add URL", function () {
+
+                spyOn($location, "path");
+
+                sayingsController.gotoAdd();
+
+                expect($location.path).toHaveBeenCalledWith("/sayings/edit/add");
+            });
+        });
+
+        describe("selectedSageChange ->", function () {
+
+            it("should set $location.search sageId to the selectedSage id", function () {
+
+                sayingsController.selectedSage = stubSages[0];
+                spyOn($location, "search");
+
+                sayingsController.selectedSageChange();
+
+                expect($location.search).toHaveBeenCalledWith("sageId", 1);
             });
         });
     });
