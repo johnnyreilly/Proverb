@@ -31,9 +31,18 @@ namespace Proverb.Web.Controllers
         public async Task<ViewResult> Index()
         {
             var browser = Request.Browser;
-            var userId = await UserHelper.GetUserId();
-            Logger.InfoFormat("{0} (UserId: {1}) entering Proverb using {2} v{3}",
-                UserHelper.UserName, userId, browser.Browser, browser.Version);
+            var userName = UserHelper.UserName;
+            if (string.IsNullOrEmpty(userName))
+            {
+                Logger.InfoFormat("Anonymous user entering Proverb using {0} v{1}",
+                    browser.Browser, browser.Version);
+            }
+            else
+            {
+                var userId = await UserHelper.GetUserId();
+                Logger.InfoFormat("{0} (UserId: {1}) entering Proverb using {2} v{3}",
+                    userName, userId, browser.Browser, browser.Version);
+            }
 
             return View();
         }
