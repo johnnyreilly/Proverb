@@ -49,19 +49,18 @@ namespace Proverb.Web.Controllers
                 return this.BadRequest(ModelState.ToValidationMessages());
             }
 
-            sage = await _sageService.SaveAsync(sage);
+            await _sageService.UpdateAsync(sage);
 
-            return Ok(sage);
+            _logger.Info("Sage " + sage.Name + " [id: " + sage.Id + "] updated by " + _userHelper.UserName);
+
+            return Ok();
         }
 
         public async Task<IHttpActionResult> Delete(int id)
         {
-            var deleteCount = await _sageService.DeleteAsync(id);
+            await _sageService.DeleteAsync(id);
 
-            if (deleteCount == 0)
-                return NotFound();
-            else
-                return Ok();
+            return Ok();
         }
 
         /*

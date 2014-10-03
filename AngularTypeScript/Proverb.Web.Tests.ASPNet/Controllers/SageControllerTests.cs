@@ -26,6 +26,8 @@ namespace Proverb.Web.Tests.ASPNet.Controllers
         private SageController _controller;
 
         private Sage _sage = new Sage { Id = 1, UserName = "wise.soul" };
+        readonly Task TaskOfNowt = Task.Delay(0);
+        //readonly Task TaskOfNowt = Task.FromResult<object>(null); - equally valid but slightly more verbose approach
 
         [TestInitialize]
         public void Initialise()
@@ -104,26 +106,25 @@ namespace Proverb.Web.Tests.ASPNet.Controllers
         }
 
         [TestMethod, TestCategory(CATEGORY)]
-        public async Task Post_returns_an_Ok_with_a_Sage()
+        public async Task Post_returns_an_Ok()
         {
             _sageServiceMock
-                .Setup(x => x.SaveAsync(_sage))
-                .ReturnsAsync(_sage);
+                .Setup(x => x.UpdateAsync(_sage))
+                .Returns(TaskOfNowt);
 
             IHttpActionResult result = await _controller.Post(_sage);
 
-            var ok = result as OkNegotiatedContentResult<Sage>;
+            var ok = result as OkResult;
             Assert.IsNotNull(ok);
-            Assert.AreSame(_sage, ok.Content);
-            _sageServiceMock.Verify(x => x.SaveAsync(_sage));
+            _sageServiceMock.Verify(x => x.UpdateAsync(_sage));
         }
 
+        [Ignore]
         [TestMethod, TestCategory(CATEGORY)]
         public async Task Delete_returns_a_NotFound()
         {
             _sageServiceMock
-                .Setup(x => x.DeleteAsync(_sage.Id))
-                .ReturnsAsync(0);
+                .Setup(x => x.DeleteAsync(_sage.Id));
 
             IHttpActionResult result = await _controller.Delete(_sage.Id);
 
@@ -137,7 +138,7 @@ namespace Proverb.Web.Tests.ASPNet.Controllers
         {
             _sageServiceMock
                 .Setup(x => x.DeleteAsync(_sage.Id))
-                .ReturnsAsync(1);
+                .Returns(TaskOfNowt);
 
             IHttpActionResult result = await _controller.Delete(_sage.Id);
 

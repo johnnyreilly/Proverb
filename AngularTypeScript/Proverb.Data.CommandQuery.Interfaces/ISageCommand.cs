@@ -6,7 +6,8 @@ namespace Proverb.Data.CommandQuery.Interfaces
 {
     public interface ISageCommand
     {
-        Task<int> DeleteAsync(int id);
-        Task<Sage> SaveAsync(Sage sage);
+        Task<int> CreateAsync(Sage sage);
+        Task DeleteAsync(int id);
+        Task UpdateAsync(Sage sage);
     }
 }

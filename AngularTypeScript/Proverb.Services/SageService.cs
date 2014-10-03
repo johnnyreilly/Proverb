@@ -20,9 +20,14 @@ namespace Proverb.Services
         private ISageCommand _sageCommand;
         private ISageQuery _sageQuery;
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> CreateAsync(Sage sage)
         {
-            return await _sageCommand.DeleteAsync(id);
+            return await _sageCommand.CreateAsync(sage);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _sageCommand.DeleteAsync(id);
         }
 
         public async Task<ICollection<Sage>> GetAllAsync()
@@ -35,9 +40,9 @@ namespace Proverb.Services
             return await _sageQuery.GetByIdAsync(id);
         }
 
-        public async Task<Sage> SaveAsync(Sage sage) 
+        public async Task UpdateAsync(Sage sage) 
         {
-            return await _sageCommand.SaveAsync(sage);
+            await _sageCommand.UpdateAsync(sage);
         }
 
     }
