@@ -42,10 +42,12 @@
 
         Sayings.prototype.combineData = function () {
             var _this = this;
+            // Populate dictionary with sages
             this.sages.forEach(function (sage) {
                 return _this.sageDictionary[sage.id.toString()] = sage;
             });
 
+            // Set the sage on each saying using the sage dictionary
             this.sayings.forEach(function (saying) {
                 return saying.sage = _this.sageDictionary[saying.sageId.toString()];
             });

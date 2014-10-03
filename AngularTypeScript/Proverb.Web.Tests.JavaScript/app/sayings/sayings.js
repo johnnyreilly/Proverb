@@ -7,12 +7,13 @@
 
     describe("sayings ->", function () {
 
-        var $rootScope, common, datacontext,
+        var $location, $rootScope, common, datacontext,
             sage_getAll_deferred, saying_getAll_deferred,
             sayingsController;
 
-        beforeEach(inject(function (_$controller_, _$rootScope_, _$q_, _common_, _datacontext_) {
+        beforeEach(inject(function (_$controller_, _$location_, _$rootScope_, _$q_, _common_, _datacontext_) {
 
+            $location = _$location_;
             $rootScope = _$rootScope_;
             $q = _$q_;
             common = _common_;
@@ -29,6 +30,7 @@
             });
 
             sayingsController = _$controller_("sayings", {
+                $location: $location,
                 common: common,
                 datacontext: datacontext
             });
@@ -76,21 +78,38 @@
 
                 sage_getAll_deferred.resolve(stubSages);
                 saying_getAll_deferred.resolve(stubSayings);;
-                $rootScope.$digest(); // So Angular processes the resolved promise
-
             });
 
             it("should set sayings to be the resolved promise values", function () {
+                $rootScope.$digest(); // So Angular processes the resolved promise
 
                 expect(sayingsController.sayings).toBe(stubSayings);
             });
 
             it("should set sages to be the resolved promise values", function () {
+                $rootScope.$digest();
 
                 expect(sayingsController.sages).toBe(stubSages);
             });
 
+            it("should have a selectedSage", function () {
+                spyOn($location, "search").and.returnValue({ sageId: 1 });
+
+                $rootScope.$digest();
+
+                expect(sayingsController.selectedSage).toBe(stubSages[0]);
+            });
+
+            it("should not have a selectedSage", function () {
+                spyOn($location, "search").and.returnValue({});
+
+                $rootScope.$digest();
+
+                expect(sayingsController.selectedSage).toBeUndefined();
+            });
+
             it("should log 'Activated Sayings View'", function () {
+                $rootScope.$digest();
 
                 expect(sayingsController.log.info).toHaveBeenCalledWith("Activated Sayings View");
             });

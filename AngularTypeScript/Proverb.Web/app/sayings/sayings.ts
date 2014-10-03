@@ -44,8 +44,10 @@
 
         combineData() {
 
+            // Populate dictionary with sages
             this.sages.forEach(sage => this.sageDictionary[sage.id.toString()] = sage);
 
+            // Set the sage on each saying using the sage dictionary
             this.sayings.forEach(saying => saying.sage = this.sageDictionary[saying.sageId.toString()]);
 
             var search = this.$location.search()

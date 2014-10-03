@@ -12,7 +12,7 @@
             $location, $routeParams_stub, common, datacontext, // controller dependencies
             sageDetailController; // the controller
 
-        beforeEach(inject(function (_$controller_, _$rootScope_, _$q_, _$location_, _common_, _datacontext_) {
+        beforeEach(inject(function (_$controller_, _$location_, _$rootScope_, _$q_, _common_, _datacontext_) {
 
             $rootScope = _$rootScope_;
             $q = _$q_;
@@ -29,7 +29,7 @@
             spyOn(common.logger, "getLoggers").and.returnValue({
                 info: jasmine.createSpy("logInfo")
             });
-            spyOn($location, "path").and.returnValue(jasmine.createSpy("path"));
+            spyOn($location, "path")/*.and.returnValue(jasmine.createSpy("path"))*/;
 
             sageDetailController = _$controller_("sageDetail", {
                 $location: $location,
