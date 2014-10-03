@@ -54,20 +54,24 @@ namespace Proverb.Web.Controllers
             if (serviceValidations.HasErrors())
                 return this.BadRequest(serviceValidations.WithCamelCaseKeys());
 
-            saying = await _sayingService.SaveAsync(saying);
-
-            return Ok(saying);
+            if (saying.Id > 0)
+            {
+                await _sayingService.UpdateAsync(saying);
+                return Ok();
+            }
+            else
+            {
+                var sayingId = await _sayingService.CreateAsync(saying);
+                return Ok(sayingId);
+            }
         }
 
 
         public async Task<IHttpActionResult> Delete(int id)
         {
-            var deleteCount = await _sayingService.DeleteAsync(id);
+            await _sayingService.DeleteAsync(id);
 
-            if (deleteCount == 0)
-                return NotFound();
-            else
-                return Ok();
+            return Ok();
         }
     }
 }

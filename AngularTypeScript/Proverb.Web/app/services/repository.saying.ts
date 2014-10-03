@@ -8,8 +8,8 @@
 interface repositorySaying {
     getAll: () => ng.IPromise<saying[]>;
     getById: (id: number, forceRemote?: boolean) => ng.IPromise<saying>;
-    remove: (id: number) => ng.IPromise<saying>;
-    save: (saying: saying) => ng.IPromise<saying>;
+    remove: (id: number) => ng.IPromise<void>;
+    save: (saying: saying) => ng.IPromise<number>;
 }
 
 (function () {
@@ -66,17 +66,17 @@ interface repositorySaying {
             return $http.delete<void>(rootUrl + "/" + id).then(response => {
                 log("Saying [id: " + id + "] removed");
 
-                return response;
+                return response.data;
             }, errorReason => $q.reject(errorReason.data));
         }
 
         function save(saying: saying) {
-            return $http.post<saying>(rootUrl, saying).then(response => {
-                var saveResponse = response.data;
+            return $http.post<number>(rootUrl, saying).then(response => {
+                var sayingId = response.data || saying.id;
 
-                log("Saying [id: " + saveResponse.id + "] saved");
+                log("Saying [id: " + sayingId + "] saved");
 
-                return saveResponse;
+                return sayingId;
             }, errorReason => $q.reject(errorReason.data));
         }
     }

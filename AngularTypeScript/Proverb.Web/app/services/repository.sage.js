@@ -49,7 +49,7 @@
             return $http.delete(rootUrl + "/" + id).then(function (response) {
                 log("Sage [id: " + id + "] removed");
 
-                return response;
+                return response.data;
             }, function (errorReason) {
                 return $q.reject(errorReason.data);
             });
@@ -57,11 +57,9 @@
 
         function save(sage) {
             return $http.post(rootUrl, sage).then(function (response) {
-                var saveResponse = response.data;
+                log("Sage " + sage.name + " [id: " + sage.id + "] saved");
 
-                log("Sage " + saveResponse.name + " [id: " + saveResponse.id + "] saved");
-
-                return saveResponse;
+                return response.data;
             }, function (errorReason) {
                 return $q.reject(errorReason.data);
             });

@@ -58,7 +58,7 @@
             this.bsDialog.deleteDialog("Do you want to remove this saying?").then(function () {
                 _this._isSavingOrRemoving = true;
 
-                _this.common.waiter(_this.datacontext.sage.remove(_this.saying.id), controllerId, "Removing saying").then(function (response) {
+                _this.common.waiter(_this.datacontext.saying.remove(_this.saying.id), controllerId, "Removing saying").then(function (response) {
                     _this.log.success("Removed saying");
                     _this.$location.path("/sayings/").search("sageId", _this.saying.sageId);
                 }).catch(function (response) {
@@ -83,9 +83,9 @@
             }
             sayingToSave.sage = null;
 
-            this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying").then(function (response) {
+            this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying").then(function (sayingId) {
                 _this.log.success("Saved saying");
-                _this.$location.path("/sayings/").search("sageId", response.sageId);
+                _this.$location.path("/sayings/").search("sageId", sayingToSave.sageId);
             }).catch(function (response) {
                 if (response.errors) {
                     angular.forEach(response.errors, function (errors, field) {

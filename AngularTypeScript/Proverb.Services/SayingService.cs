@@ -18,9 +18,14 @@ namespace Proverb.Services
         private ISayingCommand _sayingCommand;
         private ISayingQuery _sayingQuery;
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> CreateAsync(Saying saying)
         {
-            return await _sayingCommand.DeleteAsync(id);
+            return await _sayingCommand.CreateAsync(saying);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _sayingCommand.DeleteAsync(id);
         }
 
         public async Task<ICollection<Saying>> GetAllAsync()
@@ -33,9 +38,9 @@ namespace Proverb.Services
             return await _sayingQuery.GetByIdAsync(id);
         }
 
-        public async Task<Saying> SaveAsync(Saying saying)
+        public async Task UpdateAsync(Saying saying)
         {
-            return await _sayingCommand.SaveAsync(saying);
+            await _sayingCommand.UpdateAsync(saying);
         }
 
         public ValidationMessages Validate(Saying saying)

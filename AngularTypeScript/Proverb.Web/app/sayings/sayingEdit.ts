@@ -78,7 +78,7 @@
 
                     this._isSavingOrRemoving = true;
 
-                    this.common.waiter(this.datacontext.sage.remove(this.saying.id), controllerId, "Removing saying")
+                    this.common.waiter(this.datacontext.saying.remove(this.saying.id), controllerId, "Removing saying")
                         .then(response => {
 
                             this.log.success("Removed saying");
@@ -107,10 +107,10 @@
             sayingToSave.sage = null;
 
             this.common.waiter(this.datacontext.saying.save(sayingToSave), controllerId, "Saving saying")
-                .then(response => {
+                .then(sayingId => {
 
                     this.log.success("Saved saying");
-                    this.$location.path("/sayings/").search("sageId", response.sageId);
+                    this.$location.path("/sayings/").search("sageId", sayingToSave.sageId);
                 })
                 .catch(response => {
 

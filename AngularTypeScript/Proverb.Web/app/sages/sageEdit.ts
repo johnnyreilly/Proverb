@@ -92,7 +92,6 @@
             this.common.waiter(this.datacontext.sage.save(this.sage), controllerId, "Saving " + sageToSave)
                 .then(response => {
 
-                    this.sage = response;
                     this.log.success("Saved " + sageToSave);
                     this.$location.path("/sages/detail/" + this.sage.id);
                 })

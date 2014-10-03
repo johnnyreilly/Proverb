@@ -49,7 +49,7 @@
             return $http.delete(rootUrl + "/" + id).then(function (response) {
                 log("Saying [id: " + id + "] removed");
 
-                return response;
+                return response.data;
             }, function (errorReason) {
                 return $q.reject(errorReason.data);
             });
@@ -57,11 +57,11 @@
 
         function save(saying) {
             return $http.post(rootUrl, saying).then(function (response) {
-                var saveResponse = response.data;
+                var sayingId = response.data || saying.id;
 
-                log("Saying [id: " + saveResponse.id + "] saved");
+                log("Saying [id: " + sayingId + "] saved");
 
-                return saveResponse;
+                return sayingId;
             }, function (errorReason) {
                 return $q.reject(errorReason.data);
             });
