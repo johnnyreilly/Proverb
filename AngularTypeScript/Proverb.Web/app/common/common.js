@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     "use strict";
 
     // Define the common module
@@ -24,7 +24,7 @@
 
     commonModule.factory("common", ["$q", "$rootScope", "$timeout", "commonConfig", "logger", common]);
 
-    function common($q, $rootScope, $timeout, commonConfig, logger) {
+    function common($q, $rootScope, $timeout, commonConfigProvider, logger) {
         var throttles = {};
 
         var service = {
@@ -45,7 +45,7 @@
         return service;
 
         function activateController(promises, controllerId, title) {
-            var events = commonConfig.config.events;
+            var events = commonConfigProvider.config.events;
 
             var allPromise = $q.all(promises).then(function (eventArgs) {
                 var data = {
@@ -145,7 +145,7 @@
         }
 
         function waiter(promise, controllerId, message) {
-            var events = commonConfig.config.events;
+            var events = commonConfigProvider.config.events;
 
             var data = {
                 controllerId: controllerId,

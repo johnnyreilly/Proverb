@@ -24,9 +24,9 @@ interface bootstrapDialogScope extends ng.IScope {
 
     var bootstrapModule = angular.module("common.bootstrap", ["ui.bootstrap"]);
 
-    bootstrapModule.factory("bootstrap.dialog", ["$modal", "$templateCache", "config", modalDialog]);
+    bootstrapModule.factory("bootstrap.dialog", ["$modal", "$templateCache", modalDialog]);
 
-    function modalDialog($modal: ng.ui.bootstrap.IModalService, $templateCache: ng.ITemplateCacheService, config: config) {
+    function modalDialog($modal: ng.ui.bootstrap.IModalService, $templateCache: ng.ITemplateCacheService) {
         var service: bootstrapDialog = {
             deleteDialog: deleteDialog,
             confirmationDialog: confirmationDialog
@@ -71,7 +71,7 @@ interface bootstrapDialogScope extends ng.IScope {
                         };
                     }
                 },
-                templateUrl: config.appRoot + "app/common/bootstrap/bootstrap.dialog.html" + config.urlCacheBusterSuffix  //"modalDialog.tpl.html",
+                templateUrl: "app/common/bootstrap/bootstrap.dialog.html" //"modalDialog.tpl.html",
             };
 
             return $modal.open(modalOptions).result; 

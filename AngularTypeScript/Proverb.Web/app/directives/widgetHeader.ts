@@ -3,7 +3,7 @@
 
     var app = angular.module("app");
 
-    app.directive("widgetHeader", ["config", function(config: config) {
+    app.directive("widgetHeader", [function() {
         //Usage:
         //<div widget-header title="vm.map.title"></div>
         var directive = {
@@ -15,7 +15,7 @@
                 "rightText": "@",
                 "allowCollapse": "@"
             },
-            templateUrl: config.appRoot + "app/directives/widgetHeader.html" + config.urlCacheBusterSuffix
+            templateUrl: "app/directives/widgetHeader.html"
         };
         return directive;
 

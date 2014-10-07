@@ -68,18 +68,46 @@
                 }
             }]);
 
-        // Copy across config settings to commonConfig to configure the common services
+        // Copy across config settings to commonConfigProvider to configure the common services
         app.config([
-            "commonConfigProvider", function (commonConfig) {
-                commonConfig.config.appRoot = config.appRoot;
-
+            "commonConfigProvider", function (commonConfigProvider) {
                 // Copy events across from config.events
-                commonConfig.config.events = _.extend({}, config.events);
+                commonConfigProvider.config.events = _.extend({}, config.events);
+            }]);
+    }
 
-                commonConfig.config.inDebug = config.inDebug;
-                commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
-                commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
-                commonConfig.config.version = config.version;
+    /**
+    * Configure the HTTP Provider
+    */
+    function configureHttpProvider() {
+        var serviceId = "urlInterceptor";
+        app.factory(serviceId, [
+            "config", function (config) {
+                var service = {
+                    request: request
+                };
+
+                return service;
+
+                function request(requestConfig) {
+                    // For the loading of HTML templates we want the appRoot to be prefixed to the path
+                    // and we want a suffix to either allow caching or prevent caching
+                    // (depending on whether in debug mode or not)
+                    if (requestConfig.method === "GET" && endsWith(requestConfig.url.toLowerCase(), ".html")) {
+                        requestConfig.url = config.appRoot + requestConfig.url + config.urlCacheBusterSuffix;
+                    }
+
+                    return requestConfig;
+                }
+
+                function endsWith(str, suffix) {
+                    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+                }
+            }]);
+
+        app.config([
+            "$httpProvider", function ($httpProvider) {
+                $httpProvider.interceptors.push(serviceId);
             }]);
     }
 
@@ -89,14 +117,13 @@
     function configureRoutes() {
         var routesConfigured = false;
         app.config([
-            "$routeProvider", "routes", "commonConfigProvider", function ($routeProvider, routes, commonConfig) {
+            "$routeProvider", "routes", function ($routeProvider, routes) {
                 // Ensure routes are only configured once (unit tests attempt to configure twice)
                 if (routesConfigured) {
                     return;
                 }
 
                 routes.forEach(function (r) {
-                    r.config.templateUrl = commonConfig.config.appRoot + r.config.templateUrl + commonConfig.config.urlCacheBusterSuffix;
                     $routeProvider.when(r.url, r.config);
                 });
                 $routeProvider.otherwise({ redirectTo: "/" });
@@ -140,6 +167,8 @@
         decorateExceptionHandler();
 
         configureRoutes();
+
+        configureHttpProvider();
 
         // Handle routing errors and success events
         app.run([

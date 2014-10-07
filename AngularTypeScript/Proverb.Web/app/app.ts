@@ -112,18 +112,47 @@ var angularApp = (function () {
             }
         }]);
 
-        // Copy across config settings to commonConfig to configure the common services
-        app.config(["commonConfigProvider", function (commonConfig: commonConfig) {
-
-            commonConfig.config.appRoot = config.appRoot;
+        // Copy across config settings to commonConfigProvider to configure the common services
+        app.config(["commonConfigProvider", function (commonConfigProvider: commonConfigProvider) {
 
             // Copy events across from config.events
-            commonConfig.config.events = _.extend({}, config.events);
+            commonConfigProvider.config.events = _.extend({}, config.events);
+        }]);
+    }
 
-            commonConfig.config.inDebug = config.inDebug;
-            commonConfig.config.remoteServiceRoot = config.remoteServiceRoot;
-            commonConfig.config.urlCacheBusterSuffix = config.urlCacheBusterSuffix;
-            commonConfig.config.version = config.version;
+    /**
+     * Configure the HTTP Provider
+     */
+    function configureHttpProvider() {
+
+        var serviceId = "urlInterceptor";
+        app.factory(serviceId, ["config", function (config: config) {
+
+            var service = {
+                request: request
+            };
+
+            return service;
+
+            function request(requestConfig: ng.IRequestConfig) {
+
+                // For the loading of HTML templates we want the appRoot to be prefixed to the path
+                // and we want a suffix to either allow caching or prevent caching 
+                // (depending on whether in debug mode or not)
+                if (requestConfig.method === "GET" && endsWith(requestConfig.url.toLowerCase(), ".html")) {
+                    requestConfig.url = config.appRoot + requestConfig.url + config.urlCacheBusterSuffix;
+                }
+
+                return requestConfig;
+            }
+
+            function endsWith(str: string, suffix: string) {
+                return str.indexOf(suffix, str.length - suffix.length) !== -1;
+            }
+        }]);
+
+        app.config(["$httpProvider", function ($httpProvider: ng.IHttpProvider) {
+            $httpProvider.interceptors.push(serviceId);
         }]);
     }
 
@@ -133,13 +162,12 @@ var angularApp = (function () {
     function configureRoutes() {
 
         var routesConfigured = false;
-        app.config(["$routeProvider", "routes", "commonConfigProvider", function ($routeProvider: ng.route.IRouteProvider, routes: configRoute[], commonConfig: commonConfig) {
+        app.config(["$routeProvider", "routes", function ($routeProvider: ng.route.IRouteProvider, routes: configRoute[]) {
 
             // Ensure routes are only configured once (unit tests attempt to configure twice)
             if (routesConfigured) { return; }
 
             routes.forEach(function (r) {
-                r.config.templateUrl = commonConfig.config.appRoot + r.config.templateUrl + commonConfig.config.urlCacheBusterSuffix;
                 $routeProvider.when(r.url, r.config);
             });
             $routeProvider.otherwise({ redirectTo: "/" });
@@ -186,6 +214,8 @@ var angularApp = (function () {
         decorateExceptionHandler();
 
         configureRoutes();
+
+        configureHttpProvider();
 
         // Handle routing errors and success events
         app.run(["$route", function ($route: ng.route.IRouteService) {

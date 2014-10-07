@@ -3,7 +3,7 @@
 
     var app = angular.module("app");
 
-    app.directive("waiter", ["config", function (config: config) {
+    app.directive("waiter", [function () {
         //Usage:
         //<waiter is-waiting="vm.isBusy" spinner-options="vm.spinnerOptions" waitMessage="vm.busyMessage"></waiter>
         var directive = {
@@ -15,7 +15,7 @@
                 "spinnerOptions": "=",
                 "waitMessage": "="
             },
-            templateUrl: config.appRoot + "app/directives/waiter.html" + config.urlCacheBusterSuffix
+            templateUrl: "app/directives/waiter.html"
         };
         return directive;
 

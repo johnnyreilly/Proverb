@@ -12,14 +12,9 @@ interface common {
     waiter: <T>(promise: ng.IPromise<T>, controllerId: string, message?: string) => ng.IPromise<T>;
 }
 
-interface commonConfig {
+interface commonConfigProvider {
     config: {
-        appRoot: string;
         events: configEvents;
-        inDebug: boolean;
-        remoteServiceRoot: string;
-        urlCacheBusterSuffix: string;
-        version: string;
     };
 }
 
@@ -61,7 +56,7 @@ interface waiterSuccessData {
             // This will be populated in app.ts via the app.config(["commonConfigProvider", function ...
         };
 
-        this.$get = function (): commonConfig {
+        this.$get = function (): commonConfigProvider {
             return {
                 config: this.config
             };
@@ -77,7 +72,7 @@ interface waiterSuccessData {
         $q: ng.IQService,
         $rootScope: ng.IRootScopeService,
         $timeout: ng.ITimeoutService,
-        commonConfig: commonConfig,
+        commonConfigProvider: commonConfigProvider,
         logger: logger.logger) {
         var throttles: { [key: string]: ng.IPromise<any> } = {};
 
@@ -100,7 +95,7 @@ interface waiterSuccessData {
 
         function activateController(promises: ng.IPromise<any>[], controllerId: string, title: string) {
 
-            var events = commonConfig.config.events;
+            var events = commonConfigProvider.config.events;
 
             var allPromise = $q.all(promises).then(
                 (eventArgs) => {
@@ -199,7 +194,7 @@ interface waiterSuccessData {
 
         function waiter<T>(promise: ng.IPromise<T>, controllerId: string, message?: string): ng.IPromise<T> {
 
-            var events = commonConfig.config.events;
+            var events = commonConfigProvider.config.events;
 
             var data: waiterStartData = {
                 controllerId: controllerId,

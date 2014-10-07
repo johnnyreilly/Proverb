@@ -3,9 +3,9 @@
 
     var bootstrapModule = angular.module("common.bootstrap", ["ui.bootstrap"]);
 
-    bootstrapModule.factory("bootstrap.dialog", ["$modal", "$templateCache", "config", modalDialog]);
+    bootstrapModule.factory("bootstrap.dialog", ["$modal", "$templateCache", modalDialog]);
 
-    function modalDialog($modal, $templateCache, config) {
+    function modalDialog($modal, $templateCache) {
         var service = {
             deleteDialog: deleteDialog,
             confirmationDialog: confirmationDialog
@@ -49,7 +49,7 @@
                         };
                     }
                 },
-                templateUrl: config.appRoot + "app/common/bootstrap/bootstrap.dialog.html" + config.urlCacheBusterSuffix
+                templateUrl: "app/common/bootstrap/bootstrap.dialog.html"
             };
 
             return $modal.open(modalOptions).result;

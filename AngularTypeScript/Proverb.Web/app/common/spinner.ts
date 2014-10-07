@@ -12,7 +12,7 @@ interface spinner {
     angular.module("common")
         .factory("spinner", ["common", "commonConfig", spinner]);
 
-    function spinner(common: common, commonConfig: commonConfig) {
+    function spinner(common: common, commonConfigProvider: commonConfigProvider) {
         var service: spinner = {
             spinnerHide: spinnerHide,
             spinnerShow: spinnerShow
@@ -25,7 +25,7 @@ interface spinner {
         function spinnerShow() { spinnerToggle(true); }
 
         function spinnerToggle(show: boolean) {
-            common.$broadcast(commonConfig.config.events.spinnerToggle, { show: show });
+            common.$broadcast(commonConfigProvider.config.events.spinnerToggle, { show: show });
         }
     }
 })();
