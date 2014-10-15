@@ -75,6 +75,9 @@ DocProject/Help/html
 # Click-Once directory
 publish
 
+# Publish Profiles
+*.pubxml
+
 # Publish Web Output
 *.Publish.xml
 
